@@ -1,25 +1,19 @@
-import logging
-from time import asctime
-
 from flask import Flask
+from time import asctime
+import app   # Hier bitte weitere Funktionen und classen eintragen sonst wird es hier unübersichtlich
 
 
-def debug():
-    logging.basicConfig(filename="server.log",format='%(asctime)s %(message)s',  datefmt='%d/%m/%Y %H:%M:%S ', level=logging.INFO)
-    logging.error('Error: ')
+app.debug(datei="test.log")
 
 
-debug()
-
-''' Der eigentlich Codeblock ist mit absicht in ein Try gesetzt . Die Funktion debug() sollte eigentlich alle
-    fehler  aufzeichnen. Zumindest wenn alles richtig gemacht habe. Dort stehen auch die debug nachrichten von flask
-     wenn der debug=True parameter gesetzt ist in der funktion app.run().'''
 try:
     app = Flask(__name__)
 
+
     @app.route('/')
     def index():
-        return asctime()     # Hier übergeben wir später an eine index.html oder was auch immer
+        return asctime()  # Hier übergeben wir später an eine index.html oder was auch immer
+
 
     if __name__ == '__main__':
         app.run(port=1337, debug=True)
@@ -33,3 +27,4 @@ except RuntimeError:
 
 except Exception:
     print('Ups, ein noch Unbekanter Fehler')
+
