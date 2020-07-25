@@ -1,4 +1,6 @@
 import logging
+from time import asctime
+
 from flask import Flask
 
 
@@ -17,7 +19,7 @@ try:
 
     @app.route('/')
     def index():
-        return "Hallo World"    # Hier übergeben wir später an eine index.html oder was auch immer
+        return asctime()     # Hier übergeben wir später an eine index.html oder was auch immer
 
     if __name__ == '__main__':
         app.run(port=1337, debug=True)
