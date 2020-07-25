@@ -1,12 +1,9 @@
 # flask-pos
-flask
-Ja sone Readme ist was feines. 
-Mathias wenn du dich hier eingeloggt hast setze ich das auf privat und schon kommt keiner 
-mehr ausser wir oder wen auch immer hinzufüge drauf
 
-Gruß
-Ich
+zur Zeit keine wichtigen Nachrichten oder so.
 
-Hab es gelesen
-Gruss
-Matthias
+<b> Ein Hinweis </>
+  
+  Bitte im produktive Bereich später (noch) mit gunicorn start:app auf Raspian starten
+  Sollte Mathias in der zwischen Zeit eine andere Lösung gefunden/geschrieben haben ....
+  
