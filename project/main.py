@@ -1,3 +1,4 @@
+import logging
 from flask import Blueprint, render_template
 from . import db
 
@@ -7,6 +8,8 @@ def debug(datei="server.log"):
     logging.error('Error: ')
     logging.critical('Kritischer Fehler!!!!!: ')
 
+
+debug(datei='app.log')
 
 main = Blueprint('main', __name__)
 
