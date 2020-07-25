@@ -1,7 +1,16 @@
 from flask import Blueprint, render_template
 from . import db
 
+
+def debug(datei="server.log"):
+    logging.basicConfig(filename=datei,format='%(asctime)s %(message)s',  datefmt='%d/%m/%Y %H:%M:%S ', level=logging.INFO)
+    logging.error('Error: ')
+    logging.critical('Kritischer Fehler!!!!!: ')
+
+
 main = Blueprint('main', __name__)
+
+
 
 
 @main.route('/')
