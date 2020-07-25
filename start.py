@@ -1,6 +1,5 @@
 import flask_login
 from flask import Flask
-from fl
 from time import asctime
 
 from project import app
