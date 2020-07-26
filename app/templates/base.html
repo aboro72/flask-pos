@@ -24,8 +24,8 @@
         <div class="inner">
           <h3 class="masthead-brand">Cover</h3>
           <nav class="nav nav-masthead justify-content-center">
-            <a class="nav-link active" href="#">Home</a>
-            <a class="nav-link" href="#">Features</a>
+            <a class="nav-link active" href="/index">Home</a>
+            <a class="nav-link" href="/login">Login</a>
             <a class="nav-link" href="#">Contact</a>
           </nav>
         </div>
@@ -33,9 +33,17 @@
       </header>
 
   <!-- Begin page content -->
-
-    {% block content %}
-    {% endblock %}
+<hr>
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        <ul>
+            {% for message in messages %}
+            <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+        {% endwith %}
+        {% block content %}{% endblock %}
 
 
 <footer class="mastfoot mt-auto">
