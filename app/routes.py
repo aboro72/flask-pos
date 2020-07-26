@@ -1,6 +1,6 @@
 from flask import render_template, flash, redirect, url_for
 from app import app
-
+from app.forms import PostForm
 
 
 @app.route('/')
@@ -18,6 +18,12 @@ def index():
         }
     ]
     return render_template('index.html', title='Home', user=user, posts=posts)
+
+
+@app.route('/post')
+def post():
+    form = PostForm()
+    return render_template('tinydemo.html', form=form)
 
 
 @app.route('/login')
