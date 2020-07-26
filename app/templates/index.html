@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block content %}
+ <main role="main" class="inner cover">
+  <h1 class="cover-heading">Hi, {{ user.username }}!</h1>
+  {% for post in posts %}
+  <p class="lead">{{ post.author.username }} says: <b>{{ post.body }}</b></p>
+
+{% endfor %}
+ </main>
+     {% endblock %}

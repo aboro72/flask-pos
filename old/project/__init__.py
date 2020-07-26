@@ -14,11 +14,11 @@ def create_app():
     db.init_app(app)
 
     # blueprint for auth routes in our app
-    from project.auth import auth as auth_blueprint
+    from old.project.auth import auth as auth_blueprint
     app.register_blueprint(auth_blueprint)
 
     # blueprint for non-auth parts of app
-    from project.main import main as main_blueprint
+    from old.project.main import main as main_blueprint
     app.register_blueprint(main_blueprint)
 
     return app
