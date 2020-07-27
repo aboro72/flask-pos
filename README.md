@@ -21,3 +21,11 @@ zur Zeit keine wichtigen Nachrichten oder so.
 im git Ordner ./start.sh ausführen und im Browser deiner Wahl
  http://localhost:5000/ eingeben.
  
+ #### Umgebung ändern:
+ 
+ In der Shell Variablen setzen
+ 
+ `export FLASK_ENV=production' -> Produktionsumgebung
+ `export FLASK_ENV=testing'    -> Testumgebung
+ `export FLASK_ENV=development'-> Entwicklungsumgebung
+ 
