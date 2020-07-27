@@ -3,8 +3,24 @@
 {% block content %}
 <main role="main" class="inner cover">
 
-    <h1 class="cover-heading">Hier steht noch nix !!</h1>
-    <p class="lead">Ich bemühe mich das schnellst möglich zu ändern</p>
-
+    <h1 class="cover-heading">Sign In</h1>
+    <form action="" method="post" novalidate>
+        {{ form.hidden_tag() }}
+        <p>
+            {{ form.username.label }}<br>
+            {{ form.username(size=32) }}<br>
+            {% for error in form.username.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </p>
+        <p>
+            {{ form.password.label }}<br>
+            {{ form.password(size=32) }}<br>
+            {% for error in form.password.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </p>
+        <p>{{ form.remember_me() }} {{ form.remember_me.label }}</p>
+        <p>{{ form.submit() }}</p>
 </main>
 {% endblock %}
