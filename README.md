@@ -10,10 +10,11 @@ zur Zeit keine wichtigen Nachrichten oder so.
 <h3>Folgenes muss für Python3 nachgeladen werden</h3>
 
 <p><b>flask-login: </b> pip3 install flask-login</p>
-<p><b>flask-Appbuilder: </b>pip3 install flask-appbuilder</p>
+<p><b>flask-wtf: </b>pip3 install flask-wtf</p>
+<p><b>wtforms : </b>pip3 install wtforms</p>
 
 <h4>Optional:</h4>
-
+<p><b>flask-Appbuilder: </b>pip3 install flask-appbuilder</p>
 <p><b> flask-admin: </b> pip3 install flask-admin</p>
 
 <h4>Flask Starten: </h4>
