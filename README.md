@@ -1,6 +1,6 @@
 # flask-pos
 
-zur Zeit keine wichtigen Nachrichten oder so.
+für Datenbank mal ruhig in das Wiki schauen
 
 <b> Ein Hinweis </b>
   
