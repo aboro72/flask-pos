@@ -25,7 +25,9 @@ im git Ordner ./start.sh ausführen und im Browser deiner Wahl
  
  In der Shell Variablen setzen
  
- `export FLASK_ENV=production' -> Produktionsumgebung<br>
- `export FLASK_ENV=testing'    -> Testumgebung<br>
- `export FLASK_ENV=development'-> Entwicklungsumgebung
+ `export FLASK_ENV=production` -> Produktionsumgebung
+ 
+ `export FLASK_ENV=testing`    -> Testumgebung
+ 
+ `export FLASK_ENV=development`-> Entwicklungsumgebung
  
