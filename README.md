@@ -37,4 +37,4 @@ Folgende Kommandos in der Shell ausführen
 
 `flask db init` -> um die Datenbank zu initialisieren
 
-`flask db migrate' -> um Änderungen an dem Schema umzusetzen
+`flask db migrate` -> um Änderungen an dem Schema umzusetzen
