@@ -31,3 +31,9 @@ im git Ordner ./start.sh ausführen und im Browser deiner Wahl
  
  `export FLASK_ENV=development`-> Entwicklungsumgebung
  
+#### Datenbank initialisieren und migrieren:
+
+Folgende Kommandos in der Shell ausführen
+
+`flask db init` -> um die Datenbank zu initialisieren
+`flask db migrate' -> um Änderungen an dem Schema umzusetzen
