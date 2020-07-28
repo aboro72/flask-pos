@@ -1,7 +1,7 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
-from app.models.db_init import create_users, find_or_create_role, find_or_create_user
+
 
 # -- Init FLASK & Config ---
 app = Flask(__name__)
@@ -14,10 +14,12 @@ else:
 
 db = SQLAlchemy()
 db.init_app(app)
-create_users()
 migrate = Migrate(app, db)
 
 
-from app import routes, models
+from app import routes
+from app.models import models, db_init
 
+
+db_init.create_users()
 

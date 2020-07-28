@@ -1,26 +1,26 @@
-import datetime
+import uuid
+import hashlib
 
-from app import db
+from app import db, app
 from app.models.models import User, Role
-
-from flask import current_app
 
 
 def create_users():
     """ Create users """
 
     # Create all tables
-    db.create_all()
+    with app.app_context():
+        db.create_all()
+        # Adding roles
+        admin_role = find_or_create_role('admin', u'Admin')
 
-    # Adding roles
-    admin_role = find_or_create_role('admin', u'Admin')
+        # Add users
+        user = find_or_create_user(u'Admin', u'admin@admin.com', u'admin', u'Andreas', u'Borowczak', admin_role)
 
-    # Add users
-    user = find_or_create_user(u'Admin', u'Example', u'admin@example.com', 'Password1', admin_role)
-    user = find_or_create_user(u'Member', u'Example', u'member@example.com', 'Password1')
+        user = find_or_create_user(u'Member', u'member@example.com', 'Password1', u'one',u'employee')
 
-    # Save to DB
-    db.session.commit()
+        # Save to DB
+        db.session.commit()
 
 
 def find_or_create_role(name, label):
@@ -32,12 +32,29 @@ def find_or_create_role(name, label):
     return role
 
 
-def find_or_create_user(first_name, last_name, email, password, role=None):
+def find_or_create_user(user_name, email, password, firstname, lastname, role=None):
     """ Find existing user or create new user """
     user = User.query.filter(User.email == email).first()
     if not user:
-        user = User()
+        hashed_password = hash_password(password)
+        user = User(email=email,
+                    user_name=user_name,
+                    password_hash=hashed_password,
+                    first_name=firstname,
+                    last_name=lastname,
+                    )
         if role:
             user.roles.append(role)
         db.session.add(user)
     return user
+
+
+def hash_password(password):
+    # uuid is used to generate a random number
+    salt = uuid.uuid4().hex
+    return hashlib.sha256(salt.encode() + password.encode()).hexdigest() + ':' + salt
+
+
+def check_password(hashed_password, user_password):
+    password, salt = hashed_password.split(':')
+    return password == hashlib.sha256(salt.encode() + user_password.encode()).hexdigest()

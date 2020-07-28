@@ -16,13 +16,13 @@ class User(db.Model, UserMixin):
     password_hash = db.Column(db.String(128), nullable=False, server_default='')
     email = db.Column(db.Unicode(255), unique=True, nullable=False, server_default=u'')
     # user fields
-    active = db.Colunm('is active', db.Boolean, nullable=False, server_default='0')
+    # active = db.Colunm('is active', db.Boolean, nullable=False, server_default='0')
     first_name = db.Column(db.String(50), nullable=False)
     last_name = db.Column(db.String(50), nullable=False)
 
     # relation
     roles = db.relationship('Role', secondary='users_roles',
-                             backref=db.backref('users', lazy='dynamic'))
+                            backref=db.backref('users', lazy='dynamic'))
 
     def __repr__(self):
         return '<User %r>' % self.username

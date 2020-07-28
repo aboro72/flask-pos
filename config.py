@@ -18,10 +18,8 @@ class Config(object):
     # staging server
     DB_SERVER = '192.168.1.100'  # example ip
 
-    @property
-    def SQLALCHEMY_DATABASE_URI(self):
-        return 'mysql://GameRoomAdmin@{}/GameRoom'.format(self.DB_SERVER)
-    SQLALCHEMY_TRACK_MODIFICATIONS=False
+    SQLALCHEMY_DATABASE_URI = 'sqlite:///c:/tools/game-room-dev.db'
+    SQLALCHEMY_TRACK_MODIFICATIONS = False
     # if we need a upload folder
     # UPLOAD_FOLDER = "/home/gameManager/flask-pos/app/files/upload"
     # POSSIBLE_EXTENSIONS = set(['txt', 'jpg', 'png'])
@@ -41,7 +39,7 @@ class DevelopmentConfig(Config):
     # DB_SERVER = 'localhost'
 
     # sqlite for test database
-    SQLALCHEMY_DATABASE_URI = 'sqlite:////tmp/game-room-dev.db'
+    SQLALCHEMY_DATABASE_URI = 'sqlite:///c:/tools/game-room-dev.db'
 
     # FOLDER = "/home/ae4life/tutorial/flask"
 
@@ -52,3 +50,4 @@ class TestingConfig(Config):
     TESTING = True
 
     DB_SERVER = 'localhost'
+    SQLALCHEMY_DATABASE_URI = 'sqlite:///c:/tools/game-room-dev.db'
