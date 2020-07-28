@@ -1,5 +1,6 @@
 import os
 
+
 class Config(object):
     
     # no debug messages
@@ -14,28 +15,34 @@ class Config(object):
     # only sent session-cookie if https is used
     SESSION_COOKIE_SECURE = True
     
-    # if we need db-login in config
-    # DB_NAME = "game-room-production"
-    # DB_USER = "GameRoomAdminProduction"
-    # DB_PASS = "LikeABoss"
-    
+    # staging server
+    DB_SERVER = '192.168.1.100'  # example ip
+
+    @property
+    def SQLALCHEMY_DATABASE_URI(self):
+        return 'mysql://GameRoomAdmin@{}/GameRoom'.format(self.DB_SERVER)
+    SQLALCHEMY_TRACK_MODIFICATIONS=False
     # if we need a upload folder
     # UPLOAD_FOLDER = "/home/gameManager/flask-pos/app/files/upload"
     # POSSIBLE_EXTENSIONS = set(['txt', 'jpg', 'png'])
     
 
 class ProductionConfig(Config):
-    pass
+
+    # production server
+    DB_SERVER = '192.168.1.200'  # example ip
 
 
 class DevelopmentConfig(Config):
     
     # debug messages
     DEBUG = True
-    
-    # DB_NAME = "game-room-development"
-    # DB_USER = "GameRoomAdminDevelopment"
-    # DB_PASS = "LikeADev"
+
+    # DB_SERVER = 'localhost'
+
+    # sqlite for test database
+    SQLALCHEMY_DATABASE_URI = 'sqlite:////tmp/game-room-dev.db'
+
     # FOLDER = "/home/ae4life/tutorial/flask"
 
     
@@ -43,7 +50,5 @@ class TestingConfig(Config):
     
     # test messages
     TESTING = True
-    
-    # DB_NAME = "game-room-testing"
-    # DB_USER = "GameRoomAdminTesting"
-    # DB_PASS = "LikeATester"
+
+    DB_SERVER = 'localhost'

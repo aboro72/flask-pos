@@ -1,6 +1,7 @@
 from flask import Flask
-from flask_tinymce import Tinymce
-
+from flask_sqlalchemy import SQLAlchemy
+from flask_migrate import Migrate
+from app.models.db_init import create_users, find_or_create_role, find_or_create_user
 
 # -- Init FLASK & Config ---
 app = Flask(__name__)
@@ -11,8 +12,12 @@ elif app.config["ENV"] == "testing":
 else:
     app.config.from_object("config.DevelopmentConfig")
 
+db = SQLAlchemy()
+db.init_app(app)
+create_users()
+migrate = Migrate(app, db)
 
-from app import routes
 
+from app import routes, models
 
 
