@@ -1,5 +1,5 @@
 from flask import render_template, flash, redirect, url_for
-from app import app
+from app import app, db
 from app.forms import PostForm
 
 
@@ -17,8 +17,8 @@ def index():
             'body': 'Ha Haaa, ei weiß !!'
         },
         {
-            'author':{'username': 'Mathias'},
-            'body':'Eh, soll das jetzt eine POS oder ein CMS werden'
+            'author': {'username': 'Mathias'},
+            'body': 'Eh, soll das jetzt eine POS oder ein CMS werden'
         },
         {
             'author': {'username': 'Du'},
