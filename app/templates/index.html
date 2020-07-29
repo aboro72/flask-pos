@@ -1,11 +1,21 @@
+
 {% extends "base.html" %}
-
+<body class="bg-dark bg-brandColor2 h-vh-100 m4-cloak">
 {% block content %}
- <main role="main" class="inner cover">
-  <h1 class="cover-heading">Hi, {{ user.username }}!</h1>
-  {% for post in posts %}
-  <p class="lead">{{ post.author.username }} schreibt: <b>{{ post.body }}</b></p>
+<div class="container-fluid start-screen h-100">
 
-{% endfor %}
- </main>
-     {% endblock %}
+    <h1 class="start-screen-title">Hi, {{ current_user.username }}!</h1>
+     <div class="tiles-area clear">
+         <div class="tiles-grid tiles-group size-2 fg-white" data-group-title="General">
+             <a href="{{ url_for('logout') }}" data-role="tile" class="bg-indigo fg-white">
+                    <span class="mif-github icon"></span>
+                    <span class="branding-bar">Logout</span>
+                    <span class="badge-bottom">30</span>
+             </a>
+         </div>
+     </div>
+
+</div>
+    <script src="../static/js/metro.js"></script>
+    <script src="../static/js/start.js"></script>
+{% endblock %}
