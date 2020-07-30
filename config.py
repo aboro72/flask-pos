@@ -1,5 +1,5 @@
 import os
-
+basedir = os.path.abspath(os.path.dirname(__file__))
 
 class Config(object):
     
@@ -18,7 +18,7 @@ class Config(object):
     # staging server
     DB_SERVER = '192.168.1.100'  # example ip
 
-    SQLALCHEMY_DATABASE_URI = 'sqlite:///c:/tools/game-room-dev.db'
+    SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(basedir, 'app.db')
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     # if we need a upload folder
     # UPLOAD_FOLDER = "/home/gameManager/flask-pos/app/files/upload"
@@ -39,9 +39,9 @@ class DevelopmentConfig(Config):
     # DB_SERVER = 'localhost'
 
     # sqlite for test database
-    SQLALCHEMY_DATABASE_URI = 'sqlite:///c:/tools/game-room-dev.db'
+    SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(basedir, 'app.db')
 
-    # FOLDER = "/home/ae4life/tutorial/flask"
+    # FOLDER = "/home/ae4life/tutorial/flask"'sqlite:///' + os.path.join(basedir, 'app.db')
 
     
 class TestingConfig(Config):
@@ -50,4 +50,4 @@ class TestingConfig(Config):
     TESTING = True
 
     DB_SERVER = 'localhost'
-    SQLALCHEMY_DATABASE_URI = 'sqlite:///c:/tools/game-room-dev.db'
+    SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(basedir, 'app.db')

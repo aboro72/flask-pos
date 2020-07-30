@@ -114,7 +114,7 @@
             margin-top: -160px;
         }
     </style>
-<!--    <script>
+    <script>
 
         /*
          * Do not use this is a google analytics fro Metro UI CSS
@@ -297,11 +297,11 @@
                 });
             }
         });
-    </script> -->
+    </script>
 
     </head>
-   <body data-role="touch" class="h-vh-100 bg-brandColor2">
-  <!--      <div data-role="appbar" data-expand-point="md">
+<!--   <body data-role="touch" class="h-vh-100 bg-brandColor2">
+        <div data-role="appbar" data-expand-point="md">
           <a href="#" class="brand no-hover">
         <span style="width: 55px;" class="p-2 border bd-dark border-radius">
             FP<sup>0.1</sup>
@@ -318,18 +318,7 @@
        </ul>
         </div>
         <div class="container">
-        <hr>-->
-        {% with messages = get_flashed_messages() %}
-        {% if messages %}
-        <ul>
-            {% for message in messages %}
-            <li>{{ message }}</li>
-            {% endfor %}
-        </ul>
-        {% endif %}
-        {% endwith %}
-        {% block content %}{% endblock %}
-
-
+        <hr> -->
+{% block content %}{% endblock %}
     </body>
 </html>
