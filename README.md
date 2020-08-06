@@ -1,40 +1,44 @@
-# flask-pos
+# FLASK - POS
 
-für Datenbank mal ruhig in das Wiki schauen
+Administrate your Pos-System
 
-<b> Ein Hinweis </b>
-  
-  Bitte im produktive Bereich später (noch) mit gunicorn start:app auf Raspian starten.
-  Sollte Mathias in der zwischen Zeit eine andere Lösung gefunden/geschrieben haben ....
-  
-<h3>Folgenes muss für Python3 nachgeladen werden</h3>
+### 1. Dependencies
 
-<p><b>flask-login: </b> pip3 install flask-login</p>
-<p><b>flask-Appbuilder: </b>pip3 install flask-appbuilder</p>
+- Flask               1.1.2
+- Flask_SQLAlchemy    2.4.4
 
-<h4>Optional:</h4>
+### 2. Setup Development Environment
 
-<p><b> flask-admin: </b> pip3 install flask-admin</p>
+- Linux and Mac:
 
-<h4>Flask Starten: </h4>
+        $ export FLASK_APP=run.py
+        $ export FLASK_ENV=development
+        $ flask run
+- Windows cmd:
 
-im git Ordner ./start.sh ausführen und im Browser deiner Wahl
- http://localhost:5000/ eingeben.
- 
- #### Umgebung ändern:
- 
- In der Shell Variablen setzen
- 
- `export FLASK_ENV=production` -> Produktionsumgebung
- 
- `export FLASK_ENV=testing`    -> Testumgebung
- 
- `export FLASK_ENV=development`-> Entwicklungsumgebung
- 
-#### Datenbank initialisieren und migrieren:
+        > set FLASK_APP=run.py
+        > set FLASK_ENV=development
+        > flask run
+- Windows Powershell:
 
-Folgende Kommandos in der Shell ausführen
+        > $env: FLASK_APP = "run.py"
+        > $env: FLASK_ENV = "development"
+        > flask run
+- Setup Database\
+To change Database add a environment variable
+        
+        DATABASE_URL=
 
-`flask db init` -> um die Datenbank zu initialisieren
+    | Database | URL |
+    |:---|:---|
+    | Postgres | postgresql://username:password@hostname/database |
+    | MySQL | mysql://username:password@hostname/database |
+    | SQLite (Linux, MacOS) | sqlite:///absolute/path/to/database |
+    | SQLite (Windows)  | sqlite:///c:/absolute/path/to/database
 
-`flask db migrate` -> um Änderungen an dem Schema umzusetzen
+   
+The Development Server will run at http://127.0.0.1:5000
+
+### 3. Database
+
+- [ Infos ](documentation/database/index.md "Database info" )
