@@ -5,10 +5,12 @@ Administrate your Pos-System
 ### 1. Dependencies
 
 - Flask             1.1.2
-- Flask-Mail        0.9.1
+- Flask-Bootstrap   3.3.7.1
+- Flask-Moment      0.10.0
 - Flask-Migrate     2.5.3
 - Flask-SQLAlchemy  2.4.4
 - Flask-Login       0.5.0
+- Flask-WTF         0.14.3
 
 ### 2. Setup Development Environment
 
@@ -63,3 +65,13 @@ If the "migrations" folder doesn't exist, it has to be initialized with
 [ Database Tables ](documentation/database/index.md "Database Tables" )\
 [ Flask-Migrate Website ](https://flask-migrate.readthedocs.io/en/latest/
                                                  "Online Documentation" )
+
+### Test-User
+
+For the login a test-user was created with
+
+    username: admin
+    password: admin
+    
+for now it's only possible to Login / Logout but later on the line we will add some\
+ more functionality like a profil maybe
