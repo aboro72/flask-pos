@@ -8,7 +8,7 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
-    <link rel="stylesheet" type="text/css" href="/app/static/style.css">
+    <link rel="stylesheet" type="text/css" href="../../static/css/style.css">
 
     {% if title %}
         <title>Flask Pos - {{ title }}</title>
@@ -19,9 +19,12 @@
 <body>
     <nav>
         <a class="nav-item nav-link" href="{{ url_for('main.index') }}">Home</a>
-        <a class="nav-item nav-link" href="{{ url_for('main.impressum') }}">About</a>
+        <a class="nav-item nav-link" href="{{ url_for('main.contact') }}">Kontakt</a>
         <a class="nav-item nav-link" href="{{ url_for('auth.login') }}">Login</a>
         <a class="nav-item nav-link" href="{{ url_for('user.users') }}">Benutzer</a>
+        <a class="nav-item nav-link" href="{{ url_for('control.main') }}">Zeiterfassung</a>
+        <a class="nav-item nav-link" href="{{ url_for('device.devices') }}">Geräte</a>
+        <a class="nav-item nav-link" href="{{ url_for('pos.cash') }}">Abrechnung</a>
     </nav>
     </header>
     <main role="main" class="container">

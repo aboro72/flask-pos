@@ -6,4 +6,4 @@
 ### Table of content
 
 - Models\
-[User & Role Model](models/db_user_role.md "click to view")
+[ER-Diagram](models/db_diagram.md "click to view")

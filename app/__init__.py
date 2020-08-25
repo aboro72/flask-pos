@@ -6,11 +6,13 @@ import os
 
 # external packages
 from flask import Flask
+from flask_mail import Mail
+from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
 
 # internal packages
 from app.config import config
-from app.helper.auth import hash_password
+# from app.services.auth import hash_password
 
 # config app
 
@@ -29,44 +31,77 @@ else:
     app.config.from_object(config.ProductionConfig)
 
 db = SQLAlchemy(app)
+migrate = Migrate(app, db)
+mail = Mail(app)
 
 from app.models.user import User
 from app.models.role import Role
+from app.models.employee import Employee
+from app.models.message import Message
+from app.models.device import Device
+from app.models.control import Control
+from app.models.pos import Pos
 
-db.init_app(app)
+
 db.create_all()
 
 
-# controller import
-from app.controller import (
-    mainController,
-    userController,
-    authController,
+# blueprints import
+from app.blueprints import (
+    main as main_controller,
+    user as user_controller,
+    auth as auth_controller,
+    control as control_controller,
+    device as device_controller,
+    pos as pos_controller
 )
 
-# register controller
-app.register_blueprint(mainController.main)
-app.register_blueprint(userController.user)
-app.register_blueprint(authController.auth)
+# register blueprints
+app.register_blueprint(main_controller.main, url_prefix='')
+app.register_blueprint(user_controller.user, url_prefix='/user')
+app.register_blueprint(auth_controller.auth, url_prefix='/auth')
+app.register_blueprint(control_controller.control, url_prefix='/control')
+app.register_blueprint(device_controller.device, url_prefix='/device')
+app.register_blueprint(pos_controller.pos, url_prefix='/pos')
 
 # Create Roles
 with app.app_context():
+    time = datetime.datetime.now()
     # Create Admin Role
-    role_admin = Role(role_name='Admin')
-    role = Role.query.filter(Role.role_name == role_admin.role_name).first()
+    role_admin = Role(
+        name='Admin',
+        label='Administrator',
+        permission_val=16,
+        created_at=time,
+        modified_at=time,
+    )
+    role = Role.query.filter(Role.name == role_admin.name).first()
     if not role:
         db.session.add(role_admin)
+        # Create Employee
 
+    employee_admin = Employee(
+        employee_uuid="Mitarbeiter-ID 001",
+        lastname="Mustermann",
+        firstname="Max",
+        created_at=time,
+        modified_at=time,
+    )
+    employee = Employee.query.filter(Employee.employee_uuid == employee_admin.employee_uuid).first()
+    if not employee:
+        db.session.add(employee_admin)
     # Create Admin User
     user_admin = User(
-        user_name="admin",
-        user_email="admin@admin.de",
-        user_pass=hash_password("admin"),
-        user_created_at=datetime.datetime.now(),
-        user_modified_at=datetime.datetime.now(),
-        role=role_admin
+        name="admin",
+        email="admin@admin.de",
+        password="admin",
+        created_at=time,
+        modified_at=time,
+        is_active=True,
+        role=role_admin,
+        employee=employee_admin,
     )
-    user = User.query.filter(User.user_email == user_admin.user_email).first()
+    user = User.query.filter(User.email == user_admin.email).first()
     if not user:
         db.session.add(user_admin)
 

@@ -1,11 +1,8 @@
 from flask import (
-    Blueprint,
     render_template
 )
 
-user = Blueprint('user', __name__, url_prefix='/user')
-
-""" blueprint to administrate users """
+from app.blueprints.user import user
 
 
 @user.route('/', methods=['GET', 'POST'])
