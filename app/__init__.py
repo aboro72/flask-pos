@@ -12,7 +12,6 @@ from flask_sqlalchemy import SQLAlchemy
 
 # internal packages
 from app.config import config
-# from app.services.auth import hash_password
 
 # config app
 
