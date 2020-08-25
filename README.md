@@ -4,8 +4,10 @@ Administrate your Pos-System
 
 ### 1. Dependencies
 
-- Flask               1.1.2
-- Flask_SQLAlchemy    2.4.4
+- Flask             1.1.2
+- Flask-Mail        0.9.1
+- Flask-Migrate     2.5.3
+- Flask-SQLAlchemy  2.4.4
 
 ### 2. Setup Development Environment
 
@@ -41,4 +43,22 @@ The Development Server will run at http://127.0.0.1:5000
 
 ### 3. Database
 
-- [ Infos ](documentation/database/index.md "Database info" )
+- Migration\
+If the "migrations" folder doesn't exist, it has to be initialized with
+       
+       $ flask db init 
+    To use automatic migration the following steps needs to be done
+    + Make the necessary changes to the model classes
+    + Create an automatic migration script with `$ flask db migrate`
+    + Review the generated script and adjust it if needed
+    + Add the migration script to source control
+    + Apply the migration to the database with `$ flask db upgrade`
+    
+    if needed a migration message can be added, f.e.
+    
+        $ flask db migrate -m "initial migration"
+
+- Links:\
+[ Database Tables ](documentation/database/index.md "Database Tables" )\
+[ Flask-Migrate Website ](https://flask-migrate.readthedocs.io/en/latest/
+                                                 "Online Documentation" )
