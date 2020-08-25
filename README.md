@@ -8,6 +8,7 @@ Administrate your Pos-System
 - Flask-Mail        0.9.1
 - Flask-Migrate     2.5.3
 - Flask-SQLAlchemy  2.4.4
+- Flask-Login       0.5.0
 
 ### 2. Setup Development Environment
 

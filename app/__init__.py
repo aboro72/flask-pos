@@ -6,9 +6,14 @@ import os
 
 # external packages
 from flask import Flask
+
 from flask_mail import Mail
+from flask_moment import Moment
 from flask_migrate import Migrate
+from flask_login import LoginManager
+from flask_bootstrap import Bootstrap
 from flask_sqlalchemy import SQLAlchemy
+
 
 # internal packages
 from app.config import config
@@ -31,7 +36,11 @@ else:
 
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
+moment = Moment(app)
 mail = Mail(app)
+bootstrap = Bootstrap(app)
+login_manager = LoginManager(app)
+login_manager.login_view = 'auth.login'
 
 from app.models.user import User
 from app.models.role import Role
