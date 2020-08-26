@@ -77,12 +77,12 @@ with app.app_context():
     time = datetime.datetime.now()
     # Create Admin Role
     role_admin = Role(
-        name='Admin',
+        name='Administrator',
         label='Administrator',
-        permission_val=16,
         created_at=time,
         modified_at=time,
     )
+    role_admin.add_permission(511)
     role = Role.query.filter(Role.name == role_admin.name).first()
     if not role:
         db.session.add(role_admin)

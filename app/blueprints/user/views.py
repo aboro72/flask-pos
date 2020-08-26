@@ -1,9 +1,19 @@
 from flask import (
-    render_template
+    render_template,
+    flash,
+    redirect,
+    url_for,
 )
-from flask_login import login_required
-
+from flask_login import login_required, current_user
 from app.blueprints.user import user
+
+
+@user.before_app_request
+def before_request():
+    if current_user.is_authenticated:
+        if not current_user.is_active:
+            flash('Sie sind nicht bestätigt', 'WARNING')
+            redirect(url_for('main.index'))
 
 
 @user.route('/', methods=['GET', 'POST'])

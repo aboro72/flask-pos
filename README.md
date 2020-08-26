@@ -75,3 +75,25 @@ For the login a test-user was created with
     
 for now it's only possible to Login / Logout but later on the line we will add some\
  more functionality like a profil maybe
+
+
+### Unit-Tests
+
+Because the app start & config needs some adjustments you need to set the environment-Variable to
+
+    $ export FLASK_ENV = testing
+    
+
+Run Unit-Tests with
+        
+    $ flask test
+        
+At the moment unit-tests exists for:
+
+- BASIC (is there an app / is the environment set to testing etc.)
+- USER - Model (password is correct and is random)
+
+
+### Planned:
+
+Add / Change Permissions
