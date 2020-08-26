@@ -27,7 +27,7 @@ class Role(db.Model):
     created_at = db.Column(db.DateTime())
     modified_at = db.Column(db.DateTime())
 
-    users = db.relationship('User', backref='role', lazy='dynamic')
+    users = db.relationship('User', backref='role', lazy=True)
 
     def __repr__(self):
         return '<Role %r>' % self.name

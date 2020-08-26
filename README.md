@@ -4,35 +4,49 @@ Administrate your Pos-System
 
 ### 1. Dependencies
 
-- Flask             1.1.2
-- Flask-Bootstrap   3.3.7.1
-- Flask-Moment      0.10.0
-- Flask-Migrate     2.5.3
-- Flask-SQLAlchemy  2.4.4
-- Flask-Login       0.5.0
-- Flask-WTF         0.14.3
+The Dependencies are in the `requirements.txt`
+
+if you want to exactly rebuild the development environment
+run the following command:
+
+    (venv) $ pip install -r requirements.txt
+    
+The required packages are outdated very quickly and you can try to use newer versions.
+If you experience problems you can always go back and use the version specified here.
+
+To generate your own requirements file use
+
+    (venv) $ pip freeze >requirements.txt
 
 ### 2. Setup Development Environment
 
 - Linux and Mac:
 
         $ export FLASK_APP=run.py
-        $ export FLASK_ENV=development
+        $ export FLASK_CONFIG=development
+        $ flask db init
+        $ flask createdb
         $ flask run
 - Windows cmd:
 
         > set FLASK_APP=run.py
-        > set FLASK_ENV=development
+        > set FLASK_CONFIG=development
+        > flask db init
+        > flask createdb
         > flask run
 - Windows Powershell:
 
         > $env: FLASK_APP = "run.py"
-        > $env: FLASK_ENV = "development"
+        > $env: FLASK_CONFIG="development"
+        > flask db init
+        > flask createdb
         > flask run
 - Setup Database\
 To change Database add a environment variable
         
-        DATABASE_URL=
+        Development: DEV_DATABASE_URL =
+        Testing: TEST_DATABASE_URL =
+        Production: DATABASE_URL=
 
     | Database | URL |
     |:---|:---|
@@ -60,6 +74,11 @@ If the "migrations" folder doesn't exist, it has to be initialized with
     if needed a migration message can be added, f.e.
     
         $ flask db migrate -m "initial migration"
+    
+    if you made some changes to the database use
+    
+        $ flask db upgrade
+    
 
 - Links:\
 [ Database Tables ](documentation/database/index.md "Database Tables" )\
@@ -68,7 +87,13 @@ If the "migrations" folder doesn't exist, it has to be initialized with
 
 ### Test-User
 
-For the login a test-user was created with
+If you use the command
+
+    $ flask createdb
+    
+a user, employee and a role will be created for testing purposes
+
+After that login is possible with:
 
     username: admin
     password: admin

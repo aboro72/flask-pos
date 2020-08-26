@@ -12,7 +12,7 @@ from app.blueprints.user import user
 def before_request():
     if current_user.is_authenticated:
         if not current_user.is_active:
-            flash('Sie sind nicht bestätigt', 'WARNING')
+            flash('Benutzer nicht aktiviert', 'WARNING')
             redirect(url_for('main.index'))
 
 
@@ -24,5 +24,5 @@ def users():
 
 @user.route('/<id>/', methods=['GET', 'POST'])
 @login_required
-def userview():
+def user_view():
     return "under construction"
