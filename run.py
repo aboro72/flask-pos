@@ -26,19 +26,11 @@ def test():
 def createdb():
     db.create_all()
     # Create Roles
+    Role.insert_roles()
+    role_admin = Role.query.filter(Role.name == 'Administrator').first()
+    role_manager = Role.query.filter(Role.name == 'Manager').first()
     time = datetime.datetime.now()
-    # Create Admin Role
-    role_admin = Role(
-        name='Administrator',
-        label='Administrator',
-        created_at=time,
-        modified_at=time,
-    )
-    role_admin.add_permission(511)
-    role = Role.query.filter(Role.name == role_admin.name).first()
-    if not role:
-        db.session.add(role_admin)
-        # Create Employee
+    # Create Employees
 
     employee_admin = Employee(
         employee_uuid="Mitarbeiter-ID 001",
@@ -47,9 +39,19 @@ def createdb():
         created_at=time,
         modified_at=time,
     )
+    employee_manager = Employee(
+        employee_uuid="Mitarbeiter-ID 002",
+        lastname="Zufall",
+        firstname="Rainer",
+        created_at=time,
+        modified_at=time,
+    )
     employee = Employee.query.filter(Employee.employee_uuid == employee_admin.employee_uuid).first()
     if not employee:
         db.session.add(employee_admin)
+    employee = Employee.query.filter(Employee.employee_uuid == employee_manager.employee_uuid).first()
+    if not employee:
+        db.session.add(employee_manager)
     # Create Admin User
     user_admin = User(
         name="admin",
@@ -61,9 +63,22 @@ def createdb():
         role=role_admin,
         employee=employee_admin,
     )
+    user_manager = User(
+        name="manager",
+        email="manager@manager.de",
+        password="manager",
+        created_at=time,
+        modified_at=time,
+        is_active=True,
+        role=role_manager,
+        employee=employee_manager,
+    )
     user = User.query.filter(User.email == user_admin.email).first()
     if not user:
         db.session.add(user_admin)
+    user = User.query.filter(User.email == user_manager.email).first()
+    if not user:
+        db.session.add(user_manager)
 
     # Save Admin User & Role
     db.session.commit()

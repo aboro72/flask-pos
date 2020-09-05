@@ -48,18 +48,14 @@ def create_app(config_name):
     from app.blueprints import (
         pos as pos_controller,
         main as main_controller,
-        user as user_controller,
         auth as auth_controller,
-        device as device_controller,
-        control as control_controller,
+        admin as admin_controller,
     )
 
     # register blueprints
     app.register_blueprint(main_controller.main, url_prefix='')
-    app.register_blueprint(user_controller.user, url_prefix='/user')
     app.register_blueprint(auth_controller.auth, url_prefix='/auth')
-    app.register_blueprint(control_controller.control, url_prefix='/control')
-    app.register_blueprint(device_controller.device, url_prefix='/device')
+    app.register_blueprint(admin_controller.admin, url_prefix='/admin')
     app.register_blueprint(pos_controller.pos, url_prefix='/pos')
 
     return app

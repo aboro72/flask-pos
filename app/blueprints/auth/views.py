@@ -36,3 +36,8 @@ def logout():
     logout_user()
     flash('Erfolgreich ausgeloggt')
     return redirect(url_for('main.index'))
+
+
+def create_password():
+    flash ('Funktion noch nicht Implementiert')
+    return

@@ -5,10 +5,10 @@ from flask import (
     url_for,
 )
 from flask_login import login_required, current_user
-from app.blueprints.user import user
+from app.blueprints.admin import admin
 
 
-@user.before_app_request
+@admin.before_app_request
 def before_request():
     if current_user.is_authenticated:
         if not current_user.is_active:
@@ -16,13 +16,8 @@ def before_request():
             redirect(url_for('main.index'))
 
 
-@user.route('/', methods=['GET', 'POST'])
+@admin.route('/')
+@admin.route('/dashboard/')
 @login_required
-def users():
-    return render_template('user/user.html', title="Benutzer")
-
-
-@user.route('/<id>/', methods=['GET', 'POST'])
-@login_required
-def user_view():
-    return "under construction"
+def dashboard():
+    return render_template('admin/admin.html', title="Verwaltung")
