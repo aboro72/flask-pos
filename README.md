@@ -22,22 +22,33 @@ To generate your own requirements file use
 
 - Linux and Mac:
 
-        $ export FLASK_APP=run.py
-        $ export FLASK_CONFIG=development
-        $ flask db init
-        $ flask createdb
-        $ flask run
+    - run script: `flaskpos_dev.sh`
+    
+    - if you want to run it manually:
+
+            $ export FLASK_APP=run.py
+            $ export FLASK_CONFIG=development
+            $ export FLASK_ENV=development
+            $ flask db init
+            $ flask createdb
+            $ flask run
 - Windows cmd:
 
-        > set FLASK_APP=run.py
-        > set FLASK_CONFIG=development
-        > flask db init
-        > flask createdb
-        > flask run
+    - run script: `flaskpos_dev.bat`
+    
+    - if you want to run it manually:
+
+            > set FLASK_APP=run.py
+            > set FLASK_CONFIG=development
+            > set FLASK_ENV=development
+            > flask db init
+            > flask createdb
+            > flask run
 - Windows Powershell:
 
         > $env: FLASK_APP = "run.py"
         > $env: FLASK_CONFIG="development"
+        > $env: FLASK_ENV="development"
         > flask db init
         > flask createdb
         > flask run
@@ -91,16 +102,33 @@ If you use the command
 
     $ flask createdb
     
-a user, employee and a role will be created for testing purposes
+for testing purposes the following roles will be created
+if you run `flask createdb`
 
-After that login is possible with:
+- Admin Account:
 
-    username: admin
-    password: admin
-    
-for now it's only possible to Login / Logout but later on the line we will add some\
- more functionality like a profil maybe
+        username: admin
+        password: admin
 
+- Owner Account:
+
+        username: owner
+        password: owner
+
+- Manager Account:
+
+        username: manager
+        password: manager
+
+- User Account:
+
+        username: user
+        password: user
+           
+But it's possible to view, create, edit and delete users.
+
+the created user will have `0000` as password and is not activated.
+Currently it is not possible to change the password. It will be implemented later.
 
 ### Unit-Tests
 
@@ -121,4 +149,5 @@ At the moment unit-tests exists for:
 
 ### Planned:
 
-Add / Change Permissions
+VIEW / ADD / EDIT / DELETE devices,
+change password and implement activation 

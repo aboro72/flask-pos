@@ -17,7 +17,7 @@ from config import config
 # declare packages
 mail = Mail()
 moment = Moment()
-db = SQLAlchemy()
+db = SQLAlchemy(session_options={"autoflush": False})
 bootstrap = Bootstrap()
 login_manager = LoginManager()
 
@@ -42,7 +42,6 @@ def create_app(config_name):
     from app.models.device import Device
     from app.models.message import Message
     from app.models.control import Control
-    from app.models.employee import Employee
 
     # blueprints import
     from app.blueprints import (

@@ -1,8 +1,8 @@
-import os, datetime
+import os
+from datetime import datetime
 from app import create_app, db
 from app.models.user import User
 from app.models.role import Role
-from app.models.employee import Employee
 from flask_migrate import Migrate
 
 app = create_app(os.getenv('FLASK_CONFIG') or 'default')
@@ -25,60 +25,78 @@ def test():
 @app.cli.command()
 def createdb():
     db.create_all()
+
     # Create Roles
     Role.insert_roles()
     role_admin = Role.query.filter(Role.name == 'Administrator').first()
+    role_owner = Role.query.filter(Role.name == 'Owner').first()
     role_manager = Role.query.filter(Role.name == 'Manager').first()
-    time = datetime.datetime.now()
-    # Create Employees
 
-    employee_admin = Employee(
-        employee_uuid="Mitarbeiter-ID 001",
-        lastname="Mustermann",
-        firstname="Max",
-        created_at=time,
-        modified_at=time,
-    )
-    employee_manager = Employee(
-        employee_uuid="Mitarbeiter-ID 002",
-        lastname="Zufall",
-        firstname="Rainer",
-        created_at=time,
-        modified_at=time,
-    )
-    employee = Employee.query.filter(Employee.employee_uuid == employee_admin.employee_uuid).first()
-    if not employee:
-        db.session.add(employee_admin)
-    employee = Employee.query.filter(Employee.employee_uuid == employee_manager.employee_uuid).first()
-    if not employee:
-        db.session.add(employee_manager)
-    # Create Admin User
-    user_admin = User(
-        name="admin",
-        email="admin@admin.de",
-        password="admin",
-        created_at=time,
-        modified_at=time,
-        is_active=True,
-        role=role_admin,
-        employee=employee_admin,
-    )
-    user_manager = User(
-        name="manager",
-        email="manager@manager.de",
-        password="manager",
-        created_at=time,
-        modified_at=time,
-        is_active=True,
-        role=role_manager,
-        employee=employee_manager,
-    )
-    user = User.query.filter(User.email == user_admin.email).first()
-    if not user:
-        db.session.add(user_admin)
-    user = User.query.filter(User.email == user_manager.email).first()
-    if not user:
-        db.session.add(user_manager)
+    time = datetime.now().strftime('%d %b, %H:%M:%S')
 
-    # Save Admin User & Role
+    admin_email = "admin@admin.de"
+    owner_email = "owner@owner.de"
+    manager_email = "manager@manager.de"
+    user_email = "user@user.de"
+
+    # Create users
+    user = None
+    user = User.query.filter(User.email == admin_email).first()
+    if not user:
+        db.session.add(User(
+            uuid="Mitarbeiter 001",
+            username="admin",
+            firstname="Rainer",
+            lastname="Zufall",
+            email=admin_email,
+            password="admin",
+            created_at=time,
+            modified_at=time,
+            is_active=True,
+            role=role_admin,
+        ))
+    user = None
+    user = User.query.filter(User.email == owner_email).first()
+    if not user:
+        db.session.add(User(
+            uuid="Mitarbeiter 002",
+            username="owner",
+            firstname="Like a",
+            lastname="Boss",
+            email=owner_email,
+            password="owner",
+            created_at=time,
+            modified_at=time,
+            is_active=True,
+            role=role_owner,
+        ))
+    user = None
+    user = User.query.filter(User.email == manager_email).first()
+    if not user:
+        db.session.add(User(
+            uuid="Mitarbeiter 003",
+            username="manager",
+            firstname="Max",
+            lastname="Mustermann",
+            email=manager_email,
+            password="manager",
+            created_at=time,
+            modified_at=time,
+            is_active=True,
+            role=role_manager,
+        ))
+    if not User.query.filter(User.email == user_email).first():
+        db.session.add(User(
+            uuid="Mitarbeiter 004",
+            username="user",
+            firstname="Milli",
+            lastname="Vanilli",
+            email=user_email,
+            password="user",
+            created_at=time,
+            modified_at=time,
+            is_active=True,
+        ))
+
+    # Save
     db.session.commit()
