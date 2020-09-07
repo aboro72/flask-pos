@@ -18,6 +18,7 @@ from config import config
 mail = Mail()
 moment = Moment()
 db = SQLAlchemy(session_options={"autoflush": False})
+#db = SQLAlchemy()
 bootstrap = Bootstrap()
 login_manager = LoginManager()
 

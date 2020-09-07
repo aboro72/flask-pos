@@ -42,7 +42,7 @@ def view_user(name):
     return render_template('admin/user/parts/user-view.html', user=user)
 
 
-@admin.route('/users/<name>/edit/', methods=['GET', 'PUT'])
+@admin.route('/users/<name>/edit/', methods=['GET', 'POST'])
 @login_required
 @owner_required
 def edit_user(name):
@@ -54,10 +54,24 @@ def edit_user(name):
     else:
         form.role.choices = form.role.choices = [(r.role_id, r.name) for r in
                                                  Role.query.filter(Role.permissions <= current_user.role.permissions)]
-    form.role.data = user.role_id
-    if request.method == 'PUT':
-        pass
 
+    if request.method == 'POST':
+
+        print('Hier')
+
+        selected = Role.query.get(form.role.data)
+        user.role = selected
+        user.email = form.email.data
+        user.lastname = form.lastname.data
+        if form.uuid.data is not current_user.uuid:
+            if User.query.filter(User.uuid == form.uuid.data).first() is None:
+                user.uuid = form.uuid.data
+
+        db.session.commit()
+        flash('Benutzer erfolgreich geändert')
+        return redirect(url_for('admin.users'))
+
+    form.role.data = user.role_id
     form.email.data = user.email
     form.firstname.data = user.firstname
     form.lastname.data = user.lastname
