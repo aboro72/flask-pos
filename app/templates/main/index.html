@@ -1,6 +1,16 @@
 {% extends "base.html" %}
-{% block content %}
+{% block page_content %}
 
-<h1>THIS IS YOUR INDEX PAGE</h1>
+<h1>
 
-{% endblock content %}
+    {% if current_user.is_authenticated %}
+    Willkommen {{ current_user.firstname }}
+    {% else %}
+    Bitte einloggen
+    {% endif %}!
+</h1>
+
+
+
+
+{% endblock page_content %}

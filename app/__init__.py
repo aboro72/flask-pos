@@ -2,73 +2,61 @@
 
 # standard packages
 import datetime
-import os
-
 # external packages
 from flask import Flask
+from flask_mail import Mail
+from flask_moment import Moment
+from flask_login import LoginManager
+from flask_bootstrap import Bootstrap
 from flask_sqlalchemy import SQLAlchemy
 
+
 # internal packages
-from app.config import config
-from app.helper.auth import hash_password
+from config import config
 
-# config app
-
-app = Flask(__name__)
-
-# read environment variable
-flask_env = os.getenv('FLASK_ENV', None)
-
-# load config
-# if environment is not set load production config
-if flask_env == 'development':
-    app.config.from_object(config.DevelopmentConfig)
-elif flask_env == 'testing':
-    app.config.from_object(config.TestingConfig)
-else:
-    app.config.from_object(config.ProductionConfig)
-
-db = SQLAlchemy(app)
-
-from app.models.user import User
-from app.models.role import Role
-
-db.init_app(app)
-db.create_all()
+# declare packages
+mail = Mail()
+moment = Moment()
+db = SQLAlchemy(session_options={"autoflush": False})
+bootstrap = Bootstrap()
+login_manager = LoginManager()
 
 
-# controller import
-from app.controller import (
-    mainController,
-    userController,
-    authController,
-)
+def create_app(config_name):
+    # config app
+    app = Flask(__name__)
 
-# register controller
-app.register_blueprint(mainController.main)
-app.register_blueprint(userController.user)
-app.register_blueprint(authController.auth)
+    app.config.from_object(config[config_name])
+    config[config_name].init_app(app)
 
-# Create Roles
-with app.app_context():
-    # Create Admin Role
-    role_admin = Role(role_name='Admin')
-    role = Role.query.filter(Role.role_name == role_admin.role_name).first()
-    if not role:
-        db.session.add(role_admin)
+    db.init_app(app)
+    mail.init_app(app)
+    moment.init_app(app)
+    bootstrap.init_app(app)
+    login_manager.init_app(app)
+    login_manager.login_view = 'auth.login'
 
-    # Create Admin User
-    user_admin = User(
-        user_name="admin",
-        user_email="admin@admin.de",
-        user_pass=hash_password("admin"),
-        user_created_at=datetime.datetime.now(),
-        user_modified_at=datetime.datetime.now(),
-        role=role_admin
+    from app.models.pos import Pos
+    from app.models.user import User
+    from app.models.role import Role
+    from app.models.device import Device
+    from app.models.message import Message
+    from app.models.control import Control
+
+    # blueprints import
+    from app.blueprints import (
+        pos as pos_controller,
+        main as main_controller,
+        auth as auth_controller,
+        admin as admin_controller,
     )
-    user = User.query.filter(User.user_email == user_admin.user_email).first()
-    if not user:
-        db.session.add(user_admin)
 
-    # Save Admin User & Role
-    db.session.commit()
+    # register blueprints
+    app.register_blueprint(main_controller.main, url_prefix='')
+    app.register_blueprint(auth_controller.auth, url_prefix='/auth')
+    app.register_blueprint(admin_controller.admin, url_prefix='/admin')
+    app.register_blueprint(pos_controller.pos, url_prefix='/pos')
+
+    return app
+
+
