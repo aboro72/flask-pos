@@ -38,61 +38,61 @@ def createdb():
 
     time = datetime.now().strftime('%d %b, %H:%M:%S')
 
-    admin_email = "admin@admin.de"
-    owner_email = "owner@owner.de"
-    manager_email = "manager@manager.de"
-    user_email = "user@user.de"
+    admin_username = "admin"
+    owner_username = "owner"
+    manager_username = "manager"
+    user_username = "user"
 
     # Create users
-    user = User.query.filter(User.email == admin_email).first()
+    user = User.query.filter(User.username == admin_username).first()
     if not user:
         db.session.add(User(
             uuid="Mitarbeiter 001",
-            username="admin",
+            username=admin_username,
             firstname="Rainer",
             lastname="Zufall",
-            email=admin_email,
+            email='admin@test.de',
             password="admin",
             created_at=time,
             modified_at=time,
             is_active=True,
             role=role_admin,
         ))
-    user = User.query.filter(User.email == owner_email).first()
+    user = User.query.filter(User.username == owner_username).first()
     if not user:
         db.session.add(User(
             uuid="Mitarbeiter 002",
-            username="owner",
+            username=owner_username,
             firstname="Like a",
             lastname="Boss",
-            email=owner_email,
+            email='owner@test.de',
             password="owner",
             created_at=time,
             modified_at=time,
             is_active=True,
             role=role_owner,
         ))
-    user = User.query.filter(User.email == manager_email).first()
+    user = User.query.filter(User.username == manager_username).first()
     if not user:
         db.session.add(User(
             uuid="Mitarbeiter 003",
-            username="manager",
+            username=manager_username,
             firstname="Max",
             lastname="Mustermann",
-            email=manager_email,
+            email='manager@test.de',
             password="manager",
             created_at=time,
             modified_at=time,
             is_active=True,
             role=role_manager,
         ))
-    if not User.query.filter(User.email == user_email).first():
+    if not User.query.filter(User.username == user_username).first():
         db.session.add(User(
             uuid="Mitarbeiter 004",
-            username="user",
+            username=user_username,
             firstname="Milli",
             lastname="Vanilli",
-            email=user_email,
+            email='user@test.de',
             password="user",
             created_at=time,
             modified_at=time,
