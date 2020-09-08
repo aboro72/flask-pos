@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block page_content %}
+  <h1>Geräte Verwalten</h1>
+{% if devices %}
+<table border="1" width="100%" >
+    <th> Bezeichnung </th>
+    <th> Identifikation </th>
+    <th> Seriennummer </th>
+    <th> Aktionen </th>
+    {% for device in devices %}
+    <tr align="center">
+            <td><p> {{ device.label }} </p></td>
+            <td><p> {{ device.device_uuid }} </p></td>
+            <td><p> {{ device.serial_number }} </p></td>
+            <td>
+                <a href="{{ url_for('admin.get_device', name=device.label) }}">
+                    <i title="Ansehen" class="fa" style="font-size:24px;color=black;">&#xf06e;</i>
+                </a>
+                {% if current_user.is_owner() %}
+                        <a href="{{ url_for('admin.edit_device', name=device.label) }}">
+                            <i title="Editieren" class="fa" style="font-size:24px;color=black;">&#xf044;</i>
+                        </a>
+                        <a href="{{ url_for('admin.delete_device', name=device.label) }}">
+                            <i title="Löschen" class="fa" style="font-size:24px;">&#xf00d;</i>
+                        </a>
+                {% endif %}
+            </td>
+    </tr>
+    {% endfor %}
+</table>
+{% else %}
+    Keine Geräte vorhanden
+{% endif %}
+<p></p>
+
+{% if current_user.is_owner() %}
+    <a role="button" class="btn btn-success" href="{{ url_for('admin.add_device') }}">Hinzufügen</a>
+{% endif %}
+
+{% endblock page_content %}

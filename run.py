@@ -3,6 +3,7 @@ from datetime import datetime
 from app import create_app, db
 from app.models.user import User
 from app.models.role import Role
+from app.models.device import Device
 from flask_migrate import Migrate
 
 app = create_app(os.getenv('FLASK_CONFIG') or 'default')
@@ -25,10 +26,40 @@ def test():
 @app.cli.command()
 def createdb():
     """Create the database and
-       insert some roles and users """
+       insert some devices, roles and users """
+
+    time = datetime.now().strftime('%d %b, %H:%M:%S')
 
     # Create database
     db.create_all()
+
+    # Create devices
+    device1_serial = 'SN - 0001'
+    device2_serial = 'SN - 0002'
+
+    device = Device.query.filter(Device.serial_number == device1_serial).first()
+    if not device:
+        db.session.add(Device(
+            device_uuid="Device 01",
+            label="Flipper",
+            serial_number=device1_serial,
+            created_at=time,
+            modified_at=time,
+            manufacturer='Activision',
+            ordered_from='Amazon'
+        ))
+    device = Device.query.filter(Device.serial_number == device2_serial).first()
+    if not device:
+        db.session.add(Device(
+            device_uuid="Device 02",
+            label="Einarmiger Bandit",
+            serial_number=device2_serial,
+            created_at=time,
+            modified_at=time,
+            manufacturer='Activision',
+            ordered_from='Amazon'
+        ))
+
 
     # Create roles
     Role.insert_roles()
@@ -36,14 +67,12 @@ def createdb():
     role_owner = Role.query.filter(Role.name == 'Owner').first()
     role_manager = Role.query.filter(Role.name == 'Manager').first()
 
-    time = datetime.now().strftime('%d %b, %H:%M:%S')
-
+    # Create users
     admin_username = "admin"
     owner_username = "owner"
     manager_username = "manager"
     user_username = "user"
 
-    # Create users
     user = User.query.filter(User.username == admin_username).first()
     if not user:
         db.session.add(User(

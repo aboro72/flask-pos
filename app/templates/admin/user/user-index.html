@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block page_content %}
 
-    <h1>Benutzer Verwalten</h1>
+<h1>Benutzer Verwalten</h1>
 {% if users %}
 <table border="1" width="100%" >
     <th> Benutzername </th>
@@ -19,7 +19,7 @@
             <td><p> {{ user.firstname }} </p></td>
             <td><p> {{ user.lastname }} </p></td>
             <td>
-                <a href="{{ url_for('admin.view_user', name=user.username) }}">
+                <a href="{{ url_for('admin.get_user', name=user.username) }}">
                     <i title="Ansehen" class="fa" style="font-size:24px;color=black;">&#xf06e;</i>
                 </a>
                 {% if current_user.is_owner() %}
@@ -38,7 +38,7 @@
     {% endfor %}
 </table>
 {% else %}
-    Keine Benutzer Vorhanden
+    Keine Benutzer vorhanden
 {% endif %}
 <p></p>
 

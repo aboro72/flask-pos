@@ -8,11 +8,11 @@ echo
 echo "Flask-pos start script for development"
 echo
 echo "Init database if needed:"
-IF EXIST %F% (
-  @flask db upgrade
-) ELSE (
+IF NOT EXIST %F% (
   @flask db init
 )
+@flask db migrate
+@flask db upgrade
 @flask createdb
 
 echo

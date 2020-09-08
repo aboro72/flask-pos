@@ -4,5 +4,8 @@ admin = Blueprint('admin', __name__)
 
 from app.blueprints.admin import errors
 from app.blueprints.admin.views import (
-    users, administrate, control, devices
+    control_view,
+    dashboard_view,
+    device_view,
+    user_view,
 )
