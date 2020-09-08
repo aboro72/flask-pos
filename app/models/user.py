@@ -56,7 +56,7 @@ class User(UserMixin, db.Model):
         return self.can(Permission.OWNER)
 
     def __repr__(self):
-        return '<User %r>' % self.username
+        return '<User: %r - %r %r>' % self.username, self.firstname, self.lastname
 
     @property
     def password(self):

@@ -10,7 +10,7 @@ from flask import (
 from flask_login import login_required, current_user
 
 from app import db
-from app.decorator import manager_required, owner_required
+from app.helper.decorator import manager_required, owner_required
 from app.blueprints.admin import admin
 from app.models.user import User
 from app.models.role import Role
@@ -37,7 +37,7 @@ def users():
 @admin.route('/users/<name>/view/', methods=['GET'])
 @login_required
 @manager_required
-def view_user(name):
+def get_user(name):
     user = User.query.filter(User.username == name).first()
     return render_template('admin/user/parts/user-view.html', user=user)
 
@@ -56,9 +56,6 @@ def edit_user(name):
                                                  Role.query.filter(Role.permissions <= current_user.role.permissions)]
 
     if request.method == 'POST':
-
-        print('Hier')
-
         selected = Role.query.get(form.role.data)
         user.role = selected
         user.email = form.email.data

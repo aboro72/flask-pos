@@ -1,7 +1,5 @@
-""" imports """
+""" Create and config the app """
 
-# standard packages
-import datetime
 # external packages
 from flask import Flask
 from flask_mail import Mail
@@ -17,19 +15,25 @@ from config import config
 # declare packages
 mail = Mail()
 moment = Moment()
-db = SQLAlchemy(session_options={"autoflush": False})
-#db = SQLAlchemy()
 bootstrap = Bootstrap()
 login_manager = LoginManager()
 
+# disable auto flush for SQLAlchemy to prevent
+# automatic persist entities
+db = SQLAlchemy(session_options={"autoflush": False})
 
+
+# App factory
 def create_app(config_name):
-    # config app
+
+    # register app
     app = Flask(__name__)
 
+    # load config
     app.config.from_object(config[config_name])
     config[config_name].init_app(app)
 
+    # init addons
     db.init_app(app)
     mail.init_app(app)
     moment.init_app(app)
@@ -37,6 +41,7 @@ def create_app(config_name):
     login_manager.init_app(app)
     login_manager.login_view = 'auth.login'
 
+    # import models
     from app.models.pos import Pos
     from app.models.user import User
     from app.models.role import Role
@@ -44,7 +49,7 @@ def create_app(config_name):
     from app.models.message import Message
     from app.models.control import Control
 
-    # blueprints import
+    # import blueprints
     from app.blueprints import (
         pos as pos_controller,
         main as main_controller,
