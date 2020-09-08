@@ -23,6 +23,9 @@ To generate your own requirements file use
 - Linux and Mac:
 
     - run script: `flaskpos_dev.sh`
+        - command `-f`\
+            new database\
+            recreate migrations folder
     
     - if you want to run it manually:
 
@@ -34,7 +37,10 @@ To generate your own requirements file use
             $ flask run
 - Windows cmd:
 
-    - run script: `flaskpos_dev.bat`
+    - run script: `flaskpos_dev.bat`\
+      - command `-f`\
+        new database\
+        recreate migrations folder
     
     - if you want to run it manually:
 
@@ -141,10 +147,11 @@ Run Unit-Tests with
         
     $ flask test
         
-At the moment unit-tests exists for:
+Test-Dictionary:
 
 - BASIC (is there an app / is the environment set to testing etc.)
-- USER - Model (password is correct and is random)
+- USER MODEL (password is correct and salt is random)
+- ROLE MODEL (Permissions are correct)
 
 
 ### Planned:
