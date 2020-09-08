@@ -5,4 +5,5 @@ set FLASK_ENV=development
 
 @flask db init
 @flask createdb
+@flask test
 @flask run
