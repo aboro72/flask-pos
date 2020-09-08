@@ -24,9 +24,13 @@ def test():
 
 @app.cli.command()
 def createdb():
+    """Create the database and
+       insert some roles and users """
+
+    # Create database
     db.create_all()
 
-    # Create Roles
+    # Create roles
     Role.insert_roles()
     role_admin = Role.query.filter(Role.name == 'Administrator').first()
     role_owner = Role.query.filter(Role.name == 'Owner').first()
@@ -40,7 +44,6 @@ def createdb():
     user_email = "user@user.de"
 
     # Create users
-    user = None
     user = User.query.filter(User.email == admin_email).first()
     if not user:
         db.session.add(User(
@@ -55,7 +58,6 @@ def createdb():
             is_active=True,
             role=role_admin,
         ))
-    user = None
     user = User.query.filter(User.email == owner_email).first()
     if not user:
         db.session.add(User(
@@ -70,7 +72,6 @@ def createdb():
             is_active=True,
             role=role_owner,
         ))
-    user = None
     user = User.query.filter(User.email == manager_email).first()
     if not user:
         db.session.add(User(
@@ -98,5 +99,5 @@ def createdb():
             is_active=True,
         ))
 
-    # Save
+    # Commit all to the database
     db.session.commit()
