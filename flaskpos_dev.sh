@@ -24,16 +24,20 @@ if [[ "$1" == '-f' ]]; then
   echo "Delete database & migration directory"
   if [ -f "$DATABASE_FILE" ]; then
     rm $DATABASE_FILE
+    echo "."
   fi
-  echo "."
-  rm -r $MIGRATION_FOLDER
-  echo -n "."
+
+  if [ -d "$MIGRATION_FOLDER" ]; then
+    rm -r $MIGRATION_FOLDER
+    echo -n "."
+  fi
 fi
 echo
 echo "Init database if needed:"
 if [ ! -f "$MIGRATION_FILE" ]; then
     $CMD_INIT
 fi
+
 $CMD_MIGRATE
 $CMD_UPGRADE
 $CMD_CREATE_DB

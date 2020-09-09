@@ -37,11 +37,11 @@ class UserEditForm(FlaskForm):
     submit = SubmitField('Ändern')
 
     def validate_email(self, field):
-        if field.uuid.data is not current_user.email:
+        if field.data is not current_user.email:
             if User.query.filter(User.email == field.data).first() is None:
                 raise ValidationError("Email existiert bereits")
 
     def validate_uuid(self, field):
-        if field.uuid.data is not current_user.uuid:
+        if field.data is not current_user.uuid:
             if User.query.filter(User.uuid == field.data).first() is None:
                 raise ValidationError("Mitarbeiter-Id existiert bereits")
