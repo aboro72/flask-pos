@@ -9,7 +9,7 @@ from flask import (
 )
 from app import db
 from app.blueprints.admin import admin
-from flask_login import login_required
+from flask_login import login_required, current_user
 from app.helper.decorator import manager_required, owner_required
 from app.models.device import Device
 from app.blueprints.admin.forms.device_forms import DeviceAddForm, DeviceEditForm
@@ -35,9 +35,36 @@ def get_device(name):
 @login_required
 @owner_required
 def edit_device(name):
-    flash("Noch nicht Implementiert")
-    # return render_template('admin/device/parts/device-edit.html', device=device)
-    return redirect(url_for('admin.devices'))
+    form = DeviceEditForm()
+    device = Device.query.filter(Device.label == name).first()
+
+    if not current_user.is_owner():
+        flash("Unzureichende Rechte")
+        return redirect(url_for('admin.devices'))
+
+    if request.method == 'POST':
+        if form.validate_on_submit():
+            device.label = form.label.data
+            device.manufacturer = form.manufacturer.data
+            device.ordered_from = form.ordered_from.data
+            device.modified_at = datetime.now().strftime('%d %b, %H:%M:%S')
+            if Device.query.filter(Device.device_uuid == form.uuid.data).first() is None:
+                device.device_uuid = form.uuid.data
+            if Device.query.filter(Device.serial_number == form.serial.data).first() is None:
+                device.serial_number = form.serial.data
+            db.session.commit()
+            flash('Gerät erfolgreich geändert')
+            return redirect(url_for('admin.devices'))
+
+    form.sn.data = device.serial_number
+    form.ud.data = device.device_uuid
+    form.label.data = device.label
+    form.uuid.data = device.device_uuid
+    form.serial.data = device.serial_number
+    form.manufacturer.data = device.manufacturer
+    form.ordered_from.data = device.ordered_from
+
+    return render_template('admin/device/parts/device-edit.html', name=name, form=form)
 
 
 @admin.route('/devices/<name>/delete', methods=['GET'])

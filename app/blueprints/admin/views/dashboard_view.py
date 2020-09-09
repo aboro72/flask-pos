@@ -16,7 +16,6 @@ def before_request():
             redirect(url_for('main.index'))
 
 
-@admin.route('/')
 @admin.route('/dashboard/')
 @login_required
 def dashboard():
