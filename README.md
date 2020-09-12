@@ -2,6 +2,29 @@
 
 Administrate your Pos-System
 
+### Run
+
+If you want to run the Application:
+
+- `$ ./runscript_dev.sh`
+    - set environment variables
+    - create database if not present
+    - run tests
+    - run application
+   
+- additional command `-f`
+    - delete & recreate Migrations folder
+    - delete & recreate Database file
+
+
+- additional command `-p`
+   - create requirements.txt if not present
+   - install requirements from requirements.txt
+
+- run only tests with `-t`
+- show commands with `-h`
+    
+
 ### 1. Dependencies
 
 The Dependencies are in the `requirements.txt`

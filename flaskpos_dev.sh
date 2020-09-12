@@ -13,7 +13,7 @@ CMD_MIGRATE="flask db migrate"
 CMD_UPGRADE="flask db upgrade"
 CMD_CREATE_DB="flask createdb"
 
-OPTIONS=":hpf"
+OPTIONS=":hpft"
 
 export FLASK_ENV=development
 export FLASK_CONFIG=development
@@ -25,6 +25,7 @@ function help {
       echo
       echo "./$(basename "$0") -f --> Force Recreate Migration Folder and Database"
       echo "./$(basename "$0") -p --> Install required Python Dependencies"
+      echo "./$(basename "$0") -t --> Only run tests"
 }
 
 function recreate {
@@ -65,6 +66,14 @@ while getopts ${OPTIONS} arg; do
     p)
       echo
       pipinstall
+      ;;
+    t)
+      echo
+      echo "Test Results:"
+      echo "-------------"
+      echo
+      $CMD_TEST
+      exit 0
       ;;
     ?)
       echo "Invalid option: -${OPTARG}."
