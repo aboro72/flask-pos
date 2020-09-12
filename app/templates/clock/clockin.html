@@ -3,21 +3,24 @@
 {% block page_content %}
 <div class="container">
     <h3 > Aktuelles Datum: <b>{{ moment().format('DD.MM.YYYY') }}</b> </h3>
+    <hr style="color:black;width:50%;border:solid;text-align:left;margin-left:0">
 
 </div>
 
 {% if current_user.is_authenticated %}
     <div class="container">
+        <h3> Benutzer: <br><b>{{ current_user.firstname }} {{ current_user.lastname }}</b> </h3>
         {% if current_user.is_clocked %}
-            <h3>Sie <b> sind </b> seit <b> {{ time }} </b>eingestempelt</h3>
+            <h3> Stempelzeit:<br> <b>{{ time }} </b></h3>
             <hr>
             <form action="" method="post">
-                <input type="submit" name="clockin" value="Ausstempeln" />
+                <input class="btn btn-danger btn-lg" type="submit" name="clockin" value="Ausstempeln" />
             </form>
         {% else %}
             <h3>Sie <b> sind nicht </b> eingestempelt </h3>
+            <hr>
             <form action="" method="post">
-                <input type="submit" name="clockin" value="Einstempeln" />
+                <input class="btn btn-primary btn-lg" type="submit" name="clockin" value="Einstempeln" />
             </form>
         {% endif %}
     </div>

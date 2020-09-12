@@ -20,10 +20,11 @@ class User(UserMixin, db.Model):
     email = db.Column(db.String(128), unique=True)
     password_hash = db.Column(db.String(255), nullable=False)
 
-    created_at = db.Column(db.String(64), default=datetime.utcnow())
-    modified_at = db.Column(db.String(64), default=datetime.utcnow())
+    created_at = db.Column(db.String(64), default=datetime.now())
+    modified_at = db.Column(db.String(64), default=datetime.now())
 
     is_active = db.Column(db.Boolean, nullable=False, default=False)
+    clock_time = db.Column(db.String(64), default=datetime.now())
     is_clocked = db.Column(db.Boolean, default=False)
 
     role_id = db.Column(db.Integer, db.ForeignKey('roles.role_id'), nullable=False)
@@ -57,7 +58,7 @@ class User(UserMixin, db.Model):
         return self.can(Permission.OWNER)
 
     def __repr__(self):
-        return '<User: %r>' % self.username
+        return '<User: %r>'.format(self.username)
 
     @property
     def password(self):

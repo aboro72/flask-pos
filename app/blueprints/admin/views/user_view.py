@@ -9,7 +9,7 @@ from flask import (
 )
 from flask_login import login_required, current_user
 
-from app import db
+from app import db, config
 from app.helper.decorator import manager_required, owner_required
 from app.blueprints.admin import admin
 from app.models.user import User
@@ -30,8 +30,9 @@ def before_request():
 @login_required
 @manager_required
 def users():
-    user_list = User.query.all()
-    return render_template('admin/user/user-index.html', title="Benutzer", users=user_list)
+    page = request.args.get('page', 1, type=int)
+    user_list = User.query.order_by(User.username).paginate(page, config.get('PAGINATION_USER'), False)
+    return render_template('admin/user/user-index.html', title="Benutzer", users=user_list.items)
 
 
 @admin.route('/users/<name>/view/', methods=['GET'])
