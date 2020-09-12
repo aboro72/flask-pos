@@ -13,7 +13,7 @@ CMD_MIGRATE="flask db migrate"
 CMD_UPGRADE="flask db upgrade"
 CMD_CREATE_DB="flask createdb"
 
-optstring=":h:p"
+OPTIONS=":hpf"
 
 export FLASK_ENV=development
 export FLASK_CONFIG=development
@@ -51,7 +51,7 @@ function pipinstall {
       fi
 }
 
-while getopts ${optstring} arg; do
+while getopts ${OPTIONS} arg; do
   case ${arg} in
     h)
       echo
