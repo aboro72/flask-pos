@@ -32,6 +32,7 @@
                 <li><a class="nav-item nav-link" href="{{ url_for('main.contact') }}">Kontakt</a></li>
                 {% if current_user.is_authenticated %}
                     <li><a class="nav-item nav-link" href="{{ url_for('pos.cash') }}">Abrechnung</a></li>
+                    <li><a class="nav-item nav-link" href="{{ url_for('clock_in.time') }}">Arbeitszeiten</a></li>
                     {% if current_user.is_manager() %}
                         <li><a class="nav-item nav-link" href="{{ url_for('admin.dashboard') }}">Verwaltung</a></li>
                     {% endif %}

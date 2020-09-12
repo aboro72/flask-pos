@@ -55,6 +55,7 @@ def create_app(config_name):
         main as main_controller,
         auth as auth_controller,
         admin as admin_controller,
+        clockIn as clockIn_controller,
     )
 
     # register blueprints
@@ -62,6 +63,7 @@ def create_app(config_name):
     app.register_blueprint(auth_controller.auth, url_prefix='/auth')
     app.register_blueprint(admin_controller.admin, url_prefix='/admin')
     app.register_blueprint(pos_controller.pos, url_prefix='/pos')
+    app.register_blueprint(clockIn_controller.clock_in, url_prefix='/clock/')
 
     return app
 
