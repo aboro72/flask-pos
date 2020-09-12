@@ -30,29 +30,31 @@ def time():
     if request.method == 'POST':
         action = request.form.get("clockin")
         if action == 'Einstempeln':
-            user = User.query.filter_by(user_id=current_user.user_id).first()
-            user.is_clocked = True
-            control = Control(
-                created_at=datetime.now(),
-                is_modified=False,
-                time_start=datetime.now(),
-            )
-            control.user_id = user.user_id
-            db.session.add(control)
-            db.session.commit()
-            current_user.is_clocked = True
-            flash("Benutzer erfolgreich eingestempelt")
+            if not current_user.is_clocked:
+                user = User.query.filter_by(user_id=current_user.user_id).first()
+                user.is_clocked = True
+                control = Control(
+                    created_at=datetime.now(),
+                    is_modified=False,
+                    time_start=datetime.now(),
+                )
+                control.user_id = user.user_id
+                db.session.add(control)
+                db.session.commit()
+                current_user.is_clocked = True
+                flash("Benutzer " + current_user.username + " erfolgreich eingestempelt")
         if action == 'Ausstempeln':
-            user = User.query.filter_by(user_id=current_user.user_id).first()
-            user.is_clocked = False
-            controls = Control.query.filter(Control.user_id == current_user.user_id).all()
-            for control in controls:
-                if control.time_end is None:
-                    control.time_end = datetime.now()
-                    db.session.commit()
-                    current_user.is_clocked = False
-                    flash("Benutzer erfolgreich ausgestempelt")
-                    return render_template('clock/clockin.html', title="Arbeitszeiten")
+            if current_user.is_clocked:
+                user = User.query.filter_by(user_id=current_user.user_id).first()
+                user.is_clocked = False
+                controls = Control.query.filter(Control.user_id == current_user.user_id).all()
+                for control in controls:
+                    if control.time_end is None:
+                        control.time_end = datetime.now()
+                        db.session.commit()
+                        current_user.is_clocked = False
+                        flash("Benutzer " + current_user.username + " erfolgreich ausgestempelt")
+                        return render_template('clock/clockin.html', title="Arbeitszeiten")
     controls = Control.query.filter(Control.user_id == current_user.user_id).all()
     current_time = None
     for control in controls:
