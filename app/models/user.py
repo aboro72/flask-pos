@@ -23,7 +23,8 @@ class User(UserMixin, db.Model):
     created_at = db.Column(db.String(64), default=datetime.utcnow())
     modified_at = db.Column(db.String(64), default=datetime.utcnow())
 
-    is_active = (db.Column(db.Boolean, nullable=False, default=False))
+    is_active = db.Column(db.Boolean, nullable=False, default=False)
+    is_clocked = db.Column(db.Boolean, default=False)
 
     role_id = db.Column(db.Integer, db.ForeignKey('roles.role_id'), nullable=False)
     # employee_id = db.Column(db.Integer, db.ForeignKey('employees.employee_id'), nullable=False)

@@ -8,7 +8,7 @@ class Control(db.Model):
     is_modified = db.Column(db.Boolean)
     modified_at = db.Column(db.DateTime())
 
-    modified_reason = db.Column(db.Text(), nullable=False)
+    modified_reason = db.Column(db.Text())
     time_start = db.Column(db.DateTime())
     time_end = db.Column(db.DateTime())
 
