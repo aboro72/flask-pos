@@ -13,7 +13,7 @@ CMD_MIGRATE="flask db migrate"
 CMD_UPGRADE="flask db upgrade"
 CMD_CREATE_DB="flask createdb"
 
-OPTION=":h"
+optstring=":h"
 
 export FLASK_ENV=development
 export FLASK_CONFIG=development
@@ -51,7 +51,7 @@ function pipinstall {
       fi
 }
 
-while getopts ${OPTION} arg; do
+while getopts ${optstring} arg; do
   case ${arg} in
     h)
       echo
@@ -65,6 +65,10 @@ while getopts ${OPTION} arg; do
     p)
       echo
       pipinstall
+      ;;
+    ?)
+      echo "Invalid option: -${OPTARG}."
+      exit 1
       ;;
   esac
 done
