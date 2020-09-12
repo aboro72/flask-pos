@@ -1,6 +1,5 @@
-from flask_login import current_user
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField, SelectField
+from wtforms import StringField, SubmitField, SelectField, HiddenField
 from wtforms.validators import DataRequired, Email, ValidationError
 
 from app.models.user import User
@@ -29,6 +28,8 @@ class UserAddForm(FlaskForm):
 
 
 class UserEditForm(FlaskForm):
+    ve = HiddenField('ve')
+    ud = HiddenField('ud')
     email = StringField('Email:', validators=[DataRequired()])
     firstname = StringField('Vorname:', validators=[DataRequired(), Email(), ])
     lastname = StringField('Nachname:', validators=[DataRequired(), ])
@@ -37,11 +38,11 @@ class UserEditForm(FlaskForm):
     submit = SubmitField('Ändern')
 
     def validate_email(self, field):
-        if field.uuid.data is not current_user.email:
-            if User.query.filter(User.email == field.data).first() is None:
+        if not field.data == self.ve.data:
+            if User.query.filter(User.email == field.data).first():
                 raise ValidationError("Email existiert bereits")
 
     def validate_uuid(self, field):
-        if field.uuid.data is not current_user.uuid:
-            if User.query.filter(User.uuid == field.data).first() is None:
+        if not field.data == self.ud.data:
+            if User.query.filter(User.uuid == field.data).first():
                 raise ValidationError("Mitarbeiter-Id existiert bereits")

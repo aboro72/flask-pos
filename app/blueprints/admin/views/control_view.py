@@ -16,7 +16,7 @@ from app.models.device import Device
 @login_required
 @manager_required
 def control():
-    control_list = Device.query.all()
+    # control_list = Device.query.all()
     # return render_template('admin/control/control-index.html', title="Abrechnung", controls=control_list)
     flash("Funktion noch nicht implementiert")
-    redirect(url_for('admin.dashboard'))
+    return redirect(url_for('admin.dashboard'))

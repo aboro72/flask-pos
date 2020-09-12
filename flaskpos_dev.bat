@@ -25,7 +25,9 @@ if (%1 == "-f") (
     @DEL /Q %DATABASE_FILE%
   )
   echo "."
-  @RD /S /Q %MIGRATION_FOLDER%
+  iF EXIST %MIGRATION_FOLDER% (
+    @RD /S /Q %MIGRATION_FOLDER%
+  )
   echo -n "."
 )
 echo

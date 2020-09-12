@@ -46,34 +46,47 @@ def get_user(name):
 @login_required
 @owner_required
 def edit_user(name):
+
     form = UserEditForm()
     user = User.query.filter(User.username == name).first()
+    form.role.choices = [(r.role_id, r.name) for r in
+                         Role.query.filter(Role.permissions <= current_user.role.permissions)]
+
     if current_user.role.permissions < user.role.permissions:
         flash("Unzureichende Rechte")
         return redirect(url_for('admin.users'))
-    else:
-        form.role.choices = form.role.choices = [(r.role_id, r.name) for r in
-                                                 Role.query.filter(Role.permissions <= current_user.role.permissions)]
 
     if request.method == 'POST':
-        selected = Role.query.get(form.role.data)
-        user.role = selected
+        print(user)
+        user.role = Role.query.get(form.role.data)
         user.email = form.email.data
+        user.firstname = form.firstname.data
         user.lastname = form.lastname.data
-        if form.uuid.data is not current_user.uuid:
-            if User.query.filter(User.uuid == form.uuid.data).first() is None:
+        if user.uuid == form.uuid.data or User.query.filter(User.uuid == form.uuid.data).first() is None:
+            if user.uuid != form.uuid.data:
                 user.uuid = form.uuid.data
-
-        db.session.commit()
-        flash('Benutzer erfolgreich geändert')
-        return redirect(url_for('admin.users'))
+            db.session.commit()
+            flash('Benutzer erfolgreich geändert')
+            return redirect(url_for('admin.users'))
+        flash('Die Mitarbeiter-ID ist schon vorhanden')
+        return render_template('admin/user/parts/user-edit.html', username=name, form=form, title=name)
+        # print("form is not valid")
+        # print(user.role)
+        # print(user.email)
+        # print(user.user_id)
+        # print(user.email)
+        # print(user.firstname)
+        # return redirect(url_for('admin.users'))
 
     form.role.data = user.role_id
     form.email.data = user.email
     form.firstname.data = user.firstname
     form.lastname.data = user.lastname
     form.uuid.data = user.uuid
-    return render_template('admin/user/parts/user-edit.html', name=name, form=form)
+    form.ud.data = user.uuid
+    form.ve.data = user.email
+
+    return render_template('admin/user/parts/user-edit.html', username=name, form=form, title=name)
 
 
 @admin.route('/users/<name>/delete/', methods=['GET'])
