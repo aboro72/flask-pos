@@ -1,8 +1,28 @@
 {% extends "base.html" %}
+
 {% block page_content %}
+<div class="container">
+    <h3 > Aktuelles Datum: <b>{{ moment().format('DD.MM.YYYY') }}</b> </h3>
+
+</div>
+
 {% if current_user.is_authenticated %}
-    <h1> Aktuelles Datum: {{ moment().format('DD MM YYYY') }} - Aktuelle Zeit: {{ moment().format('hh:mm:ss') }} </h1>
+    <div class="container">
+        {% if current_user.is_clocked %}
+            <h3>Sie <b> sind </b> seit <b> {{ time }} </b>eingestempelt</h3>
+            <hr>
+            <form action="" method="post">
+                <input type="submit" name="clockin" value="Ausstempeln" />
+            </form>
+        {% else %}
+            <h3>Sie <b> sind nicht </b> eingestempelt </h3>
+            <form action="" method="post">
+                <input type="submit" name="clockin" value="Einstempeln" />
+            </form>
+        {% endif %}
+    </div>
 {% else %}
     Bitte einloggen
 {% endif %}
+
 {% endblock page_content %}

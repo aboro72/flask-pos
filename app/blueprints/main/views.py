@@ -1,8 +1,10 @@
-import datetime
+from datetime import datetime
 
 from flask import (
     render_template,
-    session, current_app as app
+    session,
+    current_app as app,
+    jsonify
 )
 from app.blueprints.main import main
 
@@ -10,6 +12,12 @@ from app.blueprints.main import main
 @main.route('/favicon.ico')
 def favicon():
     return app.send_static_file('favicon.ico')
+
+
+@main.route('/processtime/', methods=['GET', 'POST'])
+def current_time():
+    time = datetime.now().strftime('%d %b, %H:%M:%S')
+    return jsonify({'time': time})
 
 
 @main.route('/')
