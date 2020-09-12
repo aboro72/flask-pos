@@ -26,6 +26,8 @@ To generate your own requirements file use
         - command `-f`\
             new database\
             recreate migrations folder
+        - command `-p`\
+            install Python dependencies
     
     - if you want to run it manually:
 
@@ -156,5 +158,4 @@ Test-Dictionary:
 
 ### Planned:
 
-VIEW / ADD / EDIT / DELETE devices,
-change password and implement activation 
+add time - control 

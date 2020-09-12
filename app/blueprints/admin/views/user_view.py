@@ -23,7 +23,7 @@ def before_request():
     if current_user.is_authenticated:
         if not current_user.is_active:
             flash('Benutzer nicht aktiviert', 'WARNING')
-            redirect(url_for('auth.create_password'))
+            redirect(url_for('main.index'))
 
 
 @admin.route('/users/', methods=['GET', ])
@@ -70,13 +70,6 @@ def edit_user(name):
             return redirect(url_for('admin.users'))
         flash('Die Mitarbeiter-ID ist schon vorhanden')
         return render_template('admin/user/parts/user-edit.html', username=name, form=form, title=name)
-        # print("form is not valid")
-        # print(user.role)
-        # print(user.email)
-        # print(user.user_id)
-        # print(user.email)
-        # print(user.firstname)
-        # return redirect(url_for('admin.users'))
 
     form.role.data = user.role_id
     form.email.data = user.email
