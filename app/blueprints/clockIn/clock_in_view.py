@@ -24,7 +24,7 @@ def before_request():
             redirect(url_for('main.index'))
 
 
-@clock_in.route('/time', methods=['GET', 'POST'])
+@clock_in.route('/', methods=['GET', 'POST'])
 @user_required
 def time():
     if request.method == 'POST':
@@ -32,24 +32,26 @@ def time():
         if action == 'Einstempeln':
             if not current_user.is_clocked:
                 user = User.query.filter_by(user_id=current_user.user_id).first()
-                user.is_clocked = True
+                current_user.is_clocked = True
+                clocktime = datetime.now()
                 control = Control(
-                    created_at=datetime.now(),
+                    created_at=clocktime,
                     is_modified=False,
-                    time_start=datetime.now(),
+                    time_start=clocktime,
                 )
-                control.user_id = user.user_id
+                control.user_id = current_user.user_id
+                user.clock_time = clocktime
                 db.session.add(control)
                 db.session.commit()
                 current_user.is_clocked = True
                 flash("Benutzer " + current_user.username + " erfolgreich eingestempelt")
         if action == 'Ausstempeln':
             if current_user.is_clocked:
-                user = User.query.filter_by(user_id=current_user.user_id).first()
-                user.is_clocked = False
+
+                current_user.is_clocked = False
                 controls = Control.query.filter(Control.user_id == current_user.user_id).all()
                 for control in controls:
-                    if control.time_end is None:
+                    if control.time_end is None and current_user.clock_time is not None:
                         control.time_end = datetime.now()
                         db.session.commit()
                         current_user.is_clocked = False
@@ -58,6 +60,6 @@ def time():
     controls = Control.query.filter(Control.user_id == current_user.user_id).all()
     current_time = None
     for control in controls:
-        if control.time_end is None:
+        if control.time_end is None and current_user.clock_time is not None:
             current_time = control.time_start.strftime('%d.%m.%Y, %H:%M:%S')
     return render_template('clock/clockin.html', title="Arbeitszeiten", time=current_time)

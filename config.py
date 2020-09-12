@@ -41,6 +41,9 @@ class Config:
     FLASK_POS_MAIL_SENDER = 'Flask-pos Admin <flasktest@gmx.de>'
     FLASK_POS_ADMIN = os.environ.get('FLASK_POS_ADMIN')
 
+    PAGINATION_USER = 5
+    PAGINATION_DEVICE = 5
+
     @staticmethod
     def init_app(app):
         pass
@@ -48,6 +51,7 @@ class Config:
 
 class DevelopmentConfig(Config):
     # debug messages
+    PAGINATION_USER = 5
     DEBUG = True
 
     # database file
