@@ -13,7 +13,7 @@ CMD_MIGRATE="flask db migrate"
 CMD_UPGRADE="flask db upgrade"
 CMD_CREATE_DB="flask createdb"
 
-optstring=":h"
+optstring=":h:p"
 
 export FLASK_ENV=development
 export FLASK_CONFIG=development
