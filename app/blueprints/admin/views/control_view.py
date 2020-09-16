@@ -1,4 +1,4 @@
-from datetime import datetime, timedelta
+from datetime import datetime
 from flask import (
     render_template,
     redirect, flash, url_for,
@@ -75,6 +75,15 @@ def clock_out(name):
 
 def get_times(control_list):
     date_list = list()
+    tstr = "%d-%m-%Y %H:%M:%S"
     for element in control_list:
-        date_list.append((element.time_start, element.time_end))
+        if element.time_end is not None:
+
+            if int(datetime.strftime(element.time_start, "%m")) == datetime.now().month:
+                time_start = datetime.strftime(element.time_start, tstr)
+                time_end = datetime.strftime(element.time_end, tstr)
+                date_list.append((
+                    time_start,
+                    time_end
+                ))
     return date_list

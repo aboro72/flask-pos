@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block page_content %}
+
+
+{% for message in form.serial.errors %}
+    <div class="alert alert-email">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+        <h4>{{ message }}</h4>
+    </div>
+{% endfor %}
+
+{% for message in form.uuid.errors %}
+    <div class="alert alert-userid">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+        <h4>{{ message }}</h4>
+    </div>
+{% endfor %}
+
+<div class="page-header">
+    <h1>Gerät ändern</h1>
+</div>
+<div class="col-md-4">
+    {{ wtf.quick_form(form) }}
+</div>
+{% endblock page_content %}

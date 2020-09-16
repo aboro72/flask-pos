@@ -54,8 +54,8 @@
 <div class="row">
     <div class="col-sm-6 text-left">
         <ul>
-            {% for element in controls %}
-            <li>{{ element.time_start }} - {{ element.time_end }}</li>
+            {% for element in months %}
+            <li>{{ element[0] }} - {{ element[1] }}</li>
             {% endfor %}
         </ul>
     </div>

@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block page_content %}
+
+<h1>Gerät: <b>{{ device.label }}</b></h1>
+
+<table border="1" width="100%" >
+    <thead>
+        <th> Identifikation </th>
+        <th> Seriennummer </th>
+        <th> Hersteller </th>
+        <th> Eingekauft bei </th>
+    </thead>
+    <tr>
+        <td><p> {{ device.device_uuid }}</p></td>
+        <td><p> {{ device.serial_number }}</p></td>
+        <td><p> {{ device.manufacturer }} </p></td>
+        <td><p> {{ device.ordered_from }}</p></td>
+    </tr>
+</table>
+<hr>
+<table border="1" width="100%" >
+    <thead>
+        <th> Erstellt am  </th>
+        <th> Zuletzt geändert </th>
+    </thead>
+    <tr>
+        <td><p> {{ device.created_at }} </p></td>
+        <td><p> {{ device.modified_at }}</p></td>
+    </tr>
+</table>
+<hr>
+<a role="button" class="btn btn-success" href="{{ url_for('admin.devices') }}">
+    <i title="Zurück zur Übersicht" style="font-size:16px" class="fa">&#xf0d9;</i>
+    Zurück zur Übersicht
+</a>
+
+{% endblock page_content %}
