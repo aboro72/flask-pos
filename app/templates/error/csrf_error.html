@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block page_content %}
+
+<div class="container">
+    <h2>ACHTUNG - CSRF Fehler ist aufgetreten </h2>
+    <hr>
+    <h3>
+        CSRF stands for Cross Site Request Forgery. It is a security vulnerability
+        that forces an end user to unknowingly let attackers perform malicious actions
+        on the end user's behalf within the sensitive website they are currently authenticated
+        into such as their bank or social media account.
+
+        In order to perform these type of attacks, attackers would typically know the end user’s
+        activity along with CSRF vulnerable websites the end user has access to. If the end user
+        happens to visit the attacker’s site while authenticated to the website (such as user's
+        ank account), the attacker could perform malicious action on the end user's behalf
+        potentially damaging the user’s possession in the their authenticated website.
+    </h3>
+    <hr>
+    <h1> {{ reason }} </h1>
+</div>
+
+
+
+{% endblock page_content %}

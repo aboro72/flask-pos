@@ -1,18 +1,27 @@
 import os
-from datetime import datetime
-from app import create_app, db
+from datetime import datetime, timedelta
+from app import create_app, db, csrf
 from app.models.user import User
 from app.models.role import Role
 from app.models.device import Device
+from app.models.control import Control
+from app.models.modify import TimeModifyReason
 from flask_migrate import Migrate
+from flask import session, app as flask_app
 
 app = create_app(os.getenv('FLASK_CONFIG') or 'default')
 migrate = Migrate(app, db)
 
 
+@app.before_request
+def make_session_permanent():
+    session.permanent = True
+    flask_app.permanent_session_lifetime = timedelta(minutes=app.config['SESSION_LIFETIME'])
+
+
 @app.shell_context_processor
 def make_shell_context():
-    return dict(db=db, User=User, Role=Role)
+    return dict(db=db, User=User, Role=Role, csrf=csrf)
 
 
 @app.cli.command()
@@ -28,8 +37,8 @@ def createdb():
     """Create the database and
        insert some devices, roles and users """
 
-    time = datetime.now().strftime('%d %b, %H:%M:%S')
-
+    # time = datetime.now().strftime("%d-%m-%Y %H:%M:%S")
+    time = datetime.now()
     # Create database
     db.create_all()
 
@@ -60,7 +69,6 @@ def createdb():
             ordered_from='Amazon'
         ))
 
-
     # Create roles
     Role.insert_roles()
     role_admin = Role.query.filter(Role.name == 'Administrator').first()
@@ -73,9 +81,10 @@ def createdb():
     manager_username = "manager"
     user_username = "user"
 
+    admin_user = None
     user = User.query.filter(User.username == admin_username).first()
     if not user:
-        db.session.add(User(
+        admin_user = User(
             uuid="Mitarbeiter 001",
             username=admin_username,
             firstname="Rainer",
@@ -86,7 +95,8 @@ def createdb():
             modified_at=time,
             is_active=True,
             role=role_admin,
-        ))
+        )
+        db.session.add(admin_user)
     user = User.query.filter(User.username == owner_username).first()
     if not user:
         db.session.add(User(
@@ -127,6 +137,24 @@ def createdb():
             modified_at=time,
             is_active=True,
         ))
+
+    control_event = Control(
+        created_at=time,
+        is_modified=True,
+        time_start=time,
+        time_end=time,
+        user=admin_user
+    )
+    db.session.add(control_event)
+
+    modify_reason = TimeModifyReason(
+        reason="Vergessen zu Stempeln",
+        created_at=time,
+        control=control_event,
+        user_modified=admin_user,
+        user_modifier=admin_user,
+    )
+    db.session.add(modify_reason)
 
     # Commit all to the database
     db.session.commit()

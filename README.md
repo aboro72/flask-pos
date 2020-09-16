@@ -127,7 +127,7 @@ If the "migrations" folder doesn't exist, it has to be initialized with
 [ Flask-Migrate Website ](https://flask-migrate.readthedocs.io/en/latest/
                                                  "Online Documentation" )
 
-### Test-User
+### 4. Test-User
 
 If you use the command
 
@@ -161,7 +161,7 @@ But it's possible to view, create, edit and delete users.
 the created user will have `0000` as password and is not activated.
 Currently it is not possible to change the password. It will be implemented later.
 
-### Unit-Tests
+### 5. Unit-Tests
 
 Because the app start & config needs some adjustments you need to set the environment-Variable to
 
@@ -178,6 +178,10 @@ Test-Dictionary:
 - USER MODEL (password is correct and salt is random)
 - ROLE MODEL (Permissions are correct)
 
+### 6. Session Lifetime
+
+The lifetime of the session is 5 minutes.
+You can change it in the Config File
 
 ### Planned:
 

@@ -10,6 +10,8 @@ from flask_sqlalchemy import SQLAlchemy
 
 
 # internal packages
+from flask_wtf import CSRFProtect
+
 from config import config
 
 # declare packages
@@ -17,6 +19,7 @@ mail = Mail()
 moment = Moment()
 bootstrap = Bootstrap()
 login_manager = LoginManager()
+csrf = CSRFProtect()
 
 # disable auto flush for SQLAlchemy to prevent
 # automatic persist entities
@@ -35,6 +38,7 @@ def create_app(config_name):
 
     # init addons
     db.init_app(app)
+    csrf.init_app(app)
     mail.init_app(app)
     moment.init_app(app)
     bootstrap.init_app(app)
@@ -48,6 +52,7 @@ def create_app(config_name):
     from app.models.device import Device
     from app.models.message import Message
     from app.models.control import Control
+    from app.models.modify import TimeModifyReason
 
     # import blueprints
     from app.blueprints import (
