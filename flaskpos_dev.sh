@@ -6,7 +6,12 @@ DATABASE_FILE=./data-dev.sqlite
 MIGRATION_FOLDER=./migrations
 REQUIREMENT_FILE=./requirements.txt
 
-CMD_RUN="flask run"
+
+# This entry is for a UserWarning: you have to edit the /etc/hosts and add a valid TLD to 127.0.0.1 or localhost
+# But after that a valid certificate is needed (!?)
+# CMD_RUN="flask run -h <domainname> -p 8000"
+
+CMD_RUN="flask run -h localhost -p 8000"
 CMD_INIT="flask db init"
 CMD_TEST="flask test"
 CMD_MIGRATE="flask db migrate"

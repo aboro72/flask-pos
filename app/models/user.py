@@ -13,6 +13,7 @@ class User(UserMixin, db.Model):
     __tablename__ = 'users'
     user_id = db.Column(db.Integer, primary_key=True)
 
+    # User relevant fields
     uuid = db.Column(db.String(64), unique=True, nullable=False)
     username = db.Column(db.String(64), unique=True, index=True)
     lastname = db.Column(db.String(64), nullable=False)
@@ -20,21 +21,28 @@ class User(UserMixin, db.Model):
     email = db.Column(db.String(128), unique=True)
     password_hash = db.Column(db.String(255), nullable=False)
 
-    created_at = db.Column(db.String(64), default=datetime.now())
-    modified_at = db.Column(db.String(64), default=datetime.now())
+    # Time Control
+    created_at = db.Column(db.DateTime(), default=datetime.now())
+    modified_at = db.Column(db.DateTime(), default=datetime.now())
 
+    # Boolean variables
     is_active = db.Column(db.Boolean, nullable=False, default=False)
-    clock_time = db.Column(db.String(64), default=datetime.now())
+    clock_time = db.Column(db.DateTime(), default=datetime.now())
     is_clocked = db.Column(db.Boolean, default=False)
 
+    # Foreign keys
     role_id = db.Column(db.Integer, db.ForeignKey('roles.role_id'), nullable=False)
-    # employee_id = db.Column(db.Integer, db.ForeignKey('employees.employee_id'), nullable=False)
 
+    # Relationship to other Tables
     source = db.relationship('Message', backref='msg_source_id', lazy=True, foreign_keys='Message.source_id')
     target = db.relationship('Message', backref='msg_target_id', lazy=True, foreign_keys='Message.target_id')
-    control = db.relationship('Control', backref='control_user_id', lazy=True, foreign_keys='Control.user_id')
-    modifier_control = db.relationship('Control', backref='control_modify_id', lazy=True,
-                                       foreign_keys='Control.modified_by')
+    control = db.relationship('Control', backref='user', lazy=True, foreign_keys='Control.user_id')
+    user_modified = db.relationship('TimeModifyReason', backref='user_modified', lazy=True,
+                                    foreign_keys='TimeModifyReason '
+                                                 '.modified_user')
+    user_modifier = db.relationship('TimeModifyReason', backref='user_modifier', lazy=True,
+                                    foreign_keys='TimeModifyReason'
+                                                 '.modified_by')
 
     def __init__(self, **kwargs):
         super(User, self).__init__(**kwargs)
