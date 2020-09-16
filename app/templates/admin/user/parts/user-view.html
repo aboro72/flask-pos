@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block page_content %}
+
+<h1>Benutzer: <b>{{ user.username }}</b></h1>
+
+<table border="1" width="100%" >
+    <thead>
+        <th> Vorname </th>
+        <th> Nachname </th>
+        <th> Email </th>
+        <th> Identifikation </th>
+    </thead>
+    <tr>
+        <td><p> {{ user.firstname }}</p></td>
+        <td><p> {{ user.lastname }}</p></td>
+        <td><p> {{ user.email }} </p></td>
+        <td><p> {{ user.uuid }}</p></td>
+    </tr>
+</table>
+<hr>
+<table border="1" width="100%" >
+    <thead>
+        <th> Aktiviert </th>
+        <th> Rolle </th>
+        <th> Erstellt am  </th>
+        <th> Zuletzt geändert </th>
+    </thead>
+    <tr>
+        <td><p> {% if user.is_active %} Ja {% else %} Nein {% endif %}</p></td>
+        <td><p> {{ user.role.name }}</p></td>
+        <td><p> {{ user.created_at }} </p></td>
+        <td><p> {{ user.modified_at }}</p></td>
+    </tr>
+</table>
+<hr>
+<a role="button" class="btn btn-success" href="{{ url_for('admin.users') }}">
+    <i title="Zurück zur Übersicht" style="font-size:16px" class="fa">&#xf0d9;</i>
+    Zurück zur Übersicht
+</a>
+
+{% endblock page_content %}
