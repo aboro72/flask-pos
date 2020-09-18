@@ -7,6 +7,13 @@ from PyQt5.QtWidgets import QApplication
 # use the QtWebEngineWidgets
 from PyQt5.QtWebEngineWidgets import *
 
+
+if sys.platform.startswith('Linux'):
+    subprocess.Popen(['bash','flaskpos_dev.sh'])
+else:
+    subprocess.Popen(['cmd', 'flaskpos_dev.bat'])
+
+
 # start my_app
 my_app = QApplication(sys.argv)
 # open webpage
