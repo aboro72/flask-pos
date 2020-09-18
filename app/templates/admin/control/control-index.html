@@ -18,11 +18,12 @@
 <hr>
 <div class="current">
     {% if users %}
-    <h3> Alle Benutzer, die gerade eingeloggt sind:</h3>
+    <h3> Alle Benutzer, die gerade eingestempelt sind:</h3>
     <table border="1" width="100%" >
         <th> Identifikation </th>
         <th> Vorname </th>
         <th> Nachname </th>
+        <th> Eingestempelt </th>
         <th> Aktionen </th>
         {% for user in users %}
             {% if current_user.role.permissions >= user.role.permissions %}
@@ -32,6 +33,7 @@
                             <td><p> {{ user.uuid }} </p></td>
                             <td><p> {{ user.firstname }} </p></td>
                             <td><p> {{ user.lastname }} </p></td>
+                            <td><p> {{ user.clock_time }} </p></td>
                             <td>
                                 {% if current_user.is_manager() %}
                                         <a href="{{ url_for('admin.clock_out', name=user.username ) }}">
@@ -46,7 +48,7 @@
         {% endfor %}
     </table>
     {% else %}
-    <h3>Keine Nutzer, die im Augenblick eingeloggt sind</h3>
+    <h3>Keine Nutzer, die im Augenblick eingestempelt haben</h3>
     {% endif %}
 </div>
 <hr style="color:black;width:50%;border:solid;text-align:left;margin-left:0">
@@ -55,15 +57,21 @@
     <div class="col-sm-6 text-left">
         <ul>
             {% for element in months %}
-            <li>{{ element[0] }} - {{ element[1] }}</li>
+            <li>{{ element[0] }} >> {{ element[1] }} - {{ element[2] }}</li>
             {% endfor %}
         </ul>
     </div>
     <div class="col-sm-6 text-left">
-        <form method="post">
-                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
-                <input class="btn btn-success btn-lg" type="submit" name="current_month" value="2020" />
-        </form>
+        {% if today %}
+        <p> TODAY </p>
+        <ul>
+            {% for element in today %}
+            <li>{{ element[0] }} >> {{ element[1] }} - {{ element[2] }}</li>
+            {% endfor %}
+        </ul>
+        {% else %}
+        <p> Niemand ist heute eingestempelt </p>
+        {% endif %}
     </div>
 </div>
 

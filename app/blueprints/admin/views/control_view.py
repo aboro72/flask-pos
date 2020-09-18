@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, date, timedelta
 from flask import (
     render_template,
     redirect, flash, url_for,
@@ -29,12 +29,14 @@ def control():
     if user_count == 0:
         user_list = None
     month_list = get_times(control_list)
+    today_list = get_clock_in_times(control_list)
     return render_template(
         'admin/control/control-index.html',
         title="Arbeitszeiten verwalten",
         controls=control_list,
         users=user_list,
         months=month_list,
+        today=today_list,
         )
 
 
@@ -76,14 +78,48 @@ def clock_out(name):
 def get_times(control_list):
     date_list = list()
     tstr = "%d-%m-%Y %H:%M:%S"
+
     for element in control_list:
         if element.time_end is not None:
 
             if int(datetime.strftime(element.time_start, "%m")) == datetime.now().month:
                 time_start = datetime.strftime(element.time_start, tstr)
                 time_end = datetime.strftime(element.time_end, tstr)
+                currentUser = User.query.get(element.user_id)
+                if currentUser is None:
+                    currentUser = 'unbekannter Nutzer'
+                else:
+                    currentUser = '{} {}'.format(currentUser.firstname, currentUser.lastname)
                 date_list.append((
+                    currentUser,
                     time_start,
                     time_end
+                ))
+    return date_list
+
+
+def get_clock_in_times(control_list):
+    date_list = list()
+    tstr = "%d-%m-%Y %H:%M:%S"
+    curdate = datetime.now()
+    for element in control_list:
+        if element.time_end is None:
+
+            if int(datetime.strftime(element.time_start, "%m")) == datetime.now().month:
+                time_start = datetime.strftime(element.time_start, tstr)
+                currentUser = User.query.get(element.user_id)
+                if currentUser is None:
+                    currentUser = 'unbekannter Nutzer'
+                else:
+                    currentUser = '{} {}'.format(currentUser.firstname, currentUser.lastname)
+                    difference = curdate - element.time_start
+                    seconds_in_day = 24 * 60 * 60
+                    timedelta(0, 8, 562000)
+                    clock_in_time = divmod(difference.days * seconds_in_day + difference.seconds, 60)
+                    clock_in_time = '{} Minuten  {} Sekunden'.format(clock_in_time[0], clock_in_time[1])
+                date_list.append((
+                    currentUser,
+                    time_start,
+                    clock_in_time,
                 ))
     return date_list
