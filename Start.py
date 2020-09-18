@@ -13,6 +13,8 @@ if sys.platform.startswith('Linux'):
 else:
     subprocess.Popen(['cmd', 'flaskpos_dev.bat'])
 
+time.sleep(8)
+
 
 # start my_app
 my_app = QApplication(sys.argv)
