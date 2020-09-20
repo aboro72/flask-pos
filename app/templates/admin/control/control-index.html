@@ -8,43 +8,42 @@
     <div class="col-sm-6">
         <h3> Aktuelles Datum: <b>{{ moment().format('DD.MM.YYYY') }}</b> </h3>
     </div>
+    {% if current_date %}
     <div class="col-sm-6 text-right">
-        <form method="post">
-                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
-                <input class="btn btn-primary btn-lg" type="submit" name="current_month" value="Stempelzeiten im Aktuellen Monat" />
-        </form>
+        <a data-toggle="tooltip" title="Aktuellen Monat anzeigen" role="button" class="btn btn-success btn-lg"
+           href="{{ url_for('admin.control_with_year_and_month', year=current_date[0]
+           , month=current_date[1]) }}"> Aktueller Monat </a>
     </div>
+    {% endif %}
 </div>
 <hr>
 <div class="current">
-    {% if users %}
+    {% if today %}
     <h3> Alle Benutzer, die gerade eingestempelt sind:</h3>
     <table border="1" width="100%" >
         <th> Identifikation </th>
         <th> Vorname </th>
         <th> Nachname </th>
         <th> Eingestempelt </th>
+        <th> Vergangene Zeit </th>
         <th> Aktionen </th>
-        {% for user in users %}
-            {% if current_user.role.permissions >= user.role.permissions %}
-                {% if user.user_id != current_user.user_id %}
-                    {% if user.is_clocked %}
+        {% for elem in today %}
+
                         <tr align="center">
-                            <td><p> {{ user.uuid }} </p></td>
-                            <td><p> {{ user.firstname }} </p></td>
-                            <td><p> {{ user.lastname }} </p></td>
-                            <td><p> {{ user.clock_time }} </p></td>
+                            <td><p> {{ elem[0].uuid }} </p></td>
+                            <td><p> {{ elem[0].firstname }} </p></td>
+                            <td><p> {{ elem[0].lastname }} </p></td>
+                            <td><p> {{ elem[1] }} </p></td>
+                            <td><p> {{ elem[2] }} </p></td>
                             <td>
                                 {% if current_user.is_manager() %}
-                                        <a href="{{ url_for('admin.clock_out', name=user.username ) }}">
+                                        <a href="{{ url_for('admin.clock_out', name=elem[0].username ) }}">
                                             <i title="Ausstempeln" class="fa" style="font-size:24px;color=black;">&#xf044;</i>
                                         </a>
                                 {% endif %}
                             </td>
                         </tr>
-                    {% endif %}
-                {% endif %}
-            {% endif %}
+
         {% endfor %}
     </table>
     {% else %}
@@ -60,18 +59,6 @@
             <li>{{ element[0] }} >> {{ element[1] }} - {{ element[2] }}</li>
             {% endfor %}
         </ul>
-    </div>
-    <div class="col-sm-6 text-left">
-        {% if today %}
-        <p> TODAY </p>
-        <ul>
-            {% for element in today %}
-            <li>{{ element[0] }} >> {{ element[1] }} - {{ element[2] }}</li>
-            {% endfor %}
-        </ul>
-        {% else %}
-        <p> Niemand ist heute eingestempelt </p>
-        {% endif %}
     </div>
 </div>
 
