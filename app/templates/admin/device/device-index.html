@@ -20,7 +20,7 @@
                         <a href="{{ url_for('admin.edit_device', name=device.label) }}">
                             <i title="Editieren" class="fa" style="font-size:24px;color=black;">&#xf044;</i>
                         </a>
-                        <a href="{{ url_for('admin.delete_device', name=device.label) }}">
+                        <a href="{{ url_for('admin.delete_device', uuid=device.device_uuid) }}">
                             <i title="Löschen" class="fa" style="font-size:24px;">&#xf00d;</i>
                         </a>
                 {% endif %}

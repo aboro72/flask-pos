@@ -20,7 +20,7 @@ from app.blueprints.clockIn import clock_in
 def before_request():
     if current_user.is_authenticated:
         if not current_user.is_active:
-            flash('Benutzer nicht aktiviert', 'WARNING')
+            flash('Benutzer nicht aktiviert', 'warning')
             redirect(url_for('main.index'))
 
 
@@ -44,7 +44,7 @@ def time():
                 db.session.add(control)
                 db.session.commit()
                 current_user.is_clocked = True
-                flash("Benutzer " + current_user.username + " erfolgreich eingestempelt")
+                flash("Benutzer " + current_user.username + " erfolgreich eingestempelt", 'success')
         if action == 'Ausstempeln':
             if current_user.is_clocked:
 
@@ -55,7 +55,7 @@ def time():
                         control.time_end = datetime.now()
                         db.session.commit()
                         current_user.is_clocked = False
-                        flash("Benutzer " + current_user.username + " erfolgreich ausgestempelt")
+                        flash("Benutzer " + current_user.username + " erfolgreich ausgestempelt", 'success')
                         return render_template('clock/clockin.html', title="Arbeitszeiten")
     controls = Control.query.filter(Control.user_id == current_user.user_id).all()
     current_time = None

@@ -23,8 +23,9 @@ def login():
             next = request.args.get('next')
             if next is None or not next.startswith('/'):
                 next = url_for('main.index')
+                flash('Erfolgreich eingeloggt', 'success')
             return redirect(next)
-        flash('Benutzername oder Passwort falsch')
+        flash('Benutzername oder Passwort falsch', 'error')
     return render_template('auth/login.html',
                            title='Login',
                            form=form,
@@ -34,7 +35,7 @@ def login():
 @auth.route('/logout/')
 def logout():
     logout_user()
-    flash('Erfolgreich ausgeloggt')
+    flash('Erfolgreich ausgeloggt', 'success')
     return redirect(url_for('main.index'))
 
 

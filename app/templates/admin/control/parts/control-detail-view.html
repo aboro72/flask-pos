@@ -1,4 +1,68 @@
 {% extends "base.html" %}
 {% block page_content %}
-    <h1>THIS IS YOUR DETAIL TIME CONTROL VIEW</h1>
+<div class="row">
+    <div class="col-lg-12">
+        <h1> Zeitkorrektur </h1>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-4">
+        <h2>
+            {{ user.firstname }} {{ user.lastname }}
+        </h2>
+    </div>
+    <div class="col-lg-8" align="right">
+        <h2>
+            {{ details[0][2] }}
+        </h2>
+    </div>
+
+
+</div>
+
+<hr>
+
+
+<form method = 'POST'>
+     <fieldset>
+         {{ form.hidden_tag() }}
+         <legend style="border-bottom: 1px solid;"> Eingestempelt </legend>
+         <div class="row">
+             <div class="col-sm-5">{{ form.date_start_day.label }}</div>
+             <div class="col-sm-5">{{ form.time_start_hour.label }}</div>
+         </div>
+         <div class="row">
+             <div class="col-sm-1">{{ form.date_start_day() }}</div>
+             <div class="col-sm-1">{{ form.date_start_month() }}</div>
+             <div class="col-sm-1">{{ form.date_start_year() }}</div>
+             <div class="col-sm-2"></div>
+             <div class="col-sm-1">{{ form.time_start_hour() }}</div>
+             <div class="col-sm-1">{{ form.time_start_minute() }}</div>
+             <div class="col-sm-1">{{ form.time_start_second() }}</div>
+         </div>
+         <hr>
+         <legend style="border-bottom: 1px solid;"> Ausgestempelt </legend>
+        <div class="row">
+             <div class="col-sm-5">{{ form.date_end_day.label }}</div>
+             <div class="col-sm-6">{{ form.time_end_hour.label }}</div>
+         </div>
+         <div class="row">
+             <div class="col-sm-1">{{ form.date_end_day() }}</div>
+             <div class="col-sm-1">{{ form.date_end_month() }}</div>
+             <div class="col-sm-1">{{ form.date_end_year() }}</div>
+             <div class="col-sm-2"></div>
+             <div class="col-sm-1">{{ form.time_end_hour() }}</div>
+             <div class="col-sm-1">{{ form.time_end_minute() }}</div>
+             <div class="col-sm-1">{{ form.time_end_second() }}</div>
+         </div>
+         <hr>
+         <legend style="border-bottom: 1px solid;"> Grund für die Änderung:</legend>
+         <div class="row">
+             <div class="col-lg-12" style="border-box;">{{ form.reason(rows=5, cols=123) }}</div>
+         </div>
+         <hr>
+         {{ form.submit() }}
+    </fieldset>
+</form>
+
 {% endblock page_content %}

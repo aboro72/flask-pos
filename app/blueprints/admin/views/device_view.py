@@ -12,6 +12,7 @@ from app.blueprints.admin import admin
 from flask_login import login_required, current_user
 from app.helper.decorator import manager_required, owner_required
 from app.models.device import Device
+from app.models.user import User
 from app.blueprints.admin.forms.device_forms import DeviceAddForm, DeviceEditForm
 
 
@@ -67,12 +68,19 @@ def edit_device(name):
     return render_template('admin/device/parts/device-edit.html', name=name, form=form)
 
 
-@admin.route('/devices/<name>/delete', methods=['GET'])
+@admin.route('/devices/<uuid>/delete', methods=['GET'])
 @login_required
 @owner_required
-def delete_device(name):
-    flash("Noch nicht Implementiert")
-    return redirect(url_for('admin.devices'))
+def delete_device(uuid):
+    if current_user.is_owner() or current_user.is_administrator():
+        device = Device.query.filter(Device.device_uuid == uuid).first()
+        db.session.delete(device)
+        db.session.commit()
+        flash('Gerät erfolgreich gelöscht', 'success')
+        return redirect(url_for('admin.devices'))
+    else:
+        flash("Unzureichende Berechtigung", 'error')
+        return redirect(url_for('admin.devices'))
 
 
 @admin.route('/devices/add', methods=['GET', 'POST'])
@@ -94,6 +102,6 @@ def add_device():
             )
             db.session.add(device)
             db.session.commit()
-            flash('Gerät erfolgreich angelegt')
+            flash('Gerät erfolgreich angelegt', 'success')
             return redirect(url_for('admin.devices'))
     return render_template('admin/device/parts/device-add.html', form=form)
