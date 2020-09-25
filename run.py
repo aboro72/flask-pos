@@ -99,7 +99,7 @@ def createdb():
         db.session.add(admin_user)
     user = User.query.filter(User.username == owner_username).first()
     if not user:
-        db.session.add(User(
+        owner_user = User(
             uuid="Mitarbeiter 002",
             username=owner_username,
             firstname="Like a",
@@ -110,10 +110,11 @@ def createdb():
             modified_at=time,
             is_active=True,
             role=role_owner,
-        ))
+        )
+        db.session.add(owner_user)
     user = User.query.filter(User.username == manager_username).first()
     if not user:
-        db.session.add(User(
+        manager_user = User(
             uuid="Mitarbeiter 003",
             username=manager_username,
             firstname="Max",
@@ -124,9 +125,10 @@ def createdb():
             modified_at=time,
             is_active=True,
             role=role_manager,
-        ))
+        )
+        db.session.add(manager_user)
     if not User.query.filter(User.username == user_username).first():
-        db.session.add(User(
+        user_user = User(
             uuid="Mitarbeiter 004",
             username=user_username,
             firstname="Milli",
@@ -136,8 +138,8 @@ def createdb():
             created_at=time,
             modified_at=time,
             is_active=True,
-        ))
-
+        )
+        db.session.add(user_user)
     control_event = Control(
         created_at=time,
         is_modified=True,
@@ -146,7 +148,6 @@ def createdb():
         user=admin_user
     )
     db.session.add(control_event)
-
     modify_reason = TimeModifyReason(
         reason="Vergessen zu Stempeln",
         created_at=time,
