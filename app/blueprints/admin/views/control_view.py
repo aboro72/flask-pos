@@ -1,3 +1,10 @@
+from app import db
+from app.blueprints.admin import admin
+from app.blueprints.admin.forms.control_forms import ControlDetailForm
+from app.helper.decorator import manager_required
+from app.models.control import Control
+from app.models.modify import TimeModifyReason
+from app.models.user import User
 from datetime import datetime
 from flask import (
     render_template,
@@ -5,15 +12,7 @@ from flask import (
     flash,
     url_for,
 )
-from app.blueprints.admin import admin
-
 from flask_login import login_required, current_user
-
-from app import db
-from app.helper.decorator import manager_required
-from app.models.control import Control
-from app.models.modify import TimeModifyReason
-from app.models.user import User
 
 
 @admin.route('/control/', methods=['GET'])
@@ -78,24 +77,42 @@ def clock_out(name):
                 user.is_clocked = False
                 db.session.commit()
                 message = '<{}, {} {}> erfolgreich ausgeloggt'.format(user.uuid, user.firstname, user.lastname)
-                flash(message)
+                flash(message, 'success')
                 return redirect(url_for('admin.control'))
-    flash('Mitarbeiter konnte nicht gefunden werden')
+    flash('Mitarbeiter konnte nicht gefunden werden', 'warning')
     return redirect(url_for('admin.control'))
 
 
 @admin.route('/control/<year>/<month>/<name>/<time>/', methods=['GET', 'POST'])
 def view_control_details(year, month, name, time):
-    form=control__detail_form()
+    form = ControlDetailForm()
     user = User.query.filter(User.username == name).first()
     details = get_control_time(month, year, user, time)
+    starttime = details[0][0].time_start
+    endtime = details[0][0].time_end
+    form.time_start_hour.data = starttime
+    form.time_start_minute.data = starttime
+    form.time_start_second.data = starttime
+    form.date_start_day.data = starttime
+    form.date_start_month.data = starttime
+    form.date_start_year.data = starttime
+    form.time_end_hour.data = endtime
+    form.time_end_minute.data = endtime
+    form.time_end_second.data = endtime
+    form.date_end_day.data = endtime
+    form.date_end_month.data = endtime
+    form.date_end_year.data = endtime
+    return render_template('admin/control/parts/control-detail-view.html',
+                           form=form,
+                           details=details,
+                           user=user
+                           )
 
-    return redirect(url_for('admin.control'))
 
-
+# get specific clock depending on year and month
 def get_clock_in_times(control_list, year, month):
     date_list = list()
-    tstr = "%d-%m-%Y %H:%M:%S"
+    tstr = "%d.%m.%Y-%H:%M:%S"
     seconds_in_day = 24 * 60 * 60
     if year is None:
         year = datetime.now().year
@@ -113,8 +130,8 @@ def get_clock_in_times(control_list, year, month):
                         clock_in_minutes = divmod(difference.days * seconds_in_day + difference.seconds, 60)
                         clock_in_hours = divmod(clock_in_minutes[0], 60)
                         clock_in_time = '{} Stunden  {} Minuten  {} Sekunden'.format(clock_in_hours[0],
-                                                                                     clock_in_minutes[0] % 60
-                                                                                     , clock_in_minutes[1])
+                                                                                     clock_in_minutes[0] % 60,
+                                                                                     clock_in_minutes[1])
                         date_list.append((
                             element_user,
                             time_start,
@@ -124,10 +141,11 @@ def get_clock_in_times(control_list, year, month):
     return date_list
 
 
+# get all user who currently clocked in
 def get_current_clock_in_times(control_list):
     date_list = list()
     seconds_in_day = 24 * 60 * 60
-    time_str = "%d-%m-%Y %H:%M:%S"
+    time_str = "%d.%m.%Y-%H:%M:%S"
     for element in control_list:
         element_user = User.query.get(element.user_id)
         if element_user is not None:
@@ -148,6 +166,7 @@ def get_current_clock_in_times(control_list):
     return date_list
 
 
+# get a list of all years where users are clocked in
 def get_years_list(control_list, year):
     years = set()
     for element in control_list:
@@ -159,6 +178,7 @@ def get_years_list(control_list, year):
     return years
 
 
+# get a list of all month in a specific year where users are clocked in
 def get_month_list(control_list, year, month):
     if year is None:
         year = datetime.now().year
@@ -173,17 +193,26 @@ def get_month_list(control_list, year, month):
     return months
 
 
+# get a specific control time
 def get_control_time(month, year, user, time):
     if month is None or year is None or user is None or time is None:
         return None
     data_list = list()
+    seconds_in_day = 24 * 60 * 60
     control_list = Control.query.filter(Control.user_id == user.user_id).all()
     for item in control_list:
         if int(year) == item.time_start.year:
-            if int(month) == item.time_start.month and item.time_start.strftime("%d-%m-%Y %H:%M:%S") == time:
+            if int(month) == item.time_start.month and item.time_start.strftime("%d.%m.%Y-%H:%M:%S") == time:
+                difference = item.time_end - item.time_start
+                clock_in_minutes = divmod(difference.days * seconds_in_day + difference.seconds, 60)
+                clock_in_hours = divmod(clock_in_minutes[0], 60)
+                clock_in_time = '{} Stunden  {} Minuten  {} Sekunden'.format(clock_in_hours[0],
+                                                                             clock_in_minutes[0] % 60
+                                                                             , clock_in_minutes[1])
                 data_list.append((
                     item,
-                    time
+                    time,
+                    clock_in_time
                 ))
                 return data_list
     return None

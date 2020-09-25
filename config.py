@@ -22,7 +22,7 @@ class Config:
         "b'>\x888\x9b@\x1dWN\\X\x00P0\xa0x\xb9'"
 
     # only sent session-cookie if https is used
-    SESSION_COOKIE_SECURE = True
+    # SESSION_COOKIE_SECURE = True
 
     # staging server
     SQLALCHEMY_DATABASE_URI = \
@@ -51,12 +51,13 @@ class Config:
 
 class DevelopmentConfig(Config):
     # debug messages
-    PAGINATION_USER = 5
+
     DEBUG = True
     SESSION_LIFETIME = 5
     # database file
     SQLALCHEMY_DATABASE_URI = os.environ.get('DEV_DATABASE_URL') or \
         'sqlite:///' + os.path.join(basedir, 'data-dev.sqlite')
+    WTF_CSRF_ENABLED = False
 
 
 class TestingConfig(Config):
