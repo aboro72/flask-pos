@@ -105,7 +105,8 @@ def view_control_details(year, month, name, time):
     return render_template('admin/control/parts/control-detail-view.html',
                            form=form,
                            details=details,
-                           user=user)
+                           user=user
+                           )
 
 
 # get specific clock depending on year and month
