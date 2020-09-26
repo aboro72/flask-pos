@@ -69,7 +69,7 @@ def edit_user(name):
             db.session.commit()
             flash('Benutzer erfolgreich geändert', 'success')
             return redirect(url_for('admin.users'))
-        flash('Die Mitarbeiter-ID ist schon vorhanden', 'warning')
+        flash('Die Mitarbeiter-ID ist schon vorhanden', 'danger')
         return render_template('admin/user/parts/user-edit.html', username=name, form=form, title=name)
 
     form.role.data = user.role_id

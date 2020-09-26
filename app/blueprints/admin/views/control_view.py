@@ -11,6 +11,7 @@ from flask import (
     redirect,
     flash,
     url_for,
+    request,
 )
 from flask_login import login_required, current_user
 
@@ -88,25 +89,38 @@ def view_control_details(year, month, name, time):
     form = ControlDetailForm()
     user = User.query.filter(User.username == name).first()
     details = get_control_time(month, year, user, time)
-    starttime = details[0][0].time_start
-    endtime = details[0][0].time_end
-    form.time_start_hour.data = starttime
-    form.time_start_minute.data = starttime
-    form.time_start_second.data = starttime
-    form.date_start_day.data = starttime
-    form.date_start_month.data = starttime
-    form.date_start_year.data = starttime
-    form.time_end_hour.data = endtime
-    form.time_end_minute.data = endtime
-    form.time_end_second.data = endtime
-    form.date_end_day.data = endtime
-    form.date_end_month.data = endtime
-    form.date_end_year.data = endtime
-    return render_template('admin/control/parts/control-detail-view.html',
-                           form=form,
-                           details=details,
-                           user=user
-                           )
+    if request.method == 'POST' and form.validate_on_submit():
+        end_date = date_object_to_datetime(
+            form.date_end_year.data,
+            form.date_end_month.data,
+            form.date_end_day.data,
+            form.time_end_hour.data,
+            form.time_end_minute.data,
+            form.time_end_second.data
+        )
+        print(end_date)
+        return redirect(url_for('admin.control'))
+    if details:
+        starttime = details[0][0].time_start
+        endtime = details[0][0].time_end
+        form.time_start_hour.data = starttime
+        form.time_start_minute.data = starttime
+        form.time_start_second.data = starttime
+        form.date_start_day.data = starttime
+        form.date_start_month.data = starttime
+        form.date_start_year.data = starttime
+        form.time_end_hour.data = endtime
+        form.time_end_minute.data = endtime
+        form.time_end_second.data = endtime
+        form.date_end_day.data = endtime
+        form.date_end_month.data = endtime
+        form.date_end_year.data = endtime
+        return render_template('admin/control/parts/control-detail-view.html',
+                               form=form,
+                               details=details,
+                               user=user
+                               )
+    return redirect(url_for('admin.control'))
 
 
 # get specific clock depending on year and month
@@ -216,3 +230,21 @@ def get_control_time(month, year, user, time):
                 ))
                 return data_list
     return None
+
+
+def date_object_to_datetime(year, month, day, hour, minute, second):
+    int_year = int(year.year)
+    int_month = int(month.month)
+    int_day = int(day.day)
+    int_hour = int(hour.hour)
+    int_minute = int(minute.minute)
+    int_second = int(second.second)
+    date_time_object = datetime(
+        int_year,
+        int_month,
+        int_day,
+        int_hour,
+        int_minute,
+        int_second
+    )
+    return date_time_object
