@@ -137,18 +137,30 @@ def createdb():
             modified_at=time,
             is_active=True,
         ))
-
+    db.session.commit()
     control_event = Control(
         created_at=time,
         is_modified=True,
         time_start=time,
         time_end=time,
-        user=admin_user
+        modified_at=time,
+        user_id=1
+    )
+    newtime = time
+    newtime = newtime.replace(year=2019)
+    control2_event = Control(
+        created_at=newtime,
+        is_modified=True,
+        time_start=newtime,
+        time_end=newtime,
+        modified_at=newtime,
+        user_id=1
     )
     db.session.add(control_event)
+    db.session.add(control2_event)
 
     modify_reason = TimeModifyReason(
-        reason="Vergessen zu Stempeln",
+        reason="Test EVENT",
         created_at=time,
         control=control_event,
         user_modified=admin_user,
