@@ -9,7 +9,7 @@ from PyQt5.QtWebEngineWidgets import *
 
 
 if sys.platform.startswith('Linux'):
-    subprocess.Popen(['bash','flaskpos_dev.sh'])
+    subprocess.Popen(['bash', 'flaskpos_dev.sh'])
 else:
     subprocess.Popen(['cmd', 'flaskpos_dev.bat'])
 

@@ -39,13 +39,15 @@ class Ui_StartDialog(object):
     def retranslateUi(self, StartDialog):
         _translate = QtCore.QCoreApplication.translate
         StartDialog.setWindowTitle(_translate("StartDialog", "FLASK POS"))
-        self.label.setText(_translate("StartDialog", "<html><head/><body><p><img src=\"logo-neu.png\"/></p></body></html>"))
+        self.label.setText(_translate(
+            "StartDialog",
+            "<html><head/><body><p><img src=\"logo-neu.png\"/></p></body></html>"))
         self.StartButton.setText(_translate("StartDialog", "Start"))
         self.StopButton.setText(_translate("StartDialog", "Stop"))
         self.UpdateButton.setText(_translate("StartDialog", "update"))
 
     def OnStart(self):
-        subprocess.Popen(['bash', 'flaskpos_dev.sh'])
+        subprocess.Popen(['bash', './flaskpos_dev.sh'])
         time.sleep(8)
         os.system("firefox-esr http://localhost:8000 -kiosk")
 

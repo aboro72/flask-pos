@@ -18,7 +18,7 @@ CMD_MIGRATE="flask db migrate"
 CMD_UPGRADE="flask db upgrade"
 CMD_CREATE_DB="flask createdb"
 
-OPTIONS=":hpft"
+OPTIONS=":hpfqt"
 
 export FLASK_ENV=development
 export FLASK_CONFIG=development
@@ -31,6 +31,7 @@ function help {
       echo "./$(basename "$0") -f --> Force Recreate Migration Folder and Database"
       echo "./$(basename "$0") -p --> Install required Python Dependencies"
       echo "./$(basename "$0") -t --> Only run tests"
+      echo "./$(basename "$0") -q --> Start PyQT Gui"
 }
 
 function recreate {
@@ -57,6 +58,10 @@ function pipinstall {
       fi
 }
 
+function start_gui {
+    python3 Start.py
+}
+
 while getopts ${OPTIONS} arg; do
   case ${arg} in
     h)
@@ -71,6 +76,11 @@ while getopts ${OPTIONS} arg; do
     p)
       echo
       pipinstall
+      ;;
+    q)
+      echo
+      start_gui
+      exit 0
       ;;
     t)
       echo
