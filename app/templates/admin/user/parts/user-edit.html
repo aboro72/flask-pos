@@ -4,14 +4,14 @@
 
 <div class="container">
     {% for message in form.email.errors %}
-        <div class="alert alert-email">
+        <div class="alert alert-email alert alert-danger">
         <button type="button" class="close" data-dismiss="alert">&times;</button>
             <h4>{{ message }}</h4>
         </div>
     {% endfor %}
 
     {% for message in form.uuid.errors %}
-        <div class="alert alert-userid">
+        <div class="alert alert-userid alert alert-danger">
         <button type="button" class="close" data-dismiss="alert">&times;</button>
             <h4>{{ message }}</h4>
         </div>

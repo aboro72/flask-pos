@@ -32,7 +32,11 @@ def before_request():
 def users():
     page = request.args.get('page', 1, type=int)
     user_list = User.query.order_by(User.username).paginate(page, config.get('PAGINATION_USER'), False)
-    return render_template('admin/user/user-index.html', title="Benutzer", users=user_list.items)
+    return render_template('admin/user/user-index.html',
+                           title="Benutzer",
+                           users=user_list.items,
+                           route=request.path
+                           )
 
 
 @admin.route('/users/<name>/view/', methods=['GET'])
@@ -40,14 +44,16 @@ def users():
 @manager_required
 def get_user(name):
     user = User.query.filter(User.username == name).first()
-    return render_template('admin/user/parts/user-view.html', user=user)
+    return render_template('admin/user/parts/user-view.html',
+                           user=user,
+                           route=request.path
+                           )
 
 
 @admin.route('/users/<name>/edit/', methods=['GET', 'POST'])
 @login_required
 @owner_required
 def edit_user(name):
-
     form = UserEditForm()
     user = User.query.filter(User.username == name).first()
     form.role.choices = [(r.role_id, r.name) for r in
@@ -58,7 +64,6 @@ def edit_user(name):
         return redirect(url_for('admin.users'))
 
     if request.method == 'POST':
-        print(user)
         user.role = Role.query.get(form.role.data)
         user.email = form.email.data
         user.firstname = form.firstname.data
@@ -70,7 +75,12 @@ def edit_user(name):
             flash('Benutzer erfolgreich geändert', 'success')
             return redirect(url_for('admin.users'))
         flash('Die Mitarbeiter-ID ist schon vorhanden', 'danger')
-        return render_template('admin/user/parts/user-edit.html', username=name, form=form, title=name)
+        return render_template('admin/user/parts/user-edit.html',
+                               username=name,
+                               form=form,
+                               title=name,
+                               route=request.path
+                               )
 
     form.role.data = user.role_id
     form.email.data = user.email
@@ -80,7 +90,12 @@ def edit_user(name):
     form.ud.data = user.uuid
     form.ve.data = user.email
 
-    return render_template('admin/user/parts/user-edit.html', username=name, form=form, title=name)
+    return render_template('admin/user/parts/user-edit.html',
+                           username=name,
+                           form=form,
+                           title=name,
+                           route=request.path
+                           )
 
 
 @admin.route('/users/<name>/delete/', methods=['GET'])
@@ -129,4 +144,7 @@ def add_user():
             flash('Benutzer ' + user.username + ' erfolgreich angelegt', 'success')
             return redirect(url_for('admin.users'))
     form.role.default = 1
-    return render_template('admin/user/parts/user-add.html', form=form)
+    return render_template('admin/user/parts/user-add.html',
+                           form=form,
+                           route=request.path
+                           )

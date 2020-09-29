@@ -29,6 +29,7 @@ def login():
     return render_template('auth/login.html',
                            title='Login',
                            form=form,
+                           route=request.path
                            )
 
 

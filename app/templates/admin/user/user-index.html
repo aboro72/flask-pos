@@ -4,12 +4,15 @@
 <h1>Benutzer Verwalten</h1>
 {% if users %}
 <table border="1" width="100%" >
-    <th> Benutzername </th>
-    <th> Rolle </th>
-    <th> Email </th>
-    <th> Vorname </th>
-    <th> Nachname </th>
-    <th> Aktionen </th>
+    <caption> Benutzer </caption>
+    <thead>
+        <th> Benutzername </th>
+        <th> Rolle </th>
+        <th> Email </th>
+        <th> Vorname </th>
+        <th> Nachname </th>
+        <th> Aktionen </th>
+    </thead>
     {% for user in users %}
     <tr align="center">
         {% if current_user.role.permissions >= user.role.permissions %}
