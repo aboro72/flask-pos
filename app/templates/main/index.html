@@ -1,16 +1,67 @@
 {% extends "base.html" %}
 {% block page_content %}
 
-<h1>
+<style>
+    .user {
+        font-size: 30px;
+        margin-left: 10px;
+        background-color:
+    }
 
-    {% if current_user.is_authenticated %}
-    Willkommen {{ current_user.firstname }}
-    {% else %}
-    Bitte einloggen
-    {% endif %}!
-</h1>
+    .news {
+        height: 10%;
+        display:block;
+        background-color: #DCDCDC;
+        font-size: 30px;
+        padding: auto;
+        margin: left right;
+    }
+
+    p#newstitle {
+        background-color: #5F9EA0;
+    }
+    button#news {
+        font-size: 30px;
+    }
+
+    p {
+        padding-left: 20px;
+        font-size: 50px;
+
+    }
+</style>
+<div>
+    <b style="font-size: 60px;"> Benutzer:</b>
+    <span class="user">
+        {% if current_user.is_authenticated %}
+            {{ current_user.firstname }} {{ current_user.lastname }}
+        {% else %}
+            Du bist nicht eingeloggt
+        {% endif %}
+    </span>
+</div>
 
 
+
+<hr>
+<hr>
+<p id="newstitle"> <b> News </b></p>
+<hr style="border: 2px solid; width:100%;">
+{% if newsletter %}
+    {% for news in newsletter %}
+        <div class="news alert">
+          <button type="button" id="news" class="close" data-dismiss="alert">&times;</button>
+            {% autoescape false %}
+                {{ news }}
+            {% endautoescape %}
+    </div>
+    {% endfor %}
+
+{% else %}
+    <div class="news alert alert-{{ category }}">
+            Leider keine Nachrichten
+    </div>
+{% endif %}
 
 
 {% endblock page_content %}

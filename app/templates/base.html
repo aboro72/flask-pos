@@ -57,20 +57,21 @@
 {% block content %}
 
 <div class="container">
-    <div class="row" style="width:100%;">
-        {% with messages = get_flashed_messages(with_categories=true) %}
-        {% if messages %}
-          {% for category, message in messages %}
-            <div class="row">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      {% for category, message in messages %}
+        <div class="row">
+            <div class="col-sm-12">
                 <div class="alert alert-{{ category }}">
                   <button type="button" class="close" data-dismiss="alert">&times;</button>
                     {{ message }}
                 </div>
             </div>
-          {% endfor %}
-        {% endif %}
-        {% endwith %}
-    </div>
+        </div>
+      {% endfor %}
+    {% endif %}
+    {% endwith %}
+
     {% block page_content %}{% endblock %}
 </div>
 {% endblock %}
