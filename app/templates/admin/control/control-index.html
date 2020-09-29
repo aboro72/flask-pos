@@ -1,6 +1,24 @@
 {% extends "base.html" %}
 {% block page_content %}
 
+<style>
+table, th, td {
+  border: 1px solid black;
+}
+
+table {
+    width: 100%;
+}
+
+th, td {
+  padding: 10px;
+}
+
+td#month {
+    width: 70%;
+}
+</style>
+
 <h1>Arbeitszeiten Verwalten</h1>
 <hr style="color:black;width:50%;border:solid;text-align:left;margin-left:0">
 <hr>
@@ -51,28 +69,34 @@
     {% endif %}
 </div>
 <hr style="color:black;width:50%;border:solid;text-align:left;margin-left:0">
-
 <hr>
-
-{% for year in years %}
-    <div class="row">
-        <div class="col-sm-12 text-left">
-            Jahr: {{ year[0] }}
-        {% if year %}
-            Monat:
-            {% for month in year %}
-                {% if month[0]: %}
-                    <a data-toggle="tooltip" title="{{ month[0] }}" role="button" class="btn btn-success btn-sm"
-                    href="{{ url_for('admin.control_with_year_and_month', year=year[0], month=month[0]) }} ">
-                        {{ month[0] }} </a>
-                {% endif %}
+<div class="row">
+    <div class="col-sm-12">
+        <table >
+            <caption> Stempelzeiten </caption>
+            <thead>
+                <th> Jahr </th>
+                <th> Monate </th>
+            </thead>
+            <tbody>
+            {% for year in years %}
+                <tr>
+                    <td > {{ year[0] }} </td>
+                    <td id="month">
+                        {% if year %}
+                            {% for month in year %}
+                                {% if month[0]: %}
+                                    <a  role="button" class="btn btn-info btn-sm" href=
+                                        "{{ url_for('admin.control_with_year_and_month', year=year[0], month=month[0]) }} ">
+                                        {{ month[0] }} </a>
+                                {% endif %}
+                            {% endfor %}
+                        {% endif %}
+                    </td>
+                </tr>
             {% endfor %}
-        </div>
-        {% endif %}
+            </tbody>
+        </table>
     </div>
-{% endfor %}
-
-
-
-
+</div>
 {% endblock page_content %}
