@@ -20,7 +20,7 @@ td#month {
 </style>
 
 <h1>Arbeitszeiten Verwalten</h1>
-<hr style="color:black;width:50%;border:solid;text-align:left;margin-left:0">
+
 <hr>
 <div class="row">
     <div class="col-sm-6">
@@ -37,8 +37,8 @@ td#month {
 <hr>
 <div class="current">
     {% if today %}
-    <h3> Alle Benutzer, die gerade eingestempelt sind:</h3>
     <table border="1" width="100%" >
+        <caption> Eingestempelte Benutzer </caption>
         <th> Identifikation </th>
         <th> Vorname </th>
         <th> Nachname </th>
@@ -68,7 +68,7 @@ td#month {
     <h3>Keine Nutzer, die im Augenblick eingestempelt haben</h3>
     {% endif %}
 </div>
-<hr style="color:black;width:50%;border:solid;text-align:left;margin-left:0">
+
 <hr>
 <div class="row">
     <div class="col-sm-12">

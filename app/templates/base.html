@@ -11,8 +11,7 @@
 {% block head %}
     {{ super() }}
     <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
-    <link rel="stylesheet" type="text/css" href="/static/css/style.css">
-    <link rel="stylesheet" type="text/css" href="/static/fontawesome/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='fontawesome/css/all.min.css') }}">
 {% endblock %}
 
 {% block navbar %}
@@ -47,26 +46,32 @@
                 {% endif %}
             </ul>
         </div>
+
+            <p style="background-color: #9999CC; color: #FFFFFF;font-size: medium; padding: 2px; padding-top: 3px;"> {{ route }} </p>
+
     </div>
+
 </div>
 {% endblock %}
 
 {% block content %}
 
 <div class="container">
-  {% with messages = get_flashed_messages(with_categories=true) %}
-    {% if messages %}
-      {% for category, message in messages %}
-        <div class="alert alert-{{ category }}">
-          <button type="button" class="close" data-dismiss="alert">&times;</button>
-            {{ message }}
-        </div>
-      {% endfor %}
-    {% endif %}
-  {% endwith %}
-
-  {% block page_content %}{% endblock %}
-
+    <div class="row" style="width:100%;">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+          {% for category, message in messages %}
+            <div class="row">
+                <div class="alert alert-{{ category }}">
+                  <button type="button" class="close" data-dismiss="alert">&times;</button>
+                    {{ message }}
+                </div>
+            </div>
+          {% endfor %}
+        {% endif %}
+        {% endwith %}
+    </div>
+    {% block page_content %}{% endblock %}
 </div>
 {% endblock %}
 
@@ -74,5 +79,5 @@
 {% block scripts %}
     {{ super() }}
     {{ moment.include_moment() }}
-    {{ moment.locale(auto_detect=True) }}
+    {{ moment.locale("de") }}
 {% endblock %}

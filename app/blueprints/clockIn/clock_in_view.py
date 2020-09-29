@@ -56,10 +56,17 @@ def time():
                         db.session.commit()
                         current_user.is_clocked = False
                         flash("Benutzer " + current_user.username + " erfolgreich ausgestempelt", 'success')
-                        return render_template('clock/clockin.html', title="Arbeitszeiten")
+                        return render_template('clock/clockin.html',
+                                               title="Arbeitszeiten"
+                                               , route=request.path
+                                               )
     controls = Control.query.filter(Control.user_id == current_user.user_id).all()
     current_time = None
     for control in controls:
         if control.time_end is None and current_user.clock_time is not None:
             current_time = control.time_start.strftime('%d.%m.%Y, %H:%M:%S')
-    return render_template('clock/clockin.html', title="Arbeitszeiten", time=current_time)
+    return render_template('clock/clockin.html',
+                           title="Arbeitszeiten",
+                           time=current_time,
+                           route=request.path
+                           )

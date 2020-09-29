@@ -30,6 +30,7 @@ def control():
         today=today_list,
         current_date=now_date,
         years=year_list,
+        route=request.path
     )
 
 
@@ -44,7 +45,8 @@ def control_with_year_and_month(year, month):
         title="Arbeitszeiten Details - {}.{}".format(month, year),
         current=current_list,
         year=year,
-        month=month
+        month=month,
+        route=request.path
     )
 
 
@@ -171,7 +173,8 @@ def view_control_details(year, month, name, time):
         return render_template('admin/control/parts/control-detail-view.html',
                                form=form,
                                details=details,
-                               user=user
+                               user=user,
+                               route=request.path
                                )
     # If its not possible to load the time control event
     # redirect to /admin/control

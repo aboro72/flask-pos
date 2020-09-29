@@ -4,7 +4,7 @@ from flask import (
     render_template,
     session,
     current_app as app,
-    jsonify
+    request
 )
 from app.blueprints.main import main
 
@@ -14,15 +14,8 @@ def favicon():
     return app.send_static_file('favicon.ico')
 
 
-@main.route('/processtime/', methods=['GET', 'POST'])
-def current_time():
-    time = datetime.now().strftime('%d %b, %H:%M:%S')
-    return jsonify({'time': time})
-
-
 @main.route('/')
 @main.route('/index/')
-@main.route('/home/')
 def index():
 
     return render_template('main/index.html',
@@ -30,9 +23,13 @@ def index():
                            username=session.get('name'),
                            known=session.get('known', False),
                            current_time=datetime.time,
+                           route=request.path
                            )
 
 
 @main.route('/contact/')
 def contact():
-    return render_template('main/contact.html', title="Kontakt")
+    return render_template('main/contact.html',
+                           title="Kontakt",
+                           route=request.path
+                           )
