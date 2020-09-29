@@ -3,7 +3,7 @@ from app import db
 
 class Message(db.Model):
     __tablename__ = "messages"
-    message_id = db.Column(db.Integer, primary_key=True)
+    message_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     title = db.Column(db.String(128), nullable=False)
     body = db.Column(db.Text)
     created_at = db.Column(db.DateTime())

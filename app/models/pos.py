@@ -3,7 +3,7 @@ from app import db
 
 class Pos(db.Model):
     __tablename__ = "control_devices"
-    control_device_id = db.Column(db.Integer, primary_key=True)
+    control_device_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     total_amount = db.Column(db.Numeric(10, 2))
     prefilled_amount = db.Column(db.Numeric(10, 2))
 

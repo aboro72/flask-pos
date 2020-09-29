@@ -137,27 +137,15 @@ def createdb():
             modified_at=time,
             is_active=True,
         ))
-    db.session.commit()
     control_event = Control(
         created_at=time,
         is_modified=True,
         time_start=time,
         time_end=time,
         modified_at=time,
-        user_id=1
-    )
-    newtime = time
-    newtime = newtime.replace(year=2017, month=9)
-    control2_event = Control(
-        created_at=newtime,
-        is_modified=True,
-        time_start=newtime,
-        time_end=newtime,
-        modified_at=newtime,
-        user_id=1
+        user=admin_user
     )
     db.session.add(control_event)
-    db.session.add(control2_event)
 
     modify_reason = TimeModifyReason(
         reason="Test EVENT",

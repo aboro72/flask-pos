@@ -11,7 +11,7 @@ from app.models.role import Permission, Role
 
 class User(UserMixin, db.Model):
     __tablename__ = 'users'
-    user_id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
 
     # User relevant fields
     uuid = db.Column(db.String(64), unique=True, nullable=False)

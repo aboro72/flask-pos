@@ -12,7 +12,6 @@ from flask import (
     flash,
     url_for,
     request,
-    json
 )
 from flask_login import login_required, current_user
 
@@ -25,7 +24,6 @@ def control():
     today_list = get_current_clock_in_times(control_list)
     now_date = (datetime.now().year, datetime.now().month)
     year_list = get_years_list(control_list, None)
-    print(year_list)
     return render_template(
         'admin/control/control-index.html',
         title="Arbeitszeiten verwalten",
@@ -93,12 +91,6 @@ def clock_out(name):
                 return redirect(url_for('admin.control'))
     # if name is not present redirect to /admin/control
     flash('Mitarbeiter konnte nicht gefunden werden', 'warning')
-    return redirect(url_for('admin.control'))
-
-
-@admin.route('/control/<year>/', methods=['GET', ])
-def view_control_year(year):
-    flash('Noch nicht implementiert', 'info')
     return redirect(url_for('admin.control'))
 
 
@@ -282,11 +274,6 @@ def get_years_list(control_list, year=None):
         mylist.append((y, month_list))
         months.clear()
     return mylist
-
-
-def sort_month(e):
-    return e
-
 
 
 # get a specific control time
