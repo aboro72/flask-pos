@@ -137,6 +137,7 @@ def createdb():
         db.session.add(user_manager)
     user = User.query.filter(User.username == std_username).first()
     if not user:
+
         user_user = User(
             uuid="Mitarbeiter 004",
             username=std_username,
@@ -161,7 +162,6 @@ def createdb():
         user_id=1
     )
     db.session.add(control_event)
-
     modify_reason = TimeModifyReason(
         reason="Test EVENT",
         created_at=time,
