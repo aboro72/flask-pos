@@ -1,15 +1,22 @@
+import logging
 import os
 from datetime import datetime, timedelta
-from app import create_app, db, csrf
-from app.models.user import User
-from app.models.role import Role
-from app.models.device import Device
-from app.models.control import Control
-from app.models.modify import TimeModifyReason
-from flask_migrate import Migrate
 from flask import session, app as flask_app
+from flask_migrate import Migrate
+
+from app import create_app, db, csrf
+from app.models.control import Control
+from app.models.device import Device
+from app.models.modify import TimeModifyReason
+from app.models.role import Role
+from app.models.user import User
 
 app = create_app(os.getenv('FLASK_CONFIG') or 'default')
+
+if app.config['LOG_DATABASE']:
+    logging.basicConfig(filename='db.log')
+    logging.getLogger('sqlalchemy.engine').setLevel(logging.INFO)
+
 migrate = Migrate(app, db)
 
 
@@ -137,13 +144,14 @@ def createdb():
             modified_at=time,
             is_active=True,
         ))
+    db.session.commit()
     control_event = Control(
         created_at=time,
         is_modified=True,
         time_start=time,
         time_end=time,
         modified_at=time,
-        user=admin_user
+        user_id=1
     )
     db.session.add(control_event)
 
