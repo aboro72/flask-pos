@@ -81,12 +81,13 @@ def createdb():
     role_admin = Role.query.filter(Role.name == 'Administrator').first()
     role_owner = Role.query.filter(Role.name == 'Owner').first()
     role_manager = Role.query.filter(Role.name == 'Manager').first()
+    role_user = Role.query.filter(Role.name == 'User').first()
 
     # Create users
     admin_username = "admin"
     owner_username = "owner"
     manager_username = "manager"
-    user_username = "user"
+    std_username = "user"
 
     admin_user = None
     user = User.query.filter(User.username == admin_username).first()
@@ -106,7 +107,7 @@ def createdb():
         db.session.add(admin_user)
     user = User.query.filter(User.username == owner_username).first()
     if not user:
-        db.session.add(User(
+        owner_user = User(
             uuid="Mitarbeiter 002",
             username=owner_username,
             firstname="Like a",
@@ -117,10 +118,11 @@ def createdb():
             modified_at=time,
             is_active=True,
             role=role_owner,
-        ))
+        )
+        db.session.add(owner_user)
     user = User.query.filter(User.username == manager_username).first()
     if not user:
-        db.session.add(User(
+        user_manager = User(
             uuid="Mitarbeiter 003",
             username=manager_username,
             firstname="Max",
@@ -131,11 +133,13 @@ def createdb():
             modified_at=time,
             is_active=True,
             role=role_manager,
-        ))
-    if not User.query.filter(User.username == user_username).first():
-        db.session.add(User(
+        )
+        db.session.add(user_manager)
+    user = User.query.filter(User.username == std_username).first()
+    if not user:
+        user_user = User(
             uuid="Mitarbeiter 004",
-            username=user_username,
+            username=std_username,
             firstname="Milli",
             lastname="Vanilli",
             email='user@test.de',
@@ -143,9 +147,11 @@ def createdb():
             created_at=time,
             modified_at=time,
             is_active=True,
-        ))
-    db.session.add(user_user)
+            role=role_user,
+        )
+        db.session.add(user_user)
     db.session.commit()
+
     control_event = Control(
         created_at=time,
         is_modified=True,

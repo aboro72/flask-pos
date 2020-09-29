@@ -128,7 +128,7 @@ def view_control_details(year, month, name, time):
             )
 
             # if the start date before the end date is
-            if (start_date < end_date) and (start_date <= datetime.now()):
+            if (start_date <= end_date) and (start_date <= datetime.now()):
                 # if end_date is not behind the current date
                 if end_date <= datetime.now():
                     # if details is not empty
