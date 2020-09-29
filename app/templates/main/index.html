@@ -21,7 +21,9 @@
         background-color: #5F9EA0;
     }
     button#news {
-        font-size: 30px;
+        padding: auto;
+        font-size: 40px;
+        color: #FF0000;
     }
 
     p {
@@ -50,7 +52,7 @@
 {% if newsletter %}
     {% for news in newsletter %}
         <div class="news alert">
-          <button type="button" id="news" class="close" data-dismiss="alert">&times;</button>
+          <button type="button" id="news" class="close" data-dismiss="alert">&times</button>
             {% autoescape false %}
                 {{ news }}
             {% endautoescape %}
