@@ -25,7 +25,7 @@ def control():
     today_list = get_current_clock_in_times(control_list)
     now_date = (datetime.now().year, datetime.now().month)
     year_list = get_years_list(control_list, None)
-    print(year_list[0])
+    print(year_list)
     return render_template(
         'admin/control/control-index.html',
         title="Arbeitszeiten verwalten",
@@ -269,17 +269,24 @@ def get_years_list(control_list, year=None):
             if item.time_start.year == year:
                 years.add(item.time_start.year)
     mylist = list()
-
     # iterate through all years
     # and add all months which have clock-times
     for y in years:
         months = set()
+        month_list = list()
         for item in control_list:
             if item.time_start.year == y:
                 months.add(item.time_start.month)
-        mylist.append((y, list(months)))
+            month_list = list(months)
+            month_list.sort()
+        mylist.append((y, month_list))
         months.clear()
     return mylist
+
+
+def sort_month(e):
+    return e
+
 
 
 # get a specific control time

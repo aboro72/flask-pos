@@ -84,12 +84,11 @@ td#month {
                     <td > {{ year[0] }} </td>
                     <td id="month">
                         {% if year %}
-                            {% for month in year %}
-                                {% if month[0]: %}
+                            {% for month in year[1] %}
                                     <a  role="button" class="btn btn-info btn-sm" href=
-                                        "{{ url_for('admin.control_with_year_and_month', year=year[0], month=month[0]) }} ">
-                                        {{ month[0] }} </a>
-                                {% endif %}
+                                        "{{ url_for('admin.control_with_year_and_month', year=year[0], month=month) }} ">
+                                        {{ month }} </a>
+
                             {% endfor %}
                         {% endif %}
                     </td>

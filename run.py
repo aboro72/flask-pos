@@ -147,7 +147,7 @@ def createdb():
         user_id=1
     )
     newtime = time
-    newtime = newtime.replace(year=2019)
+    newtime = newtime.replace(year=2017, month=9)
     control2_event = Control(
         created_at=newtime,
         is_modified=True,
