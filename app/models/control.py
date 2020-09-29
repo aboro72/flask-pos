@@ -3,8 +3,9 @@ from app import db
 
 class Control(db.Model):
     __tablename__ = "control"
-    control_id = db.Column(db.Integer, primary_key=True)
+    control_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     created_at = db.Column(db.DateTime())
+    modified_at = db.Column(db.DateTime())
     time_start = db.Column(db.DateTime())
     time_end = db.Column(db.DateTime())
     user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'))
