@@ -29,26 +29,11 @@
     p {
         padding-left: 20px;
         font-size: 50px;
-
     }
 </style>
-<div>
-    <b style="font-size: 60px;"> Benutzer:</b>
-    <span class="user">
-        {% if current_user.is_authenticated %}
-            {{ current_user.firstname }} {{ current_user.lastname }}
-        {% else %}
-            Du bist nicht eingeloggt
-        {% endif %}
-    </span>
-</div>
 
-
-
+<p id="newstitle"> <b> Flask-Pos News </b></p>
 <hr>
-<hr>
-<p id="newstitle"> <b> News </b></p>
-<hr style="border: 2px solid; width:100%;">
 {% if newsletter %}
     {% for news in newsletter %}
         <div class="news alert">
