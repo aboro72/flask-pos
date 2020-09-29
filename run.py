@@ -144,6 +144,7 @@ def createdb():
             modified_at=time,
             is_active=True,
         ))
+    db.session.add(user_user)
     db.session.commit()
     control_event = Control(
         created_at=time,
