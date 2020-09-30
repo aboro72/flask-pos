@@ -7,7 +7,47 @@
         padding-left: 20px;
         color: white;
     }
+    .btn {
+        width: 100%;
+        height: 100%;
+        font-size: 32px;
+    }
 </style>
-<p id="pos-title"> <b> Abrechnen </b></p>
+<p id="pos-title"> <b> Kasse </b></p>
+<hr>
+<div class="row">
+    <div class="col-md-6">
+        <form action="" method="get">
+            <button title="Ansehen" type="submit" class="btn btn-primary btn-lg"> Neue Kasse Anmelden
+            </button>
+        </form>
+    </div>
+    <div class="col-md-6">
+        <form action="" method="get">
+            <button title="Ansehen" type="submit" class="btn btn-primary btn-lg"> Vorhandene Kasse Abrechnen
+            </button>
+        </form>
+    </div>
+</div>
 
+{% if checkouts %}
+<table >
+    <caption> Vorhandene </caption>
+    <thead>
+        <th> Kasse </th>
+        <th> Gerät </th>
+        <th> Vorname </th>
+        <th> Nachname </th>
+    </thead>
+    {% for checkout in checkouts %}
+    <tr>
+        <td><p> {{ checkout }} </p></td>
+        <td><p> {{ checkout }} </p></td>
+        <td><p> {{ checkout }} </p></td>
+        <td><p> {{ checkout }} </p></td>
+    </tr>
+    {% endfor %}
+</table>
+{% endif %}
+<hr>
 {% endblock page_content %}

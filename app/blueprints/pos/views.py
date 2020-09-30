@@ -11,7 +11,7 @@ from app.blueprints.pos import pos
 @login_required
 def cash():
     return render_template('pos/pos.html',
-                           title="Abrechnung",
+                           title="Kasse",
                            route=request.path
                            )
 
