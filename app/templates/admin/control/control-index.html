@@ -14,7 +14,22 @@
     table {
         width: 100%;
     }
-
+    .date-info {
+        height: 20%;
+        display:block;
+        font-size: 50px;
+        color: #006666;
+    }
+    .time-info {
+        height: 20%;
+        display:block;
+        font-size: 50px;
+        color: #006666;
+        text-align:right;
+    }
+     .date-info>i, .time-info>i  {
+        color: black;
+     }
     caption {
         font-size: 24px;
     }
@@ -29,10 +44,30 @@
     }
     .fa {
         font-size:32px;
-        color: orange;
+        color: white;
+    }
+    .bts {
+      width:48px;
+      height: 48px;
+      background-color: red;
+      border: 1px solid #0000FF;
+      color: white;
+      cursor: pointer;
+      padding:6px;
     }
     .btn {
         font-size: 24px;
+    }
+    #current {
+        font-size: 32px;
+        width: 100%;
+    }
+    .bts:hover {
+      background-color: RoyalBlue;
+      color: white;
+    }
+    .bts#view {
+        background-color: green;
     }
 </style>
 
@@ -41,18 +76,25 @@
 <hr>
 <div class="row">
     <div class="col-sm-6">
-        <h3> Aktuelles Datum: <b>{{ moment().format('DD.MM.YYYY') }}</b> </h3>
+        <p class="date-info">Datum: <i>{{ moment().format('DD.MM.YYYY') }}</i> </p>
     </div>
-    {% if current_user.is_owner() %}
-        {% if current_date %}
-        <div class="col-sm-6 text-right">
-            <a data-toggle="tooltip" title="Aktuellen Monat anzeigen" role="button" class="btn btn-success btn-lg"
-               href="{{ url_for('admin.control_with_year_and_month', year=current_date[0]
-               , month=current_date[1]) }}"> Aktueller Monat </a>
-        </div>
-        {% endif %}
-    {% endif %}
+    <div class="col-sm-6">
+        <p class="time-info">Uhrzeit: <i>{{ moment().format('HH:mm') }}</i> </p>
+    </div>
 </div>
+{% if current_user.is_owner() %}
+    {% if current_date %}
+        <div class="row">
+            <div class="col-sm-12">
+                <a id="current" data-toggle="tooltip" title="Aktuellen Monat anzeigen"
+                   role="button" class="btn btn-success btn-lg"
+                   href="{{ url_for('admin.control_with_year_and_month', year=current_date[0]
+                   , month=current_date[1]) }}"> Stempelzeiten des aktuellen Monats </a>
+            </div>
+        </div>
+    {% endif %}
+{% endif %}
+
 <hr>
 <div class="current">
     {% if today %}
@@ -74,9 +116,15 @@
                             <td><p> {{ elem[2] }} </p></td>
                             <td>
                                 {% if current_user.is_manager() %}
-                                        <a href="{{ url_for('admin.clock_out', name=elem[0].username ) }}">
-                                            <i title="Ausstempeln" class="fa" >&#xf044;</i>
-                                        </a>
+                                 <div class="col-md-4">
+                                    <form action="{{ url_for('admin.clock_out', name=elem[0].username) }}" method="post"
+                                        onSubmit="return confirm
+                                        ('Mitarbeiter {{ elem[0].firstname }} {{ elem[0].lastname }} ausstempeln?');">
+                                        <button title="Ausstempeln" type="submit" id="clockout" class="bts">
+                                            <i class="fa">&#xf273;</i>
+                                        </button>
+                                    </form>
+                                </div>
                                 {% endif %}
                             </td>
                         </tr>

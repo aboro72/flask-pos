@@ -10,18 +10,34 @@
     i {
         color: yellow;
     }
+    .date-info {
+        height: 20%;
+        display:block;
+        font-size: 50px;
+        color: #006666;
+    }
+    .time-info {
+        height: 20%;
+        display:block;
+        font-size: 50px;
+        color: #006666;
+        text-align:right;
+    }
+
 </style>
 <p id="title"> <b> Zeitkorrektur: <i> {{ user.firstname }} {{ user.lastname }} </i></b></p>
 <hr>
+
 <div class="row">
-    <div class="col-lg-12" align="right">
-        <h2>
-            {{ details[0][2] }}
-        </h2>
+    <div class="col-sm-3">
+        <p class="date-info">Stempelzeit </p>
     </div>
-
-
+    <div class="col-sm-9">
+        <p class="time-info">{{ difference }} </p>
+    </div>
 </div>
+
+
 
 <hr>
 
@@ -35,13 +51,13 @@
              <div class="col-sm-5">{{ form.time_start_hour.label }}</div>
          </div>
          <div class="row">
-             <div class="col-sm-1">{{ form.date_start_day() }}</div>
-             <div class="col-sm-1">{{ form.date_start_month() }}</div>
-             <div class="col-sm-1">{{ form.date_start_year() }}</div>
+             <div class="col-sm-1 date">{{ form.date_start_day() }}</div>
+             <div class="col-sm-1 date">{{ form.date_start_month() }}</div>
+             <div class="col-sm-1 date">{{ form.date_start_year() }}</div>
              <div class="col-sm-2"></div>
-             <div class="col-sm-1">{{ form.time_start_hour() }}</div>
-             <div class="col-sm-1">{{ form.time_start_minute() }}</div>
-             <div class="col-sm-1">{{ form.time_start_second() }}</div>
+             <div class="col-sm-1 date">{{ form.time_start_hour() }}</div>
+             <div class="col-sm-1 date">{{ form.time_start_minute() }}</div>
+             <div class="col-sm-1 date">{{ form.time_start_second() }}</div>
          </div>
          <hr>
          <legend style="border-bottom: 1px solid;"> Ausgestempelt </legend>
@@ -50,13 +66,13 @@
              <div class="col-sm-6">{{ form.time_end_hour.label }}</div>
          </div>
          <div class="row">
-             <div class="col-sm-1">{{ form.date_end_day() }}</div>
-             <div class="col-sm-1">{{ form.date_end_month() }}</div>
-             <div class="col-sm-1">{{ form.date_end_year() }}</div>
+             <div class="col-sm-1 date">{{ form.date_end_day() }}</div>
+             <div class="col-sm-1 date">{{ form.date_end_month() }}</div>
+             <div class="col-sm-1 date">{{ form.date_end_year() }}</div>
              <div class="col-sm-2"></div>
-             <div class="col-sm-1">{{ form.time_end_hour() }}</div>
-             <div class="col-sm-1">{{ form.time_end_minute() }}</div>
-             <div class="col-sm-1">{{ form.time_end_second() }}</div>
+             <div class="col-sm-1 date">{{ form.time_end_hour() }}</div>
+             <div class="col-sm-1 date">{{ form.time_end_minute() }}</div>
+             <div class="col-sm-1 date">{{ form.time_end_second() }}</div>
          </div>
          <hr>
          <legend style="border-bottom: 1px solid;"> Grund für die Änderung:</legend>

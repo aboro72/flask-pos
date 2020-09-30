@@ -23,20 +23,18 @@
         border: 2px solid;
         width: 100%;
     }
-    .fa {
-        font-size:24px;
-    }
     .btn {
         font-size: 32px;
         width: 100%;
     }
     .bts {
-      width: 100%;
+      width:48px;
+      height: 48px;
       background-color: DodgerBlue;
       border: 1px solid #0000FF;
       color: white;
-      font-size:24px;
       cursor: pointer;
+      padding:6px;
     }
     .bts:hover {
       background-color: RoyalBlue;
@@ -71,6 +69,10 @@
      .bts#view:hover, .bts#edit:hover, .bts#delete:hover  {
         background-color: RoyalBlue;
     }
+    .fa {
+        font-size:24px;
+    }
+
 </style>
 <p id="title"> <b> Benutzerverwaltung </b></p>
 <hr>
@@ -110,7 +112,6 @@
                             </button>
                         </form>
                     </div>
-
                     <div class="col-md-4">
                         <form action="{{ url_for('admin.delete_user', name=user.username) }}" method="post"
                             onSubmit="return confirm('Benutzer {{ user.username }} löschen?');">

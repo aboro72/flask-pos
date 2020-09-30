@@ -33,7 +33,7 @@ def users():
     page = request.args.get('page', 1, type=int)
     user_list = User.query.order_by(User.username).paginate(page, config.get('PAGINATION_USER'), False)
     return render_template('admin/user/user-index.html',
-                           title="Benutzer",
+                           title="Benutzer verwalten",
                            users=user_list.items,
                            route=request.path
                            )
@@ -46,7 +46,8 @@ def get_user(name):
     user = User.query.filter(User.username == name).first()
     return render_template('admin/user/parts/user-view.html',
                            user=user,
-                           route=request.path
+                           route=request.path,
+                           title='{} ansehen'.format(user.username),
                            )
 
 
@@ -78,7 +79,7 @@ def edit_user(name):
         return render_template('admin/user/parts/user-edit.html',
                                username=name,
                                form=form,
-                               title=name,
+                               title='{} editieren'.format(user.username),
                                route=request.path
                                )
 
@@ -91,9 +92,9 @@ def edit_user(name):
     form.ve.data = user.email
 
     return render_template('admin/user/parts/user-edit.html',
+                           title='{} editieren'.format(user.username),
                            user=user,
                            form=form,
-                           title=name,
                            route=request.path
                            )
 
@@ -145,6 +146,7 @@ def add_user():
             return redirect(url_for('admin.users'))
     form.role.default = 1
     return render_template('admin/user/parts/user-add.html',
+                           title='Benutzer hinzufügen',
                            form=form,
                            route=request.path
                            )

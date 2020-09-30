@@ -8,6 +8,21 @@
         padding-left: 20px;
         color: white;
     }
+     caption {
+        font-size: 24px;
+    }
+    td, th {
+        font-size: 24px;
+        padding-left: 10px;
+        padding-top: 5px;
+        padding-bottom: 5px;
+        border: 2px solid;
+        text-align: left;
+    }
+    table {
+        border: 2px solid;
+        width: 100%;
+    }
     .btn {
         font-size: 32px;
     }
@@ -43,8 +58,8 @@
         <th> Zuletzt geändert </th>
     </thead>
     <tr>
-        <td><p> {{ device.created_at }} </p></td>
-        <td><p> {{ device.modified_at }}</p></td>
+        <td><p> {{ device.created_at.strftime('%d %m %Y, %H:%M:%S') }} </p></td>
+        <td><p> {{ device.modified_at.strftime('%d %m %Y, %H:%M:%S') }}</p></td>
     </tr>
 </table>
 <hr>

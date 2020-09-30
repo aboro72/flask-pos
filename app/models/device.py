@@ -10,5 +10,5 @@ class Device(db.Model):
     serial_number = db.Column(db.String(128), unique=True)
     ordered_from = db.Column(db.String(128))
     manufacturer = db.Column(db.String(128))
-    created_at = db.Column(db.String(64), default=datetime.utcnow())
-    modified_at = db.Column(db.String(64), default=datetime.utcnow())
+    created_at = db.Column(db.DateTime(), default=datetime.utcnow())
+    modified_at = db.Column(db.DateTime(), default=datetime.utcnow())
