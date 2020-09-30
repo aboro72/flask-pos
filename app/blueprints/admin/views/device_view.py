@@ -73,13 +73,13 @@ def edit_device(uuid):
     form.ordered_from.data = device.ordered_from
 
     return render_template('admin/device/parts/device-edit.html',
-                           name=device.label,
+                           device=device,
                            form=form,
                            route=request.path
                            )
 
 
-@admin.route('/devices/<uuid>/delete', methods=['GET'])
+@admin.route('/devices/<uuid>/delete', methods=['POST'])
 @login_required
 @owner_required
 def delete_device(uuid):

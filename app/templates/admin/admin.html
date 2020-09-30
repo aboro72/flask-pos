@@ -1,11 +1,55 @@
 {% extends "base.html" %}
 {% block page_content %}
 
-<h1>Verwaltung</h1>
-
-
-<a role="button" class="btn btn-primary" href="{{ url_for('admin.users') }}"> Benutzer </a>
-<a role="button" class="btn btn-primary" href="{{ url_for('admin.control') }}">Zeiterfassung</a>
-<a role="button" class="btn btn-primary" href="{{ url_for('admin.devices') }}">Geräte</a>
-
+<style>
+    p#dashboard-title {
+        font-size: 50px;
+        background-color: #006666;
+        padding-left: 20px;
+        vertical-align: center;
+        color: white;
+    }
+    .btn {
+        width: 100%;
+        height: 60px;
+        color: white;
+        background-color: #009999;
+        font-size: 40px;
+        text-align: left;
+        margin-top: 10px;
+    }
+    .btn:visited {
+       background-color: #009999;
+       color: white;
+    }
+    .btn:hover {
+       background-color: #00CCCC;
+       color: white;
+    }
+    .btn:active {
+       background-color: #00CCCC;
+       color: white;
+    }
+    .col-sm-12 {
+        height: 110 px;
+        text-align:center;
+    }
+</style>
+<p id="dashboard-title"> <b> Dashboard </b></p>
+<hr style="border: 5px solid; color: #00001A;">
+<div class="row">
+    <div class="col-sm-12">
+        <a role="button" class="btn" href="{{ url_for('admin.users') }}"> Benutzer </a>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-12">
+<a role="button" class="btn" href="{{ url_for('admin.control') }}">Zeiterfassung</a>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-12">
+<a role="button" class="btn" href="{{ url_for('admin.devices') }}">Geräte</a>
+    </div>
+</div>
 {% endblock page_content %}

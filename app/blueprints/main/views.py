@@ -4,7 +4,10 @@ from flask import (
     render_template,
     session,
     current_app as app,
-    request
+    request,
+    redirect,
+    url_for
+
 )
 from app.blueprints.main import main
 
@@ -15,6 +18,10 @@ def favicon():
 
 
 @main.route('/')
+def to_index():
+    return redirect(url_for('main.index'))
+
+
 @main.route('/index/')
 def index():
     newsletter = list()

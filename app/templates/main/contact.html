@@ -1,13 +1,35 @@
 {% extends "base.html" %}
 {% block page_content %}
-
-<h1 style="display: block; background-color: 9999CC;">
-    Kontakt aufnehmen
-    <br>
-</h1>
-<hr style="border: 2px solid; width:100%;">
-<h2>
-    <a href="mailto: support-email.com"> Email an den Support schreiben </a>
-</h2>
+<style>
+    p#contact-title {
+        font-size: 50px;
+        background-color: #006666;
+        padding-left: 20px;
+        color: white;
+    }
+</style>
+<p id="contact-title"> <b> Kontakt aufnehmen </b></p>
+<hr>
+<form action="mailto:flaskpos@test.com" method="get" enctype="text/plain">
+      <div>
+        <label for="name">Name:
+          <input type="text" name="name" id="name" />
+        </label>
+      </div>
+      <div>
+        <label for="email">Email:
+          <input type="text" name="email" id="email" />
+        </label>
+      </div>
+      <div>
+        <label>Nachricht:</label>
+        <br />
+        <textarea name="comments" rows="12" cols="35"> Hallo Flask-Pos Team, </textarea>
+      </div>
+      <div>
+        <input type="submit" name="submit" value="Abschicken" />
+        <input type="reset" name="reset" value="Zurücksetzen" />
+      </div>
+    </form>
 
 {% endblock page_content %}

@@ -1,9 +1,38 @@
 {% extends "base.html" %}
 {% block page_content %}
 
-<h1>Benutzer: <b>{{ user.username }}</b></h1>
+<style>
+    p#user-view-title {
+        font-size: 50px;
+        background-color: #006666;
+        color: white;
+        padding-left: 20px;
+    }
+    .btn {
+        font-size: 32px;
+    }
+    td, th {
+        font-size: 24px;
+        padding-left: 10px;
+        border: 2px solid;
+    }
 
-<table border="1" width="100%" >
+    table {
+        border: 2px solid;
+        width: 100%;
+    }
+    i {
+        color: yellow;
+    }
+    .fa {
+        font-size:32px;
+        color: white;
+    }
+</style>
+<p id="user-view-title"> <b> Benutzer <i>{{ user.username }} </i> ansehen </b></p>
+<hr>
+
+<table>
     <thead>
         <th> Vorname </th>
         <th> Nachname </th>
@@ -34,7 +63,7 @@
 </table>
 <hr>
 <a role="button" class="btn btn-success" href="{{ url_for('admin.users') }}">
-    <i title="Zurück zur Übersicht" style="font-size:16px" class="fa">&#xf0d9;</i>
+    <i title="Zurück zur Übersicht" class="fa">&#xf0d9;</i>
     Zurück zur Übersicht
 </a>
 
