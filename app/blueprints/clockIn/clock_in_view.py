@@ -65,8 +65,27 @@ def time():
     for control in controls:
         if control.time_end is None and current_user.clock_time is not None:
             current_time = control.time_start.strftime('%d.%m.%Y, %H:%M:%S')
+    logged_time = get_login_time()
     return render_template('clock/clockin.html',
                            title="Arbeitszeiten",
                            time=current_time,
-                           route=request.path
+                           route=request.path,
+                           logged=logged_time,
                            )
+
+
+# get all user who currently clocked in
+def get_login_time():
+    control_list = Control.query.filter(Control.user_id == current_user.user_id).all()
+    seconds_in_day = 24 * 60 * 60
+    for item in control_list:
+        if current_user is not None:
+            if item.time_end is None:
+                difference = datetime.now() - item.time_start
+                clock_in_minutes = divmod(difference.days * seconds_in_day + difference.seconds, 60)
+                clock_in_hours = divmod(clock_in_minutes[0], 60)
+                clock_in_time = '{} Stunden  {} Minuten  {} Sekunden'.format(clock_in_hours[0],
+                                                                             clock_in_minutes[0] % 60
+                                                                             , clock_in_minutes[1])
+                return clock_in_time
+    return None

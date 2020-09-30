@@ -1,17 +1,36 @@
 {% extends "base.html" %}
 {% block page_content %}
 
-<h1>Gerät: <b>{{ device.label }}</b></h1>
+<style>
+    p#title {
+        font-size: 50px;
+        background-color: #006666;
+        padding-left: 20px;
+        color: white;
+    }
+    .btn {
+        font-size: 32px;
+    }
+    i {
+        color: yellow;
+    }
+    .fa {
+        font-size:32px;
+        color: white;
+    }
+</style>
+<p id="title"> <b> Gerät <i>{{ device.device_uuid }} </i> ansehen</b></p>
+<hr>
 
 <table border="1" width="100%" >
     <thead>
-        <th> Identifikation </th>
+        <th> Bezeichnung </th>
         <th> Seriennummer </th>
         <th> Hersteller </th>
         <th> Eingekauft bei </th>
     </thead>
     <tr>
-        <td><p> {{ device.device_uuid }}</p></td>
+        <td><p> {{ device.label }}</p></td>
         <td><p> {{ device.serial_number }}</p></td>
         <td><p> {{ device.manufacturer }} </p></td>
         <td><p> {{ device.ordered_from }}</p></td>
@@ -30,7 +49,7 @@
 </table>
 <hr>
 <a role="button" class="btn btn-success" href="{{ url_for('admin.devices') }}">
-    <i title="Zurück zur Übersicht" style="font-size:16px" class="fa">&#xf0d9;</i>
+    <i title="Zurück zur Übersicht" class="fa">&#xf0d9;</i>
     Zurück zur Übersicht
 </a>
 

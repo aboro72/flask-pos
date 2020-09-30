@@ -11,14 +11,15 @@
     .news {
         height: 10%;
         display:block;
-        background-color: #DCDCDC;
+        background-color: #009999;
         font-size: 30px;
         padding: auto;
         margin: left right;
     }
 
     p#newstitle {
-        background-color: #5F9EA0;
+        background-color: #006666;
+        color: white;
     }
     button#news {
         padding: auto;
@@ -36,12 +37,20 @@
 <hr>
 {% if newsletter %}
     {% for news in newsletter %}
-        <div class="news alert">
-          <button type="button" id="news" class="close" data-dismiss="alert">&times</button>
-            {% autoescape false %}
-                {{ news }}
-            {% endautoescape %}
-    </div>
+
+
+
+            <div class="news alert">
+                <button type="button" id="news" class="close" data-dismiss="alert">&times</button>
+                <span style="margin: auto;">
+                    {% autoescape false %}
+                        {{ news }}
+                    {% endautoescape %}
+                </span>
+            </div>
+
+
+
     {% endfor %}
 
 {% else %}

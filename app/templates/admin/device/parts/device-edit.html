@@ -3,6 +3,26 @@
 
 {% block page_content %}
 
+<style>
+    p#title {
+        font-size: 50px;
+        background-color: #006666;
+        padding-left: 20px;
+        color: white;
+    }
+    .btn {
+        font-size: 32px;
+    }
+    i {
+        color: yellow;
+    }
+    .fa {
+        font-size:32px;
+        color: white;
+    }
+</style>
+<p id="title"> <b> Gerät <i>{{ device.device_uuid }} </i> editieren </b></p>
+<hr>
 
 {% for message in form.serial.errors %}
     <div class="alert alert-email">

@@ -2,6 +2,16 @@
 {% import "bootstrap/wtf.html" as wtf %}
 {% block page_content %}
 
+<style>
+    p#user-add-title {
+        font-size: 50px;
+        background-color: #006666;
+        padding-left: 20px;
+        color: white;
+    }
+</style>
+<p id="user-add-title"> <b> Benutzer hinzufügen </b></p>
+<hr>
 
 {% for message in form.username.errors %}
     <div class="alert alert-username alert alert-danger">
@@ -23,9 +33,6 @@
         <h4>{{ message }}</h4>
     </div>
 {% endfor %}
-
-<div class="col-md-12">
-<h2>Benutzer Hinzufügen</h2>
 
     <div class="form-group">
         <form method = 'POST'>

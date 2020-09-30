@@ -4,48 +4,106 @@
 <style>
     p#clock-in-title {
         font-size: 50px;
-        background-color: #5F9EA0;
+        background-color: #006666;
         padding-left: 20px;
+        color: white;
     }
-    .date {
+    i {
+        color: yellow;
+    }
+    td, th {
+        font-size: 24px;
+        padding-left: 10px;
+        border: 2px solid;
+        vertical-align: center;
+    }
+    .date-info {
+        height: 20%;
+        display:block;
         font-size: 50px;
-        text-align: right;
+        color: #006666;
     }
-    .user {
+    .time-info {
+        height: 20%;
+        display:block;
         font-size: 50px;
-        text-align: left;
+        color: #006666;
+        text-align:right;
     }
+    table {
+        border: 2px solid;
+        width: 100%;
+
+    }
+    .fa {
+        font-size:32px;
+        color: green;
+    }
+    .btn {
+        font-size: 32px;
+    }
+    .actions {
+        text-align: center;
+        padding: 5px;
+    }
+
+
 </style>
-<p id="clock-in-title"> <b> Ein- und Ausstempeln </b></p>
+<p id="clock-in-title">
+    Mitarbeiter:
+    <i> {{ current_user.firstname }} {{ current_user.lastname }}</i>
+</p>
 <hr>
 <div class="row">
-    <div class="col-sm-6 user">
-        {% if current_user.is_authenticated %}
-            {{ current_user.firstname }} {{ current_user.lastname }}
-        {% else %}
-            Kein Benutzer Angemeldet
-        {% endif%}
+    <div class="col-sm-6">
+        <p class="date-info">Datum: {{ moment().format('DD.MM.YYYY') }} </p>
     </div>
-    <div class="col-sm-6 date">{{ moment().format('DD.MM.YYYY') }} </div>
+    <div class="col-sm-6">
+        <p class="time-info">Uhrzeit: {{ moment().format('HH:mm') }} </p>
+    </div>
 </div>
-{% if current_user.is_authenticated %}
-    {% if current_user.is_clocked %}
-        <h3> Stempelzeit:<br> <b>{{ time }} </b></h3>
-        <hr>
-        <form method="post">
-            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
-            <input class="btn btn-danger btn-lg" type="submit" name="clockin" value="Ausstempeln" />
-        </form>
-    {% else %}
-        <h3>Sie <b> sind nicht </b> eingestempelt </h3>
-        <hr>
-        <form method="post">
-            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
-            <input class="btn btn-primary btn-lg" type="submit" name="clockin" value="Einstempeln" />
-        </form>
-    {% endif %}
-{% else %}
-    Bitte einloggen
-{% endif %}
+<table >
+    <thead>
+        <th> Vorname </th>
+        <th> Nachname </th>
+        <th> Stempelzeit </th>
+        <th> Eingeloggt</th>
+        <th> Aktionen </th>
+    </thead>
+    <tr>
+
+        <td><p> {{ current_user.firstname }} </p></td>
+        <td><p> {{ current_user.lastname }} </p></td>
+        <td><p>
+            {% if time %}
+                {{ time }}
+            {% endif %}
+            </p>
+        </td>
+        <td>{% if logged %}
+                {{ logged }}
+            {% endif %}
+            </p>
+        </td>
+        <td class="actions">
+            {% if current_user.is_authenticated %}
+                {% if current_user.is_clocked %}
+                    <form id="infos" method="post">
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                        <input class="btn btn-danger btn-lg" type="submit" name="clockin" value="Ausstempeln" />
+                    </form>
+                {% else %}
+                    <form method="post">
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                        <input class="btn btn-primary btn-lg" type="submit" name="clockin" value="Einstempeln" />
+                    </form>
+                {% endif %}
+            {% else %}
+                Bitte einloggen
+            {% endif %}
+        </td>
+    </tr>
+</table>
+
 
 {% endblock page_content %}

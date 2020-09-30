@@ -91,14 +91,14 @@ def edit_user(name):
     form.ve.data = user.email
 
     return render_template('admin/user/parts/user-edit.html',
-                           username=name,
+                           user=user,
                            form=form,
                            title=name,
                            route=request.path
                            )
 
 
-@admin.route('/users/<name>/delete/', methods=['GET'])
+@admin.route('/users/<name>/delete/', methods=['POST'])
 @login_required
 @owner_required
 def delete_user(name):
