@@ -81,8 +81,6 @@
     <caption> Benutzertabelle </caption>
     <thead>
         <th> Benutzername </th>
-        <th> Rolle </th>
-        <th> Email </th>
         <th> Vorname </th>
         <th> Nachname </th>
         <th> Aktionen </th>
@@ -91,8 +89,6 @@
     <tr>
         {% if current_user.role.permissions >= user.role.permissions %}
             <td><p> {{ user.username }} </p></td>
-            <td><p> {{ user.role.name }} </p></td>
-            <td><p> {{ user.email }} </p></td>
             <td><p> {{ user.firstname }} </p></td>
             <td><p> {{ user.lastname }} </p></td>
             <td>
