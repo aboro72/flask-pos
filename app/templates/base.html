@@ -16,6 +16,21 @@
 {% endblock %}
 
 {% block navbar %}
+<style>
+    .navbar-brand {
+        font-size: 32px;
+    }
+    .nav-item {
+        font-size: 24px;
+    }
+    .navbar-brand, .nav-item {
+        color: white !important;
+    }
+    .navbar-inverse {
+        background-color: #004444;
+        border-color: #004444;
+    }
+</style>
 <div class="navbar navbar-inverse" role="navigation">
     <div class="container">
         <div class="navbar-header">
@@ -41,15 +56,13 @@
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 {% if current_user.is_authenticated %}
-                <li><a href="{{ url_for('auth.logout') }}"><b>{{ current_user.firstname }}</b> ausloggen </a></li>
+                <li><a class="nav-item nav-link" href="{{ url_for('auth.logout') }}"><b>{{ current_user.firstname }}</b> ausloggen </a></li>
                 {% else %}
-                <li><a href="{{ url_for('auth.login') }}">Einloggen</a></li>
+                <li><a class="nav-item nav-link" href="{{ url_for('auth.login') }}">Einloggen</a></li>
                 {% endif %}
             </ul>
         </div>
-
-            <p style="background-color: #009999; color: #FFFFFF;font-size: medium; padding: 2px; padding-top: 3px;"> {{ route }} </p>
-
+        <p style="background-color: #009999; color: #FFFFFF;font-size: medium; padding: 2px; padding-top: 3px;"> {{ route }} </p>
     </div>
 
 </div>
