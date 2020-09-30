@@ -12,7 +12,6 @@ from app.blueprints.admin import admin
 from flask_login import login_required, current_user
 from app.helper.decorator import manager_required, owner_required
 from app.models.device import Device
-from app.models.user import User
 from app.blueprints.admin.forms.device_forms import DeviceAddForm, DeviceEditForm
 
 
@@ -22,7 +21,7 @@ from app.blueprints.admin.forms.device_forms import DeviceAddForm, DeviceEditFor
 def devices():
     devices_list = Device.query.all()
     return render_template('admin/device/device-index.html',
-                           title="Abrechnung",
+                           title="Geräte verwalten",
                            devices=devices_list,
                            route=request.path
                            )
@@ -34,6 +33,7 @@ def devices():
 def get_device(uuid):
     device = Device.query.filter(Device.device_uuid == uuid).first()
     return render_template('admin/device/parts/device-view.html',
+                           title='{} ansehen'.format(device.device_uuid),
                            device=device,
                            route=request.path
                            )
@@ -73,6 +73,7 @@ def edit_device(uuid):
     form.ordered_from.data = device.ordered_from
 
     return render_template('admin/device/parts/device-edit.html',
+                           title='{} editieren'.format(device.device_uuid),
                            device=device,
                            form=form,
                            route=request.path
@@ -115,6 +116,7 @@ def add_device():
             flash('Gerät erfolgreich angelegt', 'success')
             return redirect(url_for('admin.devices'))
     return render_template('admin/device/parts/device-add.html',
+                           title='Gerät hinzufügen',
                            form=form,
                            route=request.path
                            )

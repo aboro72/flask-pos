@@ -172,6 +172,7 @@ def view_control_details(year, name, cid):
 
         # /admin/control/<year>/<month>/<user>/<time>
         return render_template('admin/control/parts/control-detail-view.html',
+                               title='Zeitkorrektur {} {}'.format(user.firstname, user.lastname),
                                form=form,
                                details=details,
                                difference=get_time_difference(details.control_id),

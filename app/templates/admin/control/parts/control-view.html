@@ -25,10 +25,24 @@
         border: 2px solid;
         text-align: left;
     }
+    .bts {
+      width:48px;
+      height: 48px;
+      background-color: orange;
+      border: 1px solid #0000FF;
+      color: white;
+      cursor: pointer;
+      padding:6px;
+    }
+    .bts:hover {
+      background-color: RoyalBlue;
+      color: white;
+    }
 
     .fa {
-        color: orange;
+        color: white;
     }
+
 </style>
 <p id="title"> <b> Stempelzeiten: <i>{{ month }} / {{ year }} </i></b></p>
 <hr>
@@ -55,13 +69,14 @@
                     <td><p> {{ elem[2] }} </p></td>
                     <td>
                         {% if current_user.is_owner() %}
-                            <a href="{{ url_for( 'admin.view_control_details',
-                                year=year,
-                                name=elem[0].username,
-                                cid=elem[1].control_id
-                            ) }}">
-                                <i title="Korrigieren" class="fa" style="font-size:24px;color=black;">&#xf044;</i>
-                            </a>
+                        <div class="col-md-4">
+                            <form action="{{ url_for( 'admin.view_control_details',
+                                year=year, name=elem[0].username, cid=elem[1].control_id) }}" method="get">
+                                <button  title="Editieren" type="submit" class="bts">
+                                    <i class="fa">&#xf044;</i>
+                                </button>
+                            </form>
+                        </div>
                         {% endif %}
                     </td>
                 </tr>
