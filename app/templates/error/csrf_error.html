@@ -1,10 +1,20 @@
 {% extends "base.html" %}
 {% block page_content %}
-
+<style>
+    p#title {
+        font-size: 50px;
+        background-color: #006666;
+        padding-left: 20px;
+        color: white;
+    }
+    i {
+        color: yellow;
+    }
+</style>
+<p id="title"> <b> ACHTUNG - CSRF Fehler ist aufgetreten </b> </p>
+<hr>
 <div class="container">
-    <h2>ACHTUNG - CSRF Fehler ist aufgetreten </h2>
-    <hr>
-    <h3>
+
         CSRF stands for Cross Site Request Forgery. It is a security vulnerability
         that forces an end user to unknowingly let attackers perform malicious actions
         on the end user's behalf within the sensitive website they are currently authenticated
@@ -15,7 +25,6 @@
         happens to visit the attacker’s site while authenticated to the website (such as user's
         ank account), the attacker could perform malicious action on the end user's behalf
         potentially damaging the user’s possession in the their authenticated website.
-    </h3>
     <hr>
     <h1> {{ reason }} </h1>
 </div>
