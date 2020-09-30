@@ -107,8 +107,8 @@ def add_device():
                 serial_number=form.serial.data,
                 manufacturer=form.manufacturer.data,
                 ordered_from=form.ordered_from.data,
-                created_at=datetime.now().strftime('%d %b, %H:%M:%S'),
-                modified_at=datetime.now().strftime('%d %b, %H:%M:%S'),
+                created_at=datetime.now(),
+                modified_at=datetime.now(),
             )
             db.session.add(device)
             db.session.commit()

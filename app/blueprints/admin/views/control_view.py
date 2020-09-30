@@ -54,57 +54,58 @@ def control_with_year_and_month(year, month):
 @login_required
 @manager_required
 def clock_out(name):
-    # if name is present
-    if name is not None:
-        # get necessary info's
-        user = User.query.filter_by(username=name).first()
-        controls = Control.query.filter(Control.user_id == user.user_id).all()
-        current_time = datetime.now()
+    if request.method == 'POST':
+        # if name is present
+        if name is not None:
+            # get necessary info's
+            user = User.query.filter_by(username=name).first()
+            controls = Control.query.filter(Control.user_id == user.user_id).all()
+            current_time = datetime.now()
 
-        # iterate through the control events
-        for item in controls:
+            # iterate through the control events
+            for item in controls:
 
-            # if control-item is not in database create a new event
-            if item.time_end is None:
-                item.time_end = current_time
-                item.modified_at = current_time
-                item.is_modified = True
-                modify_reason = TimeModifyReason(
-                    reason="<{}, {} {}> wurde von <{}, {} {}> ausgestempelt".format(
-                        user.uuid,
-                        user.firstname,
-                        user.lastname,
-                        current_user.uuid,
-                        current_user.firstname,
-                        current_user.lastname,
-                    ),
-                    control_by=item.control_id,
-                    modified_by=current_user.user_id,
-                    modified_user=user.user_id,
-                    created_at=current_time
-                )
-                db.session.add(modify_reason)
-                user.is_clocked = False
-                db.session.commit()
-                message = '<{}, {} {}> erfolgreich ausgeloggt'.format(user.uuid, user.firstname, user.lastname)
-                flash(message, 'success')
+                # if control-item is not in database create a new event
+                if item.time_end is None:
+                    item.time_end = current_time
+                    item.modified_at = current_time
+                    item.is_modified = True
+                    modify_reason = TimeModifyReason(
+                        reason="<{}, {} {}> wurde von <{}, {} {}> ausgestempelt".format(
+                            user.uuid,
+                            user.firstname,
+                            user.lastname,
+                            current_user.uuid,
+                            current_user.firstname,
+                            current_user.lastname,
+                        ),
+                        control_by=item.control_id,
+                        modified_by=current_user.user_id,
+                        modified_user=user.user_id,
+                        created_at=current_time
+                    )
+                    db.session.add(modify_reason)
+                    user.is_clocked = False
+                    db.session.commit()
+                    message = '<{}, {} {}> erfolgreich ausgeloggt'.format(user.uuid, user.firstname, user.lastname)
+                    flash(message, 'success')
 
-                # redirect to /admin/control
-                return redirect(url_for('admin.control'))
-    # if name is not present redirect to /admin/control
-    flash('Mitarbeiter konnte nicht gefunden werden', 'warning')
+                    # redirect to /admin/control
+                    return redirect(url_for('admin.control'))
+        # if name is not present redirect to /admin/control
+        flash('Mitarbeiter konnte nicht gefunden werden', 'warning')
+        return redirect(url_for('admin.control'))
     return redirect(url_for('admin.control'))
 
 
-# /admin/control/<year>/<month>/<name>/<time>/
-@admin.route('/control/<year>/<month>/<name>/<time>/', methods=['GET', 'POST'])
-def view_control_details(year, month, name, time):
+@admin.route('/control/<year>/<name>/<cid>', methods=['GET', 'POST'])
+def view_control_details(year, name, cid):
     # get form
     form = ControlDetailForm()
 
     # get necessary info's
     user = User.query.filter(User.username == name).first()
-    details = get_control_time(month, year, user, time)
+    details = Control.query.get(cid)
 
     # if form is submitted
     if request.method == 'POST':
@@ -135,7 +136,7 @@ def view_control_details(year, month, name, time):
                 if end_date <= datetime.now():
                     # if details is not empty
                     if details:
-                        change_control_event(details[0][0], start_date, end_date, form.reason.data)
+                        change_control_event(details, start_date, end_date, form.reason.data)
                         flash('Zeit erfolgreich geändert', 'success')
                         # redirect to /admin/control
                         return redirect(url_for('admin.control'))
@@ -152,8 +153,8 @@ def view_control_details(year, month, name, time):
     # if details is not empty
     if details:
         # assign the current dates in the control event
-        starttime = details[0][0].time_start
-        endtime = details[0][0].time_end
+        starttime = details.time_start
+        endtime = details.time_end
 
         # transform datetimes to single dates and times
         form.time_start_hour.data = starttime
@@ -173,6 +174,7 @@ def view_control_details(year, month, name, time):
         return render_template('admin/control/parts/control-detail-view.html',
                                form=form,
                                details=details,
+                               difference=get_time_difference(details.control_id),
                                user=user,
                                route=request.path
                                )
@@ -185,7 +187,6 @@ def view_control_details(year, month, name, time):
 # get specific clock depending on year and month
 def get_clock_in_times(control_list, year=None, month=None):
     date_list = list()
-    tstr = "%d.%m.%Y-%H:%M:%S"
     seconds_in_day = 24 * 60 * 60
 
     # get current year or date if its not present
@@ -196,7 +197,7 @@ def get_clock_in_times(control_list, year=None, month=None):
 
     # itreate through control-events
     for item in control_list:
-        item_user = User.query.get(item.user_id)
+        item_user = User.query.filter(User.user_id == item.user_id).first()
 
         # make sure that the user in the iterated control-event is present
         if item_user is not None:
@@ -208,8 +209,8 @@ def get_clock_in_times(control_list, year=None, month=None):
                     if item.time_end is not None:
 
                         # prepare a string to display in the frontend
-                        time_start = datetime.strftime(item.time_start, tstr)
-                        time_end = datetime.strftime(item.time_end, tstr)
+                        # time_start = datetime.strftime(item.time_start, tstr)
+                        # time_end = datetime.strftime(item.time_end, tstr)
                         difference = item.time_end - item.time_start
                         clock_in_minutes = divmod(difference.days * seconds_in_day + difference.seconds, 60)
                         clock_in_hours = divmod(clock_in_minutes[0], 60)
@@ -218,8 +219,7 @@ def get_clock_in_times(control_list, year=None, month=None):
                                                                                      clock_in_minutes[1])
                         date_list.append((
                             item_user,
-                            time_start,
-                            time_end,
+                            item,
                             clock_in_time,
                         ))
     return date_list
@@ -285,24 +285,18 @@ def get_control_time(month, year, user, time):
     if month is None or year is None or user is None or time is None:
         return None
     data_list = list()
-    seconds_in_day = 24 * 60 * 60
     control_list = Control.query.filter(Control.user_id == user.user_id).all()
 
     # iterate through control-events
     for item in control_list:
         if int(year) == item.time_start.year:
             if int(month) == item.time_start.month and item.time_start.strftime("%d.%m.%Y-%H:%M:%S") == time:
-                difference = item.time_end - item.time_start
-                clock_in_minutes = divmod(difference.days * seconds_in_day + difference.seconds, 60)
-                clock_in_hours = divmod(clock_in_minutes[0], 60)
-                clock_in_time = '{} Stunden  {} Minuten  {} Sekunden'.format(clock_in_hours[0],
-                                                                             clock_in_minutes[0] % 60
-                                                                             , clock_in_minutes[1])
+
                 # used a list for a single tuple    CHANGE NEEDED
                 data_list.append((
                     item,
                     time,
-                    clock_in_time
+                    get_time_difference(item.control_id)
                 ))
                 return data_list
     return None
@@ -347,3 +341,15 @@ def change_control_event(control_event, start_date, end_date, modify_reason):
     # add time modify reason to the database
     db.session.add(time_modify_reason)
     db.session.commit()
+
+
+def get_time_difference(control_id):
+    seconds_in_day = 24 * 60 * 60
+    item = Control.query.get(control_id)
+    difference = item.time_end - item.time_start
+    clock_in_minutes = divmod(difference.days * seconds_in_day + difference.seconds, 60)
+    clock_in_hours = divmod(clock_in_minutes[0], 60)
+    clock_in_time = '{} Stunden  {} Minuten  {} Sekunden'.format(clock_in_hours[0],
+                                                                 clock_in_minutes[0] % 60
+                                                                 , clock_in_minutes[1])
+    return clock_in_time
