@@ -126,9 +126,12 @@
 {% else %}
     Keine Benutzer vorhanden
 {% endif %}
-<hr>
 
 {% if current_user.is_owner() %}
-    <a role="button" id="add" class="btn btn-success" href="{{ url_for('admin.add_user') }}">Hinzufügen</a>
+    <hr>
+   <form action="{{ url_for('admin.add_user') }}" method="get">
+        <button title="Benutzer hinzufügen" type="submit" class="btn btn-primary btn-lg">Benutzer hinzufügen
+        </button>
+    </form>
 {% endif %}
 {% endblock page_content %}

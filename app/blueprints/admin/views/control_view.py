@@ -208,20 +208,10 @@ def get_clock_in_times(control_list, year=None, month=None):
                 if int(month) == item.time_start.month:
                     # make sure that the user is already logged out
                     if item.time_end is not None:
-
-                        # prepare a string to display in the frontend
-                        # time_start = datetime.strftime(item.time_start, tstr)
-                        # time_end = datetime.strftime(item.time_end, tstr)
-                        difference = item.time_end - item.time_start
-                        clock_in_minutes = divmod(difference.days * seconds_in_day + difference.seconds, 60)
-                        clock_in_hours = divmod(clock_in_minutes[0], 60)
-                        clock_in_time = '{} Stunden  {} Minuten  {} Sekunden'.format(clock_in_hours[0],
-                                                                                     clock_in_minutes[0] % 60,
-                                                                                     clock_in_minutes[1])
                         date_list.append((
                             item_user,
                             item,
-                            clock_in_time,
+                            get_time_difference(item.control_id),
                         ))
     return date_list
 
@@ -236,16 +226,14 @@ def get_current_clock_in_times(control_list):
         if element_user is not None:
             if element.time_end is None:
                 if current_user.role.permissions >= element_user.role.permissions:
-                    time_start = datetime.strftime(element.time_start, time_str)
+
                     difference = datetime.now() - element.time_start
                     clock_in_minutes = divmod(difference.days * seconds_in_day + difference.seconds, 60)
                     clock_in_hours = divmod(clock_in_minutes[0], 60)
-                    clock_in_time = '{} Stunden  {} Minuten  {} Sekunden'.format(clock_in_hours[0],
-                                                                                 clock_in_minutes[0] % 60
-                                                                                 , clock_in_minutes[1])
+                    clock_in_time = '{} Stunden  {} Minuten'.format(clock_in_hours[0], clock_in_minutes[0] % 60)
                     date_list.append((
                         element_user,
-                        time_start,
+                        element.time_start,
                         clock_in_time,
                     ))
     return date_list
@@ -350,7 +338,5 @@ def get_time_difference(control_id):
     difference = item.time_end - item.time_start
     clock_in_minutes = divmod(difference.days * seconds_in_day + difference.seconds, 60)
     clock_in_hours = divmod(clock_in_minutes[0], 60)
-    clock_in_time = '{} Stunden  {} Minuten  {} Sekunden'.format(clock_in_hours[0],
-                                                                 clock_in_minutes[0] % 60
-                                                                 , clock_in_minutes[1])
+    clock_in_time = '{} Stunden  {} Minuten'.format(clock_in_hours[0], clock_in_minutes[0] % 60)
     return clock_in_time

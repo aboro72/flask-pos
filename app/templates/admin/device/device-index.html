@@ -121,11 +121,13 @@
 {% else %}
     Keine Geräte vorhanden
 {% endif %}
-<p></p>
 
 {% if current_user.is_owner() %}
     <hr>
-    <a role="button" class="btn btn-success" href="{{ url_for('admin.add_device') }}">Hinzufügen</a>
+   <form action="{{ url_for('admin.add_device') }}" method="get">
+        <button title="Gerät hinzufügen" type="submit" class="btn btn-primary btn-lg">Gerät hinzufügen
+        </button>
+    </form>
 {% endif %}
 
 {% endblock page_content %}
