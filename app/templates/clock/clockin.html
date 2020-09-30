@@ -23,6 +23,9 @@
         font-size: 50px;
         color: #006666;
     }
+    .date-info>i, .time-info>i  {
+        color: black;
+    }
     .time-info {
         height: 20%;
         display:block;
@@ -50,16 +53,17 @@
 
 </style>
 <p id="clock-in-title">
-    Mitarbeiter:
-    <i> {{ current_user.firstname }} {{ current_user.lastname }}</i>
+    <b> Mitarbeiter:
+        <i> {{ current_user.firstname }} {{ current_user.lastname }}</i>
+    </b>
 </p>
-<hr>
+
 <div class="row">
     <div class="col-sm-6">
-        <p class="date-info">Datum: {{ moment().format('DD.MM.YYYY') }} </p>
+        <p class="date-info">Datum: <i>{{ moment().format('DD.MM.YYYY') }} </i></p>
     </div>
     <div class="col-sm-6">
-        <p class="time-info">Uhrzeit: {{ moment().format('HH:mm') }} </p>
+        <p class="time-info">Uhrzeit:<i> {{ moment().format('HH:mm') }} </i></p>
     </div>
 </div>
 <table >
@@ -76,7 +80,7 @@
         <td><p> {{ current_user.lastname }} </p></td>
         <td><p>
             {% if time %}
-                {{ time }}
+                {{ time.strftime('%d.%m.%Y, %H:%M') }}
             {% endif %}
             </p>
         </td>
@@ -88,14 +92,17 @@
         <td class="actions">
             {% if current_user.is_authenticated %}
                 {% if current_user.is_clocked %}
-                    <form id="infos" method="post">
+                    <form id="infos" method="post" onSubmit="return confirm
+                        ('Wirklich ausstempeln?');">
                         <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
-                        <input class="btn btn-danger btn-lg" type="submit" name="clockin" value="Ausstempeln" />
+                        <input title="Ausstempeln"
+                               class="btn btn-danger btn-lg" type="submit" name="clockin" value="Ausstempeln" />
                     </form>
                 {% else %}
                     <form method="post">
                         <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
-                        <input class="btn btn-primary btn-lg" type="submit" name="clockin" value="Einstempeln" />
+                        <input title="Einstempeln"
+                               class="btn btn-primary btn-lg" type="submit" name="clockin" value="Einstempeln" />
                     </form>
                 {% endif %}
             {% else %}

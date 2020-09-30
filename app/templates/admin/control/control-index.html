@@ -27,9 +27,9 @@
         color: #006666;
         text-align:right;
     }
-     .date-info>i, .time-info>i  {
+    .date-info>i, .time-info>i  {
         color: black;
-     }
+    }
     caption {
         font-size: 24px;
     }
@@ -55,9 +55,7 @@
       cursor: pointer;
       padding:6px;
     }
-    .btn {
-        font-size: 24px;
-    }
+
     #current {
         font-size: 32px;
         width: 100%;
@@ -73,7 +71,6 @@
 
 <p id="title"> <b> Verwaltung der Stempelzeiten</b></p>
 
-<hr>
 <div class="row">
     <div class="col-sm-6">
         <p class="date-info">Datum: <i>{{ moment().format('DD.MM.YYYY') }}</i> </p>
@@ -86,16 +83,18 @@
     {% if current_date %}
         <div class="row">
             <div class="col-sm-12">
-                <a id="current" data-toggle="tooltip" title="Aktuellen Monat anzeigen"
-                   role="button" class="btn btn-success btn-lg"
-                   href="{{ url_for('admin.control_with_year_and_month', year=current_date[0]
-                   , month=current_date[1]) }}"> Stempelzeiten des aktuellen Monats </a>
+                <form action="{{ url_for('admin.control_with_year_and_month', year=current_date[0]
+                   , month=current_date[1]) }}" method="get">
+                    <button id="current" title="Aktuellen Monat anzeigen" type="submit" class="btn btn-primary btn-lg">
+                        Stempelzeiten des aktuellen Monats
+                    </button>
+                </form>
+               <hr>
             </div>
         </div>
     {% endif %}
 {% endif %}
 
-<hr>
 <div class="current">
     {% if today %}
     <table>
@@ -112,7 +111,7 @@
                             <td><p> {{ elem[0].uuid }} </p></td>
                             <td><p> {{ elem[0].firstname }} </p></td>
                             <td><p> {{ elem[0].lastname }} </p></td>
-                            <td><p> {{ elem[1] }} </p></td>
+                            <td><p> {{ elem[1].strftime('%d.%m.%Y, %H:%M') }} </p></td>
                             <td><p> {{ elem[2] }} </p></td>
                             <td>
                                 {% if current_user.is_manager() %}
@@ -152,10 +151,13 @@
                         <td id="month">
                             {% if year %}
                                 {% for month in year[1] %}
-                                        <a  role="button" class="btn btn-info btn-sm" href=
-                                            "{{ url_for('admin.control_with_year_and_month', year=year[0], month=month) }} ">
-                                            {{ month }} </a>
-
+                                    <form action
+                                      ="{{ url_for('admin.control_with_year_and_month', year=year[0], month=month) }}"
+                                      method="get">
+                                        <button title="Monat auswählen" type="submit" class="btn btn-primary btn-sm">
+                                            {{ month }}
+                                        </button>
+                                    </form>
                                 {% endfor %}
                             {% endif %}
                         </td>
