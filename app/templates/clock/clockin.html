@@ -44,6 +44,7 @@
     }
     .btn {
         font-size: 32px;
+        width: 100%;
     }
     .actions {
         text-align: center;
@@ -66,13 +67,14 @@
         <p class="time-info">Uhrzeit:<i> {{ moment().format('HH:mm') }} </i></p>
     </div>
 </div>
+
+{% if current_user.is_authenticated %}
 <table >
     <thead>
         <th> Vorname </th>
         <th> Nachname </th>
         <th> Stempelzeit </th>
         <th> Eingeloggt</th>
-        <th> Aktionen </th>
     </thead>
     <tr>
 
@@ -81,36 +83,42 @@
         <td><p>
             {% if time %}
                 {{ time.strftime('%d.%m.%Y, %H:%M') }}
+            {% else %}
+                -
             {% endif %}
             </p>
         </td>
         <td>{% if logged %}
                 {{ logged }}
+            {% else %}
+                -
             {% endif %}
             </p>
         </td>
-        <td class="actions">
-            {% if current_user.is_authenticated %}
-                {% if current_user.is_clocked %}
-                    <form id="infos" method="post" onSubmit="return confirm
-                        ('Wirklich ausstempeln?');">
-                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
-                        <input title="Ausstempeln"
-                               class="btn btn-danger btn-lg" type="submit" name="clockin" value="Ausstempeln" />
-                    </form>
-                {% else %}
-                    <form method="post">
-                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
-                        <input title="Einstempeln"
-                               class="btn btn-primary btn-lg" type="submit" name="clockin" value="Einstempeln" />
-                    </form>
-                {% endif %}
-            {% else %}
-                Bitte einloggen
-            {% endif %}
-        </td>
     </tr>
 </table>
+<hr>
 
+<div class="row">
+    <div class="col-md-12">
+            {% if current_user.is_clocked %}
+                <form id="infos" method="post" onSubmit="return confirm
+                    ('Wirklich ausstempeln?');">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                    <input title="Ausstempeln"
+                           class="btn btn-danger btn-lg" type="submit" name="clockin" value="Ausstempeln" />
+                </form>
+            {% else %}
+                <form method="post">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                    <input title="Einstempeln"
+                           class="btn btn-success btn-lg" type="submit" name="clockin" value="Einstempeln" />
+                </form>
+    {% endif %}
+    </div>
+</div>
+{% else %}
+    Bitte einloggen
+{% endif %}
 
 {% endblock page_content %}
