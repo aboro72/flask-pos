@@ -57,9 +57,8 @@
         }
     }
     .close {
-        color: #005555;
+        color: #eee;
         opacity: 1;
-
         font-size: 40px;
 
     }
@@ -72,13 +71,16 @@
     }
     #thedate {
         display: block;
-        margin-right: 10px;
+        margin-left: 10px;
         font-size: 30px;
         color: #FFFFFF;
         text-align: left;
     }
     caption {
         font-size: 24px;
+    }
+    #closemessage {
+        font-size: 60px;
     }
 </style>
 <div class="navbar navbar-inverse" role="navigation">
@@ -125,7 +127,7 @@
 
 
         <div id="sysdiv" class="col-sm-12 alert alert">
-            <button type="button" class="close" aria-label="Close" data-dismiss="alert">
+            <button id="closemessage" type="button" class="close" aria-label="Close" data-dismiss="alert">
                 &times
             </button>
             <span id="sysmessage"></span>
