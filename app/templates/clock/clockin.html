@@ -17,22 +17,7 @@
         border: 2px solid;
         vertical-align: center;
     }
-    .date-info {
-        height: 20%;
-        display:block;
-        font-size: 50px;
-        color: #006666;
-    }
-    .date-info>i, .time-info>i  {
-        color: black;
-    }
-    .time-info {
-        height: 20%;
-        display:block;
-        font-size: 50px;
-        color: #006666;
-        text-align:right;
-    }
+
     table {
         border: 2px solid;
         width: 100%;
@@ -58,18 +43,10 @@
         <i> {{ current_user.firstname }} {{ current_user.lastname }}</i>
     </b>
 </p>
-
-<div class="row">
-    <div class="col-sm-6">
-        <p class="date-info">Datum: <i>{{ moment().format('DD.MM.YYYY') }} </i></p>
-    </div>
-    <div class="col-sm-6">
-        <p class="time-info">Uhrzeit:<i> {{ moment().format('HH:mm') }} </i></p>
-    </div>
-</div>
-
+<hr>
 {% if current_user.is_authenticated %}
-<table >
+<table>
+    <caption> Stempelzeit </caption>
     <thead>
         <th> Vorname </th>
         <th> Nachname </th>

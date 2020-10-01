@@ -50,9 +50,9 @@ def create_app(config_name):
     from app.models.user import User
     from app.models.role import Role
     from app.models.device import Device
-    from app.models.message import Message
     from app.models.control import Control
     from app.models.modify import TimeModifyReason
+    from app.models.message import Message, SystemNotification
 
     # import blueprints
     from app.blueprints import (

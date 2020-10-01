@@ -44,7 +44,6 @@ def time():
                 db.session.add(control)
                 db.session.commit()
                 current_user.is_clocked = True
-                flash("Benutzer " + current_user.username + " erfolgreich eingestempelt", 'success')
         if action == 'Ausstempeln':
             if current_user.is_clocked:
 
@@ -55,7 +54,6 @@ def time():
                         control.time_end = datetime.now()
                         db.session.commit()
                         current_user.is_clocked = False
-                        flash("Benutzer " + current_user.username + " erfolgreich ausgestempelt", 'success')
                         return render_template('clock/clockin.html',
                                                title="Arbeitszeiten"
                                                , route=request.path

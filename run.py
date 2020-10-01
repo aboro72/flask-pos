@@ -7,6 +7,7 @@ from flask_migrate import Migrate
 from app import create_app, db, csrf
 from app.models.control import Control
 from app.models.device import Device
+from app.models.message import SystemNotification
 from app.models.modify import TimeModifyReason
 from app.models.role import Role
 from app.models.user import User
@@ -169,7 +170,15 @@ def createdb():
         user_modified=admin_user,
         user_modifier=admin_user,
     )
-    db.session.add(modify_reason)
 
+    db.session.add(modify_reason)
+    note = SystemNotification(
+        title="Achtung",
+        body="ACHTUNG: Tagesabschluss um 23:59!!!\n\n",
+        is_repeatable=True,
+        start_datetime=time,
+        end_datetime=datetime(2020, 10, 1, 23, 59, 0, 0)
+    )
+    db.session.add(note)
     # Commit all to the database
     db.session.commit()
