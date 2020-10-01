@@ -1,4 +1,5 @@
 from datetime import datetime
+from app import db
 
 from flask import (
     render_template,
@@ -6,10 +7,14 @@ from flask import (
     current_app as app,
     request,
     redirect,
-    url_for
-
+    url_for,
+    jsonify,
 )
+from flask_login import login_required
+
 from app.blueprints.main import main
+
+from app.models.message import SystemNotification
 
 
 @main.route('/favicon.ico')
@@ -45,3 +50,29 @@ def contact():
                            title="Kontakt",
                            route=request.path
                            )
+
+
+@main.route('/notifications')
+@login_required
+def notifications():
+    notes = get_messages()
+    return jsonify([{
+        'data': n.body,
+        'hour': (datetime.now().hour - n.end_datetime.hour),
+        'minute': (datetime.now().minute - n.end_datetime.minute)
+    } for n in notes])
+
+
+def get_messages():
+    messages = SystemNotification.query.all()
+    notes = list()
+    gettime = datetime.now()
+    for item in messages:
+        if item.is_repeatable:
+            if item.start_datetime.hour <= gettime.hour <= item.end_datetime.hour:
+                if item.start_datetime.minute <= gettime.minute <= item.end_datetime.minute:
+                    notes.append(item)
+        else:
+            if item.start_datetime <= gettime <= item.end_datetime:
+                notes.append(item)
+    return notes

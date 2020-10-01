@@ -1,3 +1,4 @@
+from datetime import datetime
 from app import db
 
 
@@ -13,4 +14,14 @@ class Message(db.Model):
     target_id = db.Column(db.Integer, db.ForeignKey('users.user_id'), nullable=False)
 
     def __repr__(self):
-        return '<Message %r>' % self.title, self.source_id
+        return '<Message {} {}>'.format(self.title, self.source_id)
+
+
+class SystemNotification(db.Model):
+    __tablename__ = "notifications"
+    notification_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    title = db.Column(db.String(128), nullable=False)
+    body = db.Column(db.Text)
+    is_repeatable = db.Column(db.Boolean, default=False)
+    start_datetime = db.Column(db.DateTime(), default=datetime.utcnow())
+    end_datetime = db.Column(db.DateTime())
