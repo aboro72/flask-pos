@@ -30,6 +30,29 @@
         background-color: #004444;
         border-color: #004444;
     }
+    #sysdiv {
+        visibility: hidden;
+        display: none;
+        animation: fadeIn ease 4s infinite;
+    }
+    #sysmessage {
+        width: 100%;
+        font-size: 48px;
+        background-color: #FE2E2E;
+        color: white;
+        text-align: center;
+    }
+     @keyframes fadeIn {
+        0% {
+            opacity: 0;
+        }
+        50% {
+          opacity: 1;
+        }
+        100% {
+            opacity: 0;
+        }
+    }
 </style>
 <div class="navbar navbar-inverse" role="navigation">
     <div class="container">
@@ -63,6 +86,17 @@
             </ul>
         </div>
         <p style="background-color: #009999; color: #FFFFFF;font-size: medium; padding: 2px; padding-top: 3px;"> {{ route }} </p>
+
+
+        <div id="sysdiv" onclick="close_banner()" class="col-sm-12 alert alert">
+            <button type="button" class="close" aria-label="Close" data-dismiss="alert">
+                <span aria-hidden="true">X</span>
+            </button>
+            <p id="sysmessage"></p>
+        </div>
+
+
+
     </div>
 
 </div>
@@ -71,6 +105,7 @@
 {% block content %}
 
 <div class="container">
+
     {% with messages = get_flashed_messages(with_categories=true) %}
     {% if messages %}
       {% for category, message in messages %}
@@ -95,4 +130,37 @@
     {{ super() }}
     {{ moment.include_moment() }}
     {{ moment.locale("de") }}
+    <script>
+        // display messages
+        function display_sysmessage(n) {
+            $('#sysmessage').text(n);
+            $('#sysdiv').css('visibility', n ? 'visible' : 'hidden');
+            $('#sysdiv').css('display', 'block');
+        }
+
+        function close_banner() {
+            $('#sysdiv').css('display', 'none');
+        }
+
+        // get notifications
+        {% if current_user.is_authenticated %}
+        $(function() {
+            setInterval(function() {
+                $.ajax('{{ url_for('main.notifications') }}').done(
+                    function(notifications) {
+                        for (var i = 0; i < notifications.length; i++) {
+                            var message = notifications[i].data;
+                            // var hour, minute = 0;
+                            // var countdowntime = notifications[i].hour * 60 + notifications[i].minute * 60;
+                            // if countdowntime > 0 {
+                            //   message += 'Verbleibende Zeit: %s:%s' , notifications[i].hour, notifications[i].minute
+                            // }
+                            display_sysmessage(message)
+                        }
+                    }
+                );
+            }, 10000);
+        });
+        {% endif %}
+    </script>
 {% endblock %}
