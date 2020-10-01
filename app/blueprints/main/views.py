@@ -63,14 +63,6 @@ def notifications():
     } for n in notes])
 
 
-@main.route('/gettime')
-@login_required
-def get_time():
-    return jsonify({
-        'data':  datetime.now().strftime('%d.%m.%Y, %H:%M:%S')
-    })
-
-
 def get_messages():
     messages = SystemNotification.query.all()
     notes = list()
