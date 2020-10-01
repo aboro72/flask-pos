@@ -1,5 +1,4 @@
 from datetime import datetime
-from app import db
 
 from flask import (
     render_template,
@@ -56,11 +55,20 @@ def contact():
 @login_required
 def notifications():
     notes = get_messages()
+    print(notes)
     return jsonify([{
         'data': n.body,
         'hour': (datetime.now().hour - n.end_datetime.hour),
         'minute': (datetime.now().minute - n.end_datetime.minute)
     } for n in notes])
+
+
+@main.route('/gettime')
+@login_required
+def get_time():
+    return jsonify({
+        'data':  datetime.now().strftime('%d.%m.%Y, %H:%M:%S')
+    })
 
 
 def get_messages():
