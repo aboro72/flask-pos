@@ -33,11 +33,14 @@
     </tr>
     {% endfor %}
 </table>
+{% else %}
+    <h3> Keine offenen Kassen vorhanden </h3>
 {% endif %}
 <div class="row">
     <div class="col-md-12">
         <form action="" method="get">
-            <button title="Ansehen" type="submit" class="btn btn-primary btn-lg"> Neue Kasse Anmelden
+            <button title="Ansehen" type="submit" class="btn btn-danger btn-lg"> Neue Kasse Anmelden
+                <br><i> Noch nicht implementiert </i> </button>
             </button>
         </form>
     </div>

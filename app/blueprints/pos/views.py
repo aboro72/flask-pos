@@ -14,9 +14,3 @@ def cash():
                            title="Kasse",
                            route=request.path
                            )
-
-
-@pos.route('/<id>/', methods=['GET', 'POST'])
-@login_required
-def pos_view():
-    return "under construction"

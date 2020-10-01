@@ -50,32 +50,49 @@
             opacity: 0;
         }
         50% {
-          opacity: 1;
+            opacity: 1;
         }
         100% {
             opacity: 0;
         }
     }
     .close {
-        color: white;
+        color: #eee;
         opacity: 1;
-
         font-size: 40px;
 
     }
-    #time-element {
+    #thetime {
         display: block;
         margin-right: 10px;
         font-size: 30px;
         color: #FFFFFF;
         text-align: right;
     }
+    #thedate {
+        display: block;
+        margin-left: 10px;
+        font-size: 30px;
+        color: #FFFFFF;
+        text-align: left;
+    }
     caption {
         font-size: 24px;
     }
+    #closemessage {
+        font-size: 60px;
+    }
 </style>
 <div class="navbar navbar-inverse" role="navigation">
-    <div id="time-element"> xx.xx.xxxx, xx:xx:xx </div>
+    <div class="row">
+        <div class="col-xs-6">
+            <div id="thedate" onload="time()">xx.xx.xxxx</div>
+        </div>
+        <div class="col-xs-6">
+            <div id="thetime" onload="time()">xx:xx:xx</div>
+        </div>
+    </div>
+
     <div class="container">
         <div class="navbar-header">
             <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -110,7 +127,7 @@
 
 
         <div id="sysdiv" class="col-sm-12 alert alert">
-            <button type="button" class="close" aria-label="Close" data-dismiss="alert">
+            <button id="closemessage" type="button" class="close" aria-label="Close" data-dismiss="alert">
                 &times
             </button>
             <span id="sysmessage"></span>
@@ -124,18 +141,18 @@
 <div class="container">
 
     {% with messages = get_flashed_messages(with_categories=true) %}
-    {% if messages %}
-      {% for category, message in messages %}
-        <div class="row">
-            <div class="col-sm-12">
-                <div class="alert alert-{{ category }}">
-                  <button type="button" class="close" data-dismiss="alert">&times;</button>
-                    {{ message }}
+        {% if messages %}
+          {% for category, message in messages %}
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="alert alert-{{ category }}">
+                      <button type="button" class="close" data-dismiss="alert">&times;</button>
+                        {{ message }}
+                    </div>
                 </div>
             </div>
-        </div>
-      {% endfor %}
-    {% endif %}
+          {% endfor %}
+        {% endif %}
     {% endwith %}
 
     {% block page_content %}{% endblock %}
@@ -143,12 +160,13 @@
 </div>
 {% endblock %}
 
-
 {% block scripts %}
     {{ super() }}
     {{ moment.include_moment() }}
     {{ moment.locale("de") }}
     <script>
+    {% if current_user.is_authenticated %}
+
         // display messages
         function display_sysmessage(n) {
             $('#sysmessage').text(n);
@@ -157,7 +175,6 @@
         }
 
         // get notifications
-        {% if current_user.is_authenticated %}
         $(function() {
             setInterval(function() {
                 $.ajax('{{ url_for('main.notifications') }}').done(
@@ -170,15 +187,31 @@
                 );
             }, 10000);
         });
-        $(function() {
-            setInterval(function() {
-                $.ajax('{{ url_for('main.get_time') }}').done(
-                    function(time) {
-                        $('#time-element').text(time.data);
-                    }
-                );
-            }, 1000);
-        });
-        {% endif %}
+    {% endif %}
+    // adds the date and time to the top
+    function time() {
+        var now = new Date();
+        var hours = now.getHours();
+        var minutes = now.getMinutes();
+        var seconds = now.getSeconds();
+        var year = now.getFullYear();
+        var month = now.getMonth()+1;
+        var day = now.getDate();
+        thetime = (hours < 10) ? "0" + hours + ":" : hours + ":";
+        thetime += (minutes < 10) ? "0" + minutes + ":" : minutes + ":";
+        thetime += (seconds < 10) ? "0" + seconds : seconds;
+        thedate = (day < 10) ? "0" + day + "." : day + ".";
+        thedate += (month < 10) ? "0" + month + "." : month + ".";
+        thedate += year
+
+        $('#thetime').text(thetime);
+        $('#thedate').text(thedate);
+    };
+    // call every minute the time function
+    $(function() {
+        setInterval(function() {
+        time();
+    }, 1000
+    )});
     </script>
 {% endblock %}
