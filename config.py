@@ -54,7 +54,11 @@ class DevelopmentConfig(Config):
     # debug messages
 
     DEBUG = True
-    SESSION_LIFETIME = 5
+
+    # session lifetime in seconds
+    PERMANENT_SESSION_LIFETIME = 600
+
+    SESSION_COOKIE_SAMESITE = 'None'
     # database file
     SQLALCHEMY_DATABASE_URI = os.environ.get('DEV_DATABASE_URL') or \
         'sqlite:///' + os.path.join(basedir, 'data-dev.sqlite')
@@ -80,6 +84,8 @@ class ProductionConfig(Config):
     # database file
     SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or \
                               'sqlite:///' + os.path.join(basedir, 'data.sqlite')
+
+    SESSION_COOKIE_SECURE = True
 
 
 config = {

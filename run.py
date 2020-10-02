@@ -21,12 +21,6 @@ if app.config['LOG_DATABASE']:
 migrate = Migrate(app, db)
 
 
-@app.before_request
-def make_session_permanent():
-    session.permanent = True
-    flask_app.permanent_session_lifetime = timedelta(minutes=app.config['SESSION_LIFETIME'])
-
-
 @app.shell_context_processor
 def make_shell_context():
     return dict(db=db, User=User, Role=Role, csrf=csrf)
