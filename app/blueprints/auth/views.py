@@ -3,7 +3,8 @@ from flask import (
     url_for,
     redirect,
     flash,
-    request
+    request,
+    session
 )
 from flask_login import login_user, logout_user
 from app.models.user import User
@@ -18,6 +19,7 @@ def login():
         user = User.query.filter_by(username=form.username.data).first()
         if user is not None and user.verify_password(form.password.data):
             login_user(user, form.remember_me.data)
+            session.permanent = True
             return redirect(url_for('main.index'))
         flash('Benutzername oder Passwort falsch', 'error')
     return render_template('auth/login.html',
@@ -29,4 +31,5 @@ def login():
 @auth.route('/logout/')
 def logout():
     logout_user()
+    session.clear()
     return redirect(url_for('main.index'))

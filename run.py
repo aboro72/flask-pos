@@ -21,12 +21,6 @@ if app.config['LOG_DATABASE']:
 migrate = Migrate(app, db)
 
 
-@app.before_request
-def make_session_permanent():
-    session.permanent = True
-    flask_app.permanent_session_lifetime = timedelta(minutes=app.config['SESSION_LIFETIME'])
-
-
 @app.shell_context_processor
 def make_shell_context():
     return dict(db=db, User=User, Role=Role, csrf=csrf)
@@ -173,24 +167,16 @@ def createdb():
 
     db.session.add(modify_reason)
     note = SystemNotification(
-        title="Achtung",
-        body="ACHTUNG: Tagesabschluss um 23:59!!!",
+        title="Achtung Tagesabschluss um 23:59",
+        body="Bitte alle Kassen abrechnen",
         is_repeatable=True,
-        start_datetime=time,
-        end_datetime=datetime(2020, 10, 1, 23, 59, 0, 0),
+        duration=59,
+        hour=-1,
+        minute=0,
         bc='#FF0000',
         fc='#FFFFFF',
     )
+
     db.session.add(note)
-    note2 = SystemNotification(
-        title="Achtung",
-        body="ACHTUNG: Tagesabschluss um 23:59!!!",
-        is_repeatable=True,
-        start_datetime=time,
-        end_datetime=datetime(2020, 10, 1, 23, 59, 0, 0),
-        bc='#FF0000',
-        fc='#FFFFFF',
-    )
-    db.session.add(note2)
     # Commit all to the database
     db.session.commit()

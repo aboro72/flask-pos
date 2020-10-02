@@ -9,6 +9,28 @@
         padding-left: 20px;
         color: white;
     }
+    label {
+        font-size: 24px;
+        margin-top: 10px;
+    }
+    input {
+        border: 1px solid grey;
+        font-size: 36px;
+        background-color: #FFFFFF;
+        color: #0F0F0F;
+        width: 100%;
+        padding-left: 5px;
+    }
+    select {
+        font-size: 36px;
+        color: #0F0F0F;
+        background-color: white;
+        width: 100%;
+
+    }
+    #submitform>input {
+        font-size: 36px;
+    }
 </style>
 <p id="user-add-title"> <b> Benutzer hinzufügen </b></p>
 <hr>
@@ -34,27 +56,44 @@
     </div>
 {% endfor %}
 
-    <div class="form-group">
-        <form method = 'POST'>
-             <fieldset>
-                 {{ form.hidden_tag() }}
-                 {{ form.username.label }}<br>
-                 {{ form.username() }}<br>
-
-                 {{ form.email.label }}
-                 <br>{{ form.email() }}<br>
-
-                 <br>
-                 {{ form.firstname.label }}<br>{{ form.firstname }}<br>
-                 {{ form.lastname.label }}<br>{{ form.lastname }}<br>
-                 <br>
-                 {{ form.uuid.label }}<br>{{ form.uuid }}<br>
-                 <br>
-                 {{ form.role.label }}<br>{{ form.role }}<br>
-                 <hr>
-                 {{ form.submit }}
-            </fieldset>
-        </form>
-    </div>
+<div class="form-group">
+    <form method = 'POST'>
+         <fieldset>
+             {{ form.hidden_tag() }}
+             <div class="row">
+                <div class="col-sm-6">
+                    {{ form.username.label }}<br>{{ form.username() }}
+                </div>
+                <div class="col-sm-6">
+                    {{ form.email.label }}<br>{{ form.email() }}
+                </div>
+             </div>
+            <div class="row">
+                <div class="col-sm-6">
+                  {{ form.firstname.label }}<br>{{ form.firstname }}
+                </div>
+                <div class="col-sm-6">
+                 {{ form.lastname.label }}<br>{{ form.lastname }}
+                </div>
+             </div>
+             <div class="row">
+                <div class="col-sm-6">
+                  {{ form.uuid.label }}<br>{{ form.uuid }}
+                </div>
+             </div>
+             <div class="row">
+                <div class="col-sm-6">
+                  {{ form.role.label }}<br>{{ form.role(class_='custom-select custom-select-sm') }}
+                </div>
+             </div>
+             <hr>
+             <div class="row">
+                <div id="submitform" class="col-sm-12">
+                    {{ form.submit(class_='btn btn-primary btn-lg') }}
+                </div>
+             </div>
+        </fieldset>
+    </form>
 </div>
+
 {% endblock page_content %}

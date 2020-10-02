@@ -1,5 +1,4 @@
 from datetime import datetime
-import json
 
 from flask import (
     render_template,
@@ -52,15 +51,13 @@ def contact():
                            )
 
 
-@main.route('/notifications')
+@main.route('/notification')
 @login_required
-def notifications():
+def notification():
     notes = get_messages()
-    print(notes)
     return jsonify([{
+        'title': n.title,
         'data': n.body,
-        'hour': (datetime.now().hour - n.end_datetime.hour),
-        'minute': (datetime.now().minute - n.end_datetime.minute),
         'fc': n.fc,
         'bc': n.bc,
     } for n in notes])
@@ -69,13 +66,16 @@ def notifications():
 def get_messages():
     messages = SystemNotification.query.all()
     notes = list()
-    gettime = datetime.now()
-    for item in messages:
-        if item.is_repeatable:
-            if item.start_datetime.hour <= gettime.hour <= item.end_datetime.hour:
-                if item.start_datetime.minute <= gettime.minute <= item.end_datetime.minute:
-                    notes.append(item)
+    for i in messages:
+        d = datetime.now()
+        if i.is_repeatable:
+            i.start_datetime = datetime(d.year, d.month, d.day, i.hour if i.hour > -1 else d.hour,
+                                        i.minute if i.minute > -1 else d.minute)
+            i.end_datetime = datetime(d.year, d.month, d.day, i.hour if i.hour > -1 else d.hour,
+                                      (i.minute + i.duration) if i.minute > -1 else d.minute)
         else:
-            if item.start_datetime <= gettime <= item.end_datetime:
-                notes.append(item)
+            i.start_datetime = datetime(i.year, i.month, i.day, i.hour, i.minute)
+            i.end_datetime = datetime(i.year, i.month, i.day, i.hour, i.minute + i.duration)
+        if i.start_datetime <= d <= i.end_datetime:
+            notes.append(i)
     return notes

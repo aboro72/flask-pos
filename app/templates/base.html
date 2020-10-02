@@ -85,10 +85,10 @@
 <div class="navbar navbar-inverse" role="navigation">
     <div class="row">
         <div class="col-xs-6">
-            <div id="thedate" onload="time()">xx.xx.xxxx</div>
+            <div id="thedate">xx.xx.xxxx</div>
         </div>
         <div class="col-xs-6">
-            <div id="thetime" onload="time()">xx:xx:xx</div>
+            <div id="thetime">xx:xx:xx</div>
         </div>
     </div>
 
@@ -165,10 +165,10 @@
     {{ moment.locale("de") }}
     <script>
     {% if current_user.is_authenticated %}
-
         // display messages
-        function display_sys_message(n, b, c) {
-            $('#sysmessage').text(n);
+        function dse(n, b, c, t) {
+            $('#sysmessage').css('white-space', 'pre-line');
+            $('#sysmessage').text(t + "\n" + n)
             $('#sysmessage').css('background-color', b);
             $('#sysmessage').css('color', c);
             $('#sysdiv').css('visibility', n ? 'visible' : 'hidden');
@@ -176,16 +176,15 @@
             $('#sysdiv').css('background-color', b);
         }
 
-        // get notifications
+        // get notification
         $(function() {
             setInterval(function() {
-                $.ajax('{{ url_for('main.notifications') }}').done(
-                    function(notes) {
-                        for (var i = 0; i < notes.length; i++) {
-                            var n = notes[i].data;
-                            var b = notes[i].bc;
-                            var c = notes[i].fc;
-                            display_sys_message(n, b, c)
+                $.ajax('{{ url_for('main.notification') }}').done(
+                    function(no) {
+                        for (var i = 0; i < no.length; i++) {
+                            var o = no[i];
+                            var b = o.bc, c = o.fc , n = o.data, t = o.title;
+                            dse(n, b, c, t)
                         }
                     }
                 );
@@ -194,23 +193,20 @@
     {% endif %}
     // adds the date and time to the top
     function time() {
-        var now = new Date();
-        var hours = now.getHours();
-        var minutes = now.getMinutes();
-        var seconds = now.getSeconds();
-        var year = now.getFullYear();
-        var month = now.getMonth()+1;
-        var day = now.getDate();
-        thetime = (hours < 10) ? "0" + hours + ":" : hours + ":";
-        thetime += (minutes < 10) ? "0" + minutes + ":" : minutes + ":";
-        thetime += (seconds < 10) ? "0" + seconds : seconds;
-        thedate = (day < 10) ? "0" + day + "." : day + ".";
-        thedate += (month < 10) ? "0" + month + "." : month + ".";
-        thedate += year
+        var n = new Date();
+        var h = n.getHours(), m = n.getMinutes(), s = n.getSeconds();
+        var y = n.getFullYear(), mo = n.getMonth()+1, d = n.getDate();
+        tt = (h < 10) ? "0" + h + ":" : h + ":";
+        tt += (m < 10) ? "0" + m + ":" : m + ":";
+        tt += (s < 10) ? "0" + s : s;
+        td = (d < 10) ? "0" + d + "." : d + ".";
+        td += (mo < 10) ? "0" + mo + "." : mo + ".";
+        td += y
 
-        $('#thetime').text(thetime);
-        $('#thedate').text(thedate);
+        $('#thetime').text(tt);
+        $('#thedate').text(td);
     };
+
     // call every minute the time function
     $(function() {
         setInterval(function() {
