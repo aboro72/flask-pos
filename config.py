@@ -44,7 +44,6 @@ class Config:
     PAGINATION_USER = 5
     PAGINATION_DEVICE = 5
 
-
     @staticmethod
     def init_app(app):
         pass
