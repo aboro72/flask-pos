@@ -20,10 +20,16 @@ class Message(db.Model):
 class SystemNotification(db.Model):
     __tablename__ = "notifications"
     notification_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    title = db.Column(db.String(128), nullable=False)
-    body = db.Column(db.Text)
-    bc = db.Column(db.String(16))
-    fc = db.Column(db.String(16))
-    is_repeatable = db.Column(db.Boolean, default=False)
-    start_datetime = db.Column(db.DateTime(), default=datetime.utcnow())
-    end_datetime = db.Column(db.DateTime())
+    title = db.Column(db.String(128), nullable=False) # Message Title
+    body = db.Column(db.Text)  # The Message
+    bc = db.Column(db.String(16))  # Background Color e.g. #000000
+    fc = db.Column(db.String(16))  # Foreground Color e.g. #FFFFFF
+    duration = db.Column(db.Integer, default=1)  # 0 - 59 minutes
+    hour = db.Column(db.Integer, default=0)  # -1 for infinite
+    minute = db.Column(db.Integer, default=0)  # -1 for infinite
+    day = db.Column(db.Integer, default=0)  # only need if not repeatable
+    month = db.Column(db.Integer, default=0)  # only need if not repeatable
+    year = db.Column(db.Integer, default=0)  # only need if not repeatable
+    is_repeatable = db.Column(db.Boolean, default=False)  # True or False :)
+    start_datetime = db.Column(db.DateTime(), default=datetime.utcnow())  # computed date
+    end_datetime = db.Column(db.DateTime())  # computed date
