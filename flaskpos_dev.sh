@@ -97,7 +97,6 @@ while getopts ${OPTIONS} arg; do
   esac
 done
 
-
 echo
 echo "Init database if needed:"
 if [ ! -f "$MIGRATION_FILE" ]; then

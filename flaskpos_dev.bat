@@ -16,22 +16,24 @@ set FLASK_APP=run.py
 set FLASK_CONFIG=development
 set FLASK_ENV=development
 
-echo -n ""
-echo "Flask-pos start script for development"
+echo.
+echo Flask-pos start script for development
+echo --------------------------------------
+echo.
 if (%1 == "-f") (
-  echo
-  echo "Delete database & migration directory"
+  echo.
+  echo Delete database & migration directory
   IF EXIST %DATABASE_FILE% (
     @DEL /Q %DATABASE_FILE%
   )
-  echo "."
+  echo.
   iF EXIST %MIGRATION_FOLDER% (
     @RD /S /Q %MIGRATION_FOLDER%
   )
-  echo -n "."
+  echo.
 )
-echo -n ""
-echo "Init database if needed:"
+echo.
+echo Init database if needed:
 IF NOT EXIST %MIGRATION_FILE% (
   @%CMD_INIT%
 )
@@ -39,10 +41,10 @@ IF NOT EXIST %MIGRATION_FILE% (
 @%CMD_UPGRADE%
 @%CMD_CREATE_DB%
 
-echo -n ""
-echo "Run tests:
+echo.
+echo Run tests:
 @%CMD_TEST%
-echo -n ""
-echo "Start app:"
+echo.
+echo Start app:
 @%CMD_RUN%
-echo -n ""
+echo.

@@ -1,4 +1,5 @@
 from datetime import datetime
+import json
 
 from flask import (
     render_template,
@@ -59,7 +60,9 @@ def notifications():
     return jsonify([{
         'data': n.body,
         'hour': (datetime.now().hour - n.end_datetime.hour),
-        'minute': (datetime.now().minute - n.end_datetime.minute)
+        'minute': (datetime.now().minute - n.end_datetime.minute),
+        'fc': n.fc,
+        'bc': n.bc,
     } for n in notes])
 
 

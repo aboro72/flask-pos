@@ -22,6 +22,8 @@ class SystemNotification(db.Model):
     notification_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     title = db.Column(db.String(128), nullable=False)
     body = db.Column(db.Text)
+    bc = db.Column(db.String(16))
+    fc = db.Column(db.String(16))
     is_repeatable = db.Column(db.Boolean, default=False)
     start_datetime = db.Column(db.DateTime(), default=datetime.utcnow())
     end_datetime = db.Column(db.DateTime())
