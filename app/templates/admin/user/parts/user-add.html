@@ -9,6 +9,9 @@
         padding-left: 20px;
         color: white;
     }
+    input {
+        border: 2px solid;
+    }
 </style>
 <p id="user-add-title"> <b> Benutzer hinzufügen </b></p>
 <hr>
@@ -34,27 +37,27 @@
     </div>
 {% endfor %}
 
-    <div class="form-group">
-        <form method = 'POST'>
-             <fieldset>
-                 {{ form.hidden_tag() }}
-                 {{ form.username.label }}<br>
-                 {{ form.username() }}<br>
+<div class="form-group">
+    <form method = 'POST'>
+         <fieldset>
+             {{ form.hidden_tag() }}
+             {{ form.username.label }}<br>
+             {{ form.username() }}<br>
 
-                 {{ form.email.label }}
-                 <br>{{ form.email() }}<br>
+             {{ form.email.label }}
+             <br>{{ form.email() }}<br>
 
-                 <br>
-                 {{ form.firstname.label }}<br>{{ form.firstname }}<br>
-                 {{ form.lastname.label }}<br>{{ form.lastname }}<br>
-                 <br>
-                 {{ form.uuid.label }}<br>{{ form.uuid }}<br>
-                 <br>
-                 {{ form.role.label }}<br>{{ form.role }}<br>
-                 <hr>
-                 {{ form.submit }}
-            </fieldset>
-        </form>
-    </div>
+             <br>
+             {{ form.firstname.label }}<br>{{ form.firstname }}<br>
+             {{ form.lastname.label }}<br>{{ form.lastname }}<br>
+             <br>
+             {{ form.uuid.label }}<br>{{ form.uuid }}<br>
+             <br>
+             {{ form.role.label }}<br>{{ form.role }}<br>
+             <hr>
+             {{ form.submit }}
+        </fieldset>
+    </form>
 </div>
+
 {% endblock page_content %}
