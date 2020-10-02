@@ -40,7 +40,6 @@
     #sysmessage {
         width: 100%;
         font-size: 48px;
-        background-color: #FE2E2E;
         color: white;
         text-align: center;
         display: block;
@@ -124,14 +123,6 @@
             </ul>
         </div>
         <p style="background-color: #009999; color: #FFFFFF;font-size: medium; padding: 2px; padding-top: 3px;"> {{ route }} </p>
-
-
-        <div id="sysdiv" class="col-sm-12 alert alert">
-            <button id="closemessage" type="button" class="close" aria-label="Close" data-dismiss="alert">
-                &times
-            </button>
-            <span id="sysmessage"></span>
-        </div>
     </div>
 </div>
 {% endblock %}
@@ -139,6 +130,14 @@
 {% block content %}
 
 <div class="container">
+    <div class="row">
+        <div id="sysdiv" class="col-sm-12 alert alert">
+            <button id="closemessage" type="button" class="close" aria-label="Close" data-dismiss="alert">
+                &times
+            </button>
+            <span id="sysmessage"></span>
+        </div>
+    </div>
 
     {% with messages = get_flashed_messages(with_categories=true) %}
         {% if messages %}
@@ -168,20 +167,25 @@
     {% if current_user.is_authenticated %}
 
         // display messages
-        function display_sysmessage(n) {
+        function display_sys_message(n, b, c) {
             $('#sysmessage').text(n);
+            $('#sysmessage').css('background-color', b);
+            $('#sysmessage').css('color', c);
             $('#sysdiv').css('visibility', n ? 'visible' : 'hidden');
             $('#sysdiv').css('display', 'block');
+            $('#sysdiv').css('background-color', b);
         }
 
         // get notifications
         $(function() {
             setInterval(function() {
                 $.ajax('{{ url_for('main.notifications') }}').done(
-                    function(notifications) {
-                        for (var i = 0; i < notifications.length; i++) {
-                            var message = notifications[i].data;
-                            display_sysmessage(message)
+                    function(notes) {
+                        for (var i = 0; i < notes.length; i++) {
+                            var n = notes[i].data;
+                            var b = notes[i].bc;
+                            var c = notes[i].fc;
+                            display_sys_message(n, b, c)
                         }
                     }
                 );
