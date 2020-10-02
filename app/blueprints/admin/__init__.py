@@ -8,4 +8,5 @@ from app.blueprints.admin.views import (
     dashboard_view,
     device_view,
     user_view,
+    msg_view,
 )

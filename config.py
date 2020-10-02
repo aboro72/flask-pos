@@ -50,7 +50,7 @@ class Config:
 
 
 class DevelopmentConfig(Config):
-    # debug messages
+    # debug message
 
     DEBUG = True
 
@@ -68,7 +68,7 @@ class DevelopmentConfig(Config):
 
 
 class TestingConfig(Config):
-    # test messages
+    # test message
     TESTING = True
 
     # database file

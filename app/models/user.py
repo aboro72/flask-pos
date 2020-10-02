@@ -34,8 +34,8 @@ class User(UserMixin, db.Model):
     role_id = db.Column(db.Integer, db.ForeignKey('roles.role_id'), nullable=False)
 
     # Relationship to other Tables
-    source = db.relationship('Message', backref='msg_source_id', lazy=True, foreign_keys='Message.source_id')
-    target = db.relationship('Message', backref='msg_target_id', lazy=True, foreign_keys='Message.target_id')
+    source = db.relationship('PrivateMessage', backref='msg_source_id', lazy=True, foreign_keys='PrivateMessage.source_id')
+    target = db.relationship('PrivateMessage', backref='msg_target_id', lazy=True, foreign_keys='PrivateMessage.target_id')
     control = db.relationship('Control', backref='user', lazy=True, foreign_keys='Control.user_id')
     user_modified = db.relationship('TimeModifyReason', backref='user_modified', lazy=True,
                                     foreign_keys='TimeModifyReason '

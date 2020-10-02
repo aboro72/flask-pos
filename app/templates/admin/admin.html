@@ -17,7 +17,7 @@
         margin-top: 1%;
     }
 </style>
-<p id="dashboard-title"> <b> Dashboard </b></p>
+<p id="dashboard-title"> <b> Verwaltung </b></p>
 <hr>
 <div class="row">
     <div class="col-md-6">
@@ -43,7 +43,7 @@
 </div>
 <div class="row low">
      <div class="col-md-6">
-       <form action="" method="get">
+       <form action="{{ url_for('admin.message_index') }}" method="get">
             <button title="Benachrichtigungen" type="submit" class="btn btn-danger btn-lg"> Benachrichtigungen
             <br>Noch nicht implementiert
             </button>
