@@ -44,6 +44,10 @@ class Config:
     PAGINATION_USER = 5
     PAGINATION_DEVICE = 5
 
+    # WSS Config
+    HELP_DESK_FORM = 'https://hd.sleibo.de/assets/form/form.js'
+    HELP_DESK_CHAT = 'https://hd.sleibo.de/assets/chat/chat.min.js'
+
     @staticmethod
     def init_app(app):
         pass
@@ -57,11 +61,13 @@ class DevelopmentConfig(Config):
     # session lifetime in seconds
     PERMANENT_SESSION_LIFETIME = 600
 
+    # security
     SESSION_COOKIE_SAMESITE = 'Strict'
+    WTF_CSRF_ENABLED = False
+
     # database file
     SQLALCHEMY_DATABASE_URI = os.environ.get('DEV_DATABASE_URL') or \
         'sqlite:///' + os.path.join(basedir, 'data-dev.sqlite')
-    WTF_CSRF_ENABLED = False
 
     # db
     LOG_DATABASE = True

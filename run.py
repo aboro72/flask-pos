@@ -10,6 +10,7 @@ from app.models.message import SystemNotification, NewsMessage
 from app.models.modify import TimeModifyReason
 from app.models.role import Role
 from app.models.user import User
+from app.models.pos import Pos
 
 app = create_app(os.getenv('FLASK_CONFIG') or 'default')
 
@@ -194,5 +195,14 @@ def createdb():
              "<br>Das hört ja gar nicht mehr auf"
     )
     db.session.add(news2)
+    pos = Pos(
+        prefilled_amount=20000,
+        created_at=time,
+        is_modified=False,
+        billed_by=1,
+        control_id=1,
+        device_id=1
+    )
+    db.session.add(pos)
     # Commit all to the database
     db.session.commit()
