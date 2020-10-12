@@ -22,5 +22,6 @@ def before_request():
 def dashboard():
     return render_template('admin/admin.html',
                            title="Verwaltung",
+                           sysmessages=True,
                            route=request.path
                            )

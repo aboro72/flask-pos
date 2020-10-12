@@ -22,6 +22,7 @@ def devices():
     devices_list = Device.query.all()
     return render_template('admin/device/device-index.html',
                            title="Geräte verwalten",
+                           sysmessages=True,
                            devices=devices_list,
                            route=request.path
                            )
@@ -34,6 +35,7 @@ def get_device(uuid):
     device = Device.query.filter(Device.device_uuid == uuid).first()
     return render_template('admin/device/parts/device-view.html',
                            title='{} ansehen'.format(device.device_uuid),
+                           sysmessages=True,
                            device=device,
                            route=request.path
                            )
@@ -74,6 +76,7 @@ def edit_device(uuid):
 
     return render_template('admin/device/parts/device-edit.html',
                            title='{} editieren'.format(device.device_uuid),
+                           sysmessages=True,
                            device=device,
                            form=form,
                            route=request.path
@@ -117,6 +120,7 @@ def add_device():
             return redirect(url_for('admin.devices'))
     return render_template('admin/device/parts/device-add.html',
                            title='Gerät hinzufügen',
+                           sysmessages=True,
                            form=form,
                            route=request.path
                            )

@@ -1,5 +1,3 @@
-from datetime import datetime
-
 from flask import (
     render_template,
     flash,
@@ -8,10 +6,9 @@ from flask import (
     request,
 )
 from flask_login import login_required, current_user
-from app import db, config
-from app.helper.decorator import manager_required, owner_required
+from app.helper.decorator import owner_required
 from app.blueprints.admin import admin
-from app.models.message import NewsMessage, PrivateMessage, SystemNotification
+from app.models.message import NewsMessage, SystemNotification
 
 
 @admin.before_app_request
@@ -31,6 +28,7 @@ def message_index():
     system_notification = SystemNotification.query.all()
     return render_template('admin/message/message-index.html',
                            title='Benachrichtigungen',
+                           sysmessages=True,
                            messages=message_list,
                            note=system_notification,
                            route=request.path)

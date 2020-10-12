@@ -14,6 +14,7 @@ from flask_login import login_required
 from app.blueprints.main import main
 
 from app.models.message import SystemNotification, NewsMessage
+from app.models.pos import Pos
 
 
 @main.route('/favicon.ico')
@@ -31,6 +32,7 @@ def index():
     newsletter = NewsMessage.query.all()
     return render_template('main/index.html',
                            title="Hauptseite",
+                           sysmessages=True,
                            username=session.get('name'),
                            known=session.get('known', False),
                            current_time=datetime.time,
@@ -43,6 +45,7 @@ def index():
 def contact():
     return render_template('main/contact.html',
                            title="Kontakt",
+                           sysmessages=True,
                            route=request.path
                            )
 

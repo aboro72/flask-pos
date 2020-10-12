@@ -27,6 +27,7 @@ def control():
     return render_template(
         'admin/control/control-index.html',
         title="Arbeitszeiten verwalten",
+        sysmessages=True,
         today=today_list,
         current_date=now_date,
         years=year_list,
@@ -43,6 +44,7 @@ def control_with_year_and_month(year, month):
     return render_template(
         'admin/control/parts/control-view.html',
         title="Arbeitszeiten Details - {}.{}".format(month, year),
+        sysmessages=True,
         current=current_list,
         year=year,
         month=month,
@@ -173,6 +175,7 @@ def view_control_details(year, name, cid):
         # /admin/control/<year>/<month>/<user>/<time>
         return render_template('admin/control/parts/control-detail-view.html',
                                title='Zeitkorrektur {} {}'.format(user.firstname, user.lastname),
+                               sysmessages=True,
                                form=form,
                                details=details,
                                difference=get_time_difference(details.control_id),

@@ -74,7 +74,7 @@
 <button title="um 10 erhöhen" onclick="addMoney(10.00)" type="submit" class="btn btn-warning">
    <i class="fa">&#xf101;</i> 10
 </button>
-<button title="um 100 erhöhen" onclick="addMoney(100.00)" type="submit" class="btn btn-warning">
+<button title="um 100 erhöhen" value="100" onclick="addMoney(this.value)" type="submit" class="btn btn-warning">
    <i class="fa">&#xf101;</i> 100
 </button>
 <hr>
@@ -104,7 +104,7 @@
    }
 
    function addMoney(v) {
-    amount += v;
+    amount += parseInt(v);
     setAmount(amount);
    }
 

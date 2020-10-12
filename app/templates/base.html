@@ -55,12 +55,6 @@
             opacity: 0;
         }
     }
-    .close {
-        color: #eee;
-        opacity: 1;
-        font-size: 40px;
-
-    }
     #thetime {
         display: block;
         margin-right: 10px;
@@ -79,6 +73,8 @@
         font-size: 24px;
     }
     #closemessage {
+        color: #eee;
+        opacity: 1;
         font-size: 60px;
     }
 </style>
@@ -196,6 +192,7 @@
 
     <script>
     {% if current_user.is_authenticated %}
+        {% if sysmessages %}
         // display messages
         function dse(n, b, c, t) {
             $('#sysmessage').css('white-space', 'pre-line');
@@ -219,8 +216,9 @@
                         }
                     }
                 );
-            }, 10000);
+            }, 30000);
         });
+        {% endif %}
     {% endif %}
     // adds the date and time to the top
     function time() {
