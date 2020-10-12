@@ -15,7 +15,7 @@ class Pos(db.Model):
     created_at = db.Column(db.DateTime())
     billed_at = db.Column(db.DateTime())
     modified_at = db.Column(db.DateTime())
-    is_modified = db.Column(db.Boolean)
+    is_modified = db.Column(db.Boolean, default=False)
     modified_reason = db.Column(db.Text())
 
     # foreign keys

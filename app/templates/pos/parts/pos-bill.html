@@ -55,30 +55,63 @@
     </tbody>
 </table>
 <hr>
-<input type="number" onchange="setTwoNumberDecimal" step="0.01" min="{{ billed.prefilled_amount / 100 }}" value="{{ billed.prefilled_amount / 100 }}">
+<label> Betrag in der Kasse </label><br/>
+<input id="money" type="number" step="1" min="{{ billed.prefilled_amount / 100 }}"
+       value="{{ billed.prefilled_amount / 100 }}" onchange="setCurrent(this.value)">
 <hr>
-<button title="um 100 verringern" type="submit" class="btn btn-warning">
+<button title="um 100 verringern" onclick="addMoney(-100.00)" type="submit" class="btn btn-warning">
    <i class="fa">&#xf100;</i> 100
 </button>
-<button title="um 10 verringern" type="submit" class="btn btn-warning">
+<button title="um 10 verringern" onclick="addMoney(-10.00)" type="submit" class="btn btn-warning">
    <i class="fa">&#xf100;</i> 10
 </button>
-<button title="um 1 verringern" type="submit" class="btn btn-warning">
+<button title="um 1 verringern" onclick="addMoney(-1.00)"  type="submit" class="btn btn-warning">
    <i class="fa">&#xf100;</i> 1
 </button>
-<button title="um 1 erhöhen" type="submit" class="btn btn-warning">
+<button title="um 1 erhöhen" onclick="addMoney(1.00)" type="submit" class="btn btn-warning">
    <i class="fa">&#xf101;</i> 1
 </button>
-<button title="um 10 erhöhen" type="submit" class="btn btn-warning">
+<button title="um 10 erhöhen" onclick="addMoney(10.00)" type="submit" class="btn btn-warning">
    <i class="fa">&#xf101;</i> 10
 </button>
-<button title="um 100 erhöhen" type="submit" class="btn btn-warning">
+<button title="um 100 erhöhen" onclick="addMoney(100.00)" type="submit" class="btn btn-warning">
    <i class="fa">&#xf101;</i> 100
 </button>
+<hr>
+<div class="row">
+    <div class="col-sm-12">
+        <form action="{{ url_for('pos.bill', pos_id=billed.control_device_id) }}"
+            onSubmit="return confirm('Kasse wirklich mit ' + amount + '€ abrechnen?' );" method="post">
+            <button id="abrechnen" name="abrechnen" title="Kasse abrechnen" type="submit"
+                    class="btn btn-primary btn-lg">
+                    Kasse abrechnen
+            </button>
+        </form>
+    </div>
+</div>
 
 <script>
-   function setTwoNumberDecimal(event) {
-      this.value = parseFloat(this.value).toFixed(2);
+   var prefilled = parseInt({{ billed.prefilled_amount / 100 }})
+   var amount = prefilled;
+
+   function setAmount(v) {
+      amount = v;
+      if (amount < prefilled) {
+        amount = prefilled;
+      }
+      $('#money').val(amount);
+      $('#abrechnen').val(amount);
    }
+
+   function addMoney(v) {
+    amount += v;
+    setAmount(amount);
+   }
+
+   function setCurrent(val) {
+        amount = parseInt(val);
+        setAmount(amount);
+   }
+
 </script>
 {% endblock %}
