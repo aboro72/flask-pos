@@ -1,0 +1,117 @@
+{% extends "base.html" %}
+{% block page_content %}
+<style>
+    p#title {
+        font-size: 50px;
+        background-color: #006666;
+        padding-left: 20px;
+        color: white;
+    }
+    td, th {
+        font-size: 24px;
+        padding-left: 10px;
+        padding-top: 5px;
+        padding-bottom: 5px;
+        border: 2px solid;
+        text-align: left;
+    }
+    table {
+        border: 2px solid;
+        width: 100%;
+        color: black;
+    }
+    td#number {
+        padding-right: 10px;
+        text-align: right;
+    }
+    p>b>i {
+        color: yellow;
+    }
+    input {
+        border: 1px solid grey;
+        font-size: 36px;
+        background-color: #FFFFFF;
+        color: #0F0F0F;
+        width: 30%;
+        padding-left: 5px;
+    }
+</style>
+<p id="title"> <b> Kasse  {{ billed.control_device_id }} von <i>{{ billed.user.firstname }} {{ billed.user.lastname }}</i> abrechnen </b></p>
+<hr>
+<table >
+    <caption> Abrechnungsdaten </caption>
+    <thead>
+        <td> Gerät </td>
+        <th> Geöffnet um </th>
+        <th> Voraufgefüllter Betrag</th>
+
+    </thead>
+    <tbody>
+        <tr>
+            <td> {{ billed.device.label }} </td>
+            <td> {{ billed.created_at.strftime('%d.%m.%Y, %H:%M') }} </td>
+            <td id="number"> {{ billed.prefilled_amount / 100 }} </td>
+        </tr>
+    </tbody>
+</table>
+<hr>
+<label> Betrag in der Kasse </label><br/>
+<input id="money" type="number" step="1" min="{{ billed.prefilled_amount / 100 }}"
+       value="{{ billed.prefilled_amount / 100 }}" onchange="setCurrent(this.value)">
+<hr>
+<button title="um 100 verringern" onclick="addMoney(-100.00)" type="submit" class="btn btn-warning">
+   <i class="fa">&#xf100;</i> 100
+</button>
+<button title="um 10 verringern" onclick="addMoney(-10.00)" type="submit" class="btn btn-warning">
+   <i class="fa">&#xf100;</i> 10
+</button>
+<button title="um 1 verringern" onclick="addMoney(-1.00)"  type="submit" class="btn btn-warning">
+   <i class="fa">&#xf100;</i> 1
+</button>
+<button title="um 1 erhöhen" onclick="addMoney(1.00)" type="submit" class="btn btn-warning">
+   <i class="fa">&#xf101;</i> 1
+</button>
+<button title="um 10 erhöhen" onclick="addMoney(10.00)" type="submit" class="btn btn-warning">
+   <i class="fa">&#xf101;</i> 10
+</button>
+<button title="um 100 erhöhen" value="100" onclick="addMoney(this.value)" type="submit" class="btn btn-warning">
+   <i class="fa">&#xf101;</i> 100
+</button>
+<hr>
+<div class="row">
+    <div class="col-sm-12">
+        <form action="{{ url_for('pos.bill', pos_id=billed.control_device_id) }}"
+            onSubmit="return confirm('Kasse wirklich mit ' + amount + '€ abrechnen?' );" method="post">
+            <button id="abrechnen" name="abrechnen" title="Kasse abrechnen" type="submit"
+                    class="btn btn-primary btn-lg">
+                    Kasse abrechnen
+            </button>
+        </form>
+    </div>
+</div>
+
+<script>
+   var prefilled = parseInt({{ billed.prefilled_amount / 100 }})
+   var amount = prefilled;
+
+   function setAmount(v) {
+      amount = v;
+      if (amount < prefilled) {
+        amount = prefilled;
+      }
+      $('#money').val(amount);
+      $('#abrechnen').val(amount);
+   }
+
+   function addMoney(v) {
+    amount += parseInt(v);
+    setAmount(amount);
+   }
+
+   function setCurrent(val) {
+        amount = parseInt(val);
+        setAmount(amount);
+   }
+
+</script>
+{% endblock %}

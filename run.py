@@ -1,16 +1,16 @@
 import logging
 import os
-from datetime import datetime, timedelta
-from flask import session, app as flask_app
+from datetime import datetime
 from flask_migrate import Migrate
 
 from app import create_app, db, csrf
 from app.models.control import Control
 from app.models.device import Device
-from app.models.message import SystemNotification
+from app.models.message import SystemNotification, NewsMessage
 from app.models.modify import TimeModifyReason
 from app.models.role import Role
 from app.models.user import User
+from app.models.pos import Pos
 
 app = create_app(os.getenv('FLASK_CONFIG') or 'default')
 
@@ -164,7 +164,6 @@ def createdb():
         user_modified=admin_user,
         user_modifier=admin_user,
     )
-
     db.session.add(modify_reason)
     note = SystemNotification(
         title="Achtung Tagesabschluss um 23:59",
@@ -176,7 +175,34 @@ def createdb():
         bc='#FF0000',
         fc='#FFFFFF',
     )
-
     db.session.add(note)
+    news = NewsMessage(
+        created_at=time,
+        title="Flask-Pos hat jetzt Nachrichten",
+        body="Und auch mit Inhalt",
+    )
+    db.session.add(news)
+    news1 = NewsMessage(
+        created_at=time,
+        title="Noch eine Nachricht",
+        body="Das hört ja gar nicht mehr auf",
+    )
+    db.session.add(news1)
+    news2 = NewsMessage(
+        created_at=time,
+        title="Noch eine Nachricht",
+        body="Diesmal eine mehrzeilige Nachricht...<br>Das wird ja immer besser..."
+             "<br>Das hört ja gar nicht mehr auf"
+    )
+    db.session.add(news2)
+    pos = Pos(
+        prefilled_amount=20000,
+        created_at=time,
+        is_modified=False,
+        billed_by=1,
+        control_id=1,
+        device_id=1
+    )
+    db.session.add(pos)
     # Commit all to the database
     db.session.commit()

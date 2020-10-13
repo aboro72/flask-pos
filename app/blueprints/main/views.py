@@ -13,7 +13,8 @@ from flask_login import login_required
 
 from app.blueprints.main import main
 
-from app.models.message import SystemNotification
+from app.models.message import SystemNotification, NewsMessage
+from app.models.pos import Pos
 
 
 @main.route('/favicon.ico')
@@ -28,13 +29,10 @@ def to_index():
 
 @main.route('/index/')
 def index():
-    newsletter = list()
-    newsletter.append('Flask-Pos hat jetzt Nachrichten zum wegklicken')
-    newsletter.append('Noch eine Nachricht... Das hört ja gar nicht mehr auf')
-    newsletter.append('Diesmal eine mehrzeilige Nachricht...<br>Das wird ja immer besser...'
-                      '<br>Das hört ja gar nicht mehr auf')
+    newsletter = NewsMessage.query.all()
     return render_template('main/index.html',
                            title="Hauptseite",
+                           sysmessages=True,
                            username=session.get('name'),
                            known=session.get('known', False),
                            current_time=datetime.time,
@@ -47,6 +45,7 @@ def index():
 def contact():
     return render_template('main/contact.html',
                            title="Kontakt",
+                           sysmessages=True,
                            route=request.path
                            )
 

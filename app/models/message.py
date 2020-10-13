@@ -2,8 +2,16 @@ from datetime import datetime
 from app import db
 
 
-class Message(db.Model):
-    __tablename__ = "messages"
+class NewsMessage(db.Model):
+    __tablename__ = "news"
+    news_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    created_at = db.Column(db.DateTime())
+    title = db.Column(db.String(128), nullable=False)
+    body = db.Column(db.Text)
+
+
+class PrivateMessage(db.Model):
+    __tablename__ = "privatemessages"
     message_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     title = db.Column(db.String(128), nullable=False)
     body = db.Column(db.Text)

@@ -12,3 +12,5 @@ class Device(db.Model):
     manufacturer = db.Column(db.String(128))
     created_at = db.Column(db.DateTime(), default=datetime.utcnow())
     modified_at = db.Column(db.DateTime(), default=datetime.utcnow())
+
+    pos_device = db.relationship('Pos', backref='device', lazy="dynamic")

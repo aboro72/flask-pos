@@ -33,7 +33,7 @@
     #sysdiv {
         visibility: hidden;
         display: none;
-        animation: fadeIn ease 3s infinite;
+        animation: fadeIn ease 2s infinite;
         margin: left right;
         position:relative;
     }
@@ -55,12 +55,6 @@
             opacity: 0;
         }
     }
-    .close {
-        color: #eee;
-        opacity: 1;
-        font-size: 40px;
-
-    }
     #thetime {
         display: block;
         margin-right: 10px;
@@ -79,18 +73,20 @@
         font-size: 24px;
     }
     #closemessage {
+        color: #eee;
+        opacity: 1;
         font-size: 60px;
     }
 </style>
 <div class="navbar navbar-inverse" role="navigation">
-    <div class="row">
-        <div class="col-xs-6">
-            <div id="thedate">xx.xx.xxxx</div>
-        </div>
-        <div class="col-xs-6">
-            <div id="thetime">xx:xx:xx</div>
-        </div>
-    </div>
+
+<div class="col-xs-6">
+    <div id="thedate">xx.xx.xxxx</div>
+</div>
+<div class="col-xs-6">
+    <div id="thetime">xx:xx:xx</div>
+</div>
+
 
     <div class="container">
         <div class="navbar-header">
@@ -155,16 +151,48 @@
     {% endwith %}
 
     {% block page_content %}{% endblock %}
+    <hr>
+
+    <hr>
+    <button id="open-zammad-chat"> Chatte mit uns </button>
+    <hr>
+    <button id="feedback-form">Feedback</button>
 
 </div>
 {% endblock %}
 
 {% block scripts %}
     {{ super() }}
+
+    <script src="https://hd.sleibo.de/assets/form/form.js">
+        $(function() {
+            $('#feedback-form').ZammadForm({
+                messageTitle: 'Feedback Formular',
+                messageSubmit: 'Absenden',
+                messageThankYou: 'Vielen Dank für ihre Anfrage (#%s). Wir melden uns umgehend!',
+                showTitle: true,
+                modal: true
+            });
+        });
+    </script>
+    <script src="https://hd.sleibo.de/assets/chat/chat.min.js">
+        $(function() {
+            new ZammadChat({
+                background: '#382e24',
+                fontSize: '12px',
+                chatId: 1,
+                show: true,
+                host: 'wss://hd.sleibo.de/ws'
+           });
+       });
+    </script>
     {{ moment.include_moment() }}
     {{ moment.locale("de") }}
+
+
     <script>
     {% if current_user.is_authenticated %}
+        {% if sysmessages %}
         // display messages
         function dse(n, b, c, t) {
             $('#sysmessage').css('white-space', 'pre-line');
@@ -188,8 +216,9 @@
                         }
                     }
                 );
-            }, 10000);
+            }, 30000);
         });
+        {% endif %}
     {% endif %}
     // adds the date and time to the top
     function time() {
@@ -213,5 +242,9 @@
         time();
     }, 1000
     )});
-    </script>
+
+
+
+</script>
+
 {% endblock %}

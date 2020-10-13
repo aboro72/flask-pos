@@ -55,8 +55,9 @@ def time():
                         db.session.commit()
                         current_user.is_clocked = False
                         return render_template('clock/clockin.html',
-                                               title="Arbeitszeiten"
-                                               , route=request.path
+                                               title="Arbeitszeiten",
+                                               sysmessages=True,
+                                               route=request.path
                                                )
     controls = Control.query.filter(Control.user_id == current_user.user_id).all()
     current_time = None
@@ -67,6 +68,7 @@ def time():
             logged_time = get_time_difference(control.control_id, True)
     return render_template('clock/clockin.html',
                            title="Arbeitszeiten",
+                           sysmessages=True,
                            time=current_time,
                            route=request.path,
                            logged=logged_time,

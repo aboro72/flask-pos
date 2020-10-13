@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+{% block page_content %}
+
+<style>
+    p#title {
+        font-size: 50px;
+        background-color: #006666;
+        padding-left: 20px;
+        vertical-align: center;
+        color: white;
+    }
+    caption {
+        font-size: 24px;
+    }
+    td, th {
+        font-size: 24px;
+        padding-left: 10px;
+        padding-top: 5px;
+        padding-bottom: 5px;
+        border: 2px solid;
+        text-align: left;
+    }
+    table {
+        border: 2px solid;
+        width: 100%;
+    }
+    .btn {
+        font-size: 32px;
+        width: 100%;
+    }
+
+</style>
+<p id="title"> <b> Verwaltung der Benachrichtigungen </b></p>
+{% if current_user.is_owner() %}
+    {% if messages %}
+    <table >
+        <caption> Newstabelle </caption>
+        <thead>
+            <th> Titel </th>
+            <th> Nachricht </th>
+            <th> Aktionen </th>
+        </thead>
+        <tbody>
+        {% for message in messages %}
+        <tr>
+            <div class="col-md-4">
+                <td><p> {{ message.title }} </p></td>
+            </div>
+            <div class="col-md-4">
+            <td><p> {{ message.body }} </p></td>
+            </div>
+            <td>
+                {% if current_user.is_owner() %}
+                    <div class="col-md-6">
+                        <form action="" method="get">
+                            <button  title="Editieren" type="submit" id="edit" class="bts">
+                                <i class="fa">&#xf044;</i>
+                            </button>
+                        </form>
+                    </div>
+                    <div class="col-md-6">
+                        <form action="" method="post"
+                            onSubmit="return confirm('Benachrichtigung löschen?');">
+                            <button title="Löschen" type="submit" id="delete" class="bts">
+                                <i class="fa">&#xf00d;</i>
+                            </button>
+                        </form>
+                    </div>
+                {% endif %}
+            </td>
+        </tr>
+        </tbody>
+        {% endfor %}
+    </table>
+    {% else %}
+        Keine News vorhanden
+    {% endif %}
+{% endif %}
+
+{% endblock page_content %}
