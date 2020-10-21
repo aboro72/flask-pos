@@ -12,7 +12,7 @@
     {{ super() }}
     <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='fontawesome/css/all.min.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='flaskpos/css/all.css') }}">
+    <!-- <link rel="stylesheet" href="{{ url_for('static', filename='flaskpos/css/all.css') }}"> -->
 {% endblock %}
 
 {% block navbar %}
@@ -33,7 +33,7 @@
     #sysdiv {
         visibility: hidden;
         display: none;
-        animation: fadeIn ease 2s infinite;
+        animation: fade ease 2s infinite;
         margin: left right;
         position:relative;
     }
@@ -44,7 +44,7 @@
         text-align: center;
         display: block;
     }
-     @keyframes fadeIn {
+     @keyframes fade {
         0% {
             opacity: 0;
         }
@@ -163,7 +163,8 @@
 
 {% block scripts %}
     {{ super() }}
-
+    {{ datepicker.loader(theme="flick") }}
+    {{ datepicker.picker(id=".dp") }}
     <script src="https://hd.sleibo.de/assets/form/form.js">
         $(function() {
             $('#feedback-form').ZammadForm({
@@ -220,27 +221,17 @@
         });
         {% endif %}
     {% endif %}
-    // adds the date and time to the top
-    function time() {
-        var n = new Date();
-        var h = n.getHours(), m = n.getMinutes(), s = n.getSeconds();
-        var y = n.getFullYear(), mo = n.getMonth()+1, d = n.getDate();
-        tt = (h < 10) ? "0" + h + ":" : h + ":";
-        tt += (m < 10) ? "0" + m + ":" : m + ":";
-        tt += (s < 10) ? "0" + s : s;
-        td = (d < 10) ? "0" + d + "." : d + ".";
-        td += (mo < 10) ? "0" + mo + "." : mo + ".";
-        td += y
 
-        $('#thetime').text(tt);
-        $('#thedate').text(td);
+    function time() {
+        $('#thetime').text(moment().format('LTS'));
+        $('#thedate').text(moment().format('l'));
     };
 
     // call every minute the time function
     $(function() {
         setInterval(function() {
-        time();
-    }, 1000
+            time();
+        }, 1000
     )});
 
 

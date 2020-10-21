@@ -49,7 +49,7 @@ def edit_device(uuid):
     device = Device.query.filter(Device.device_uuid == uuid).first()
 
     if not current_user.is_owner():
-        flash("Unzureichende Rechte")
+        flash("Unzureichende Rechte", 'error')
         return redirect(url_for('admin.devices'))
 
     if request.method == 'POST':
@@ -57,13 +57,13 @@ def edit_device(uuid):
             device.label = form.label.data
             device.manufacturer = form.manufacturer.data
             device.ordered_from = form.ordered_from.data
-            device.modified_at = datetime.now().strftime('%d %b, %H:%M:%S')
+            device.modified_at = datetime.now()
             if Device.query.filter(Device.device_uuid == form.uuid.data).first() is None:
                 device.device_uuid = form.uuid.data
             if Device.query.filter(Device.serial_number == form.serial.data).first() is None:
                 device.serial_number = form.serial.data
             db.session.commit()
-            flash('Gerät erfolgreich geändert')
+            flash('Gerät erfolgreich geändert', 'success')
             return redirect(url_for('admin.devices'))
 
     form.sn.data = device.serial_number

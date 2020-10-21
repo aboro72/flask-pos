@@ -1,6 +1,6 @@
 import logging
 import os
-from datetime import datetime
+from datetime import datetime, date
 from flask_migrate import Migrate
 
 from app import create_app, db, csrf
@@ -44,39 +44,43 @@ def createdb():
     # Create database
     db.create_all()
 
-    # Create devices
-    device1_serial = 'SN - 0001'
-    device2_serial = 'SN - 0002'
-
-    device = Device.query.filter(Device.serial_number == device1_serial).first()
-    if not device:
-        db.session.add(Device(
-            device_uuid="Device 01",
-            label="Flipper",
-            serial_number=device1_serial,
-            created_at=time,
-            modified_at=time,
-            manufacturer='Activision',
-            ordered_from='Amazon'
-        ))
-    device = Device.query.filter(Device.serial_number == device2_serial).first()
-    if not device:
-        db.session.add(Device(
-            device_uuid="Device 02",
-            label="Einarmiger Bandit",
-            serial_number=device2_serial,
-            created_at=time,
-            modified_at=time,
-            manufacturer='Activision',
-            ordered_from='Amazon'
-        ))
-
     # Create roles
     Role.insert_roles()
     role_admin = Role.query.filter(Role.name == 'Administrator').first()
     role_owner = Role.query.filter(Role.name == 'Owner').first()
     role_manager = Role.query.filter(Role.name == 'Manager').first()
     role_user = Role.query.filter(Role.name == 'User').first()
+
+    # Create devices
+    device1_serial = 'SN - 0001'
+    device2_serial = 'SN - 0002'
+
+    device = Device.query.filter(Device.serial_number == device1_serial).first()
+    if not device:
+        device1 = Device(
+            device_uuid="Device 01",
+            label="Flipper",
+            serial_number=device1_serial,
+            created_at=time,
+            modified_at=time,
+            manufacturer='Activision',
+            ordered_from='Amazon',
+            tuev_expired_date=time,
+        )
+        db.session.add(device1)
+    device = Device.query.filter(Device.serial_number == device2_serial).first()
+    if not device:
+        device2 = Device(
+            device_uuid="Device 02",
+            label="Einarmiger Bandit",
+            serial_number=device2_serial,
+            created_at=time,
+            modified_at=time,
+            manufacturer='Activision',
+            ordered_from='Amazon',
+            tuev_expired_date=time,
+        )
+        db.session.add(device2)
 
     # Create users
     admin_username = "admin"

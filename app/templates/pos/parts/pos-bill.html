@@ -32,9 +32,22 @@
         font-size: 36px;
         background-color: #FFFFFF;
         color: #0F0F0F;
-        width: 30%;
+        width: 100%;
         padding-left: 5px;
     }
+    .col-sm-2 > .btn {
+        left: 0;
+        right: 0;
+        margin: auto;
+        width: 100%;
+        font-size: 24px;
+        margin-bottom: 10px;
+    }
+    #abrechnen {
+        font-size:32px;
+        width: 100%;
+    }
+
 </style>
 <p id="title"> <b> Kasse  {{ billed.control_device_id }} von <i>{{ billed.user.firstname }} {{ billed.user.lastname }}</i> abrechnen </b></p>
 <hr>
@@ -55,35 +68,82 @@
     </tbody>
 </table>
 <hr>
-<label> Betrag in der Kasse </label><br/>
-<input id="money" type="number" step="1" min="{{ billed.prefilled_amount / 100 }}"
-       value="{{ billed.prefilled_amount / 100 }}" onchange="setCurrent(this.value)">
+<div class="row">
+    <div class="col-md-12">
+        <label> Betrag in der Kasse </label><br/>
+        <input id="money" type="number" step="1" min="{{ billed.prefilled_amount / 100 }}"
+               value="{{ billed.prefilled_amount / 100 }}" onchange="setCurrent(this.value)">
+    </div>
+</div>
 <hr>
-<button title="um 100 verringern" onclick="addMoney(-100.00)" type="submit" class="btn btn-warning">
-   <i class="fa">&#xf100;</i> 100
-</button>
-<button title="um 10 verringern" onclick="addMoney(-10.00)" type="submit" class="btn btn-warning">
-   <i class="fa">&#xf100;</i> 10
-</button>
-<button title="um 1 verringern" onclick="addMoney(-1.00)"  type="submit" class="btn btn-warning">
-   <i class="fa">&#xf100;</i> 1
-</button>
-<button title="um 1 erhöhen" onclick="addMoney(1.00)" type="submit" class="btn btn-warning">
-   <i class="fa">&#xf101;</i> 1
-</button>
-<button title="um 10 erhöhen" onclick="addMoney(10.00)" type="submit" class="btn btn-warning">
-   <i class="fa">&#xf101;</i> 10
-</button>
-<button title="um 100 erhöhen" value="100" onclick="addMoney(this.value)" type="submit" class="btn btn-warning">
-   <i class="fa">&#xf101;</i> 100
-</button>
+<div class="row">
+    <div class="col-sm-2">
+        <button title="um 480€ verringern" onclick="addMoney(-480.00)" type="submit" class="btn btn-info"> - 480€ </button>
+    </div>
+    <div class="col-sm-2">
+        <button title="um 320€ verringern" onclick="addMoney(-320.00)" type="submit" class="btn btn-info"> - 320€ </button>
+    </div>
+    <div class="col-sm-2">
+        <button title="um 160€ verringern" onclick="addMoney(-160.00)" type="submit" class="btn btn-info"> - 160€ </button>
+    </div>
+    <div class="col-sm-2">
+        <button title="um 160€ erhöhen" onclick="addMoney(160.00)"  type="submit" class="btn btn-info"> + 160€ </button>
+    </div>
+     <div class="col-sm-2">
+        <button title="um 320€ erhöhen" onclick="addMoney(320.00)" type="submit" class="btn btn-info"> + 320€ </button>
+    </div>
+    <div class="col-sm-2">
+        <button title="um 480€ erhöhen" onclick="addMoney(480.00)"  type="submit" class="btn btn-info"> + 480€ </button>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-2">
+        <button title="um 80€ verringern" onclick="addMoney(-80.00)" type="submit" class="btn btn-info"> - 80€ </button>
+    </div>
+    <div class="col-sm-2">
+        <button title="um 20€ verringern" onclick="addMoney(-20.00)" type="submit" class="btn btn-info"> - 20€ </button>
+    </div>
+    <div class="col-sm-2">
+        <button title="um 10€ verringern" onclick="addMoney(-10.00)" type="submit" class="btn btn-info"> - 10€ </button>
+    </div>
+     <div class="col-sm-2">
+        <button title="um 10€ erhöhen" onclick="addMoney(10.00)" type="submit" class="btn btn-info"> + 10€ </button>
+    </div>
+    <div class="col-sm-2">
+        <button title="um 20€ erhöhen" onclick="addMoney(20.00)"  type="submit" class="btn btn-info"> + 20€ </button>
+    </div>
+     <div class="col-sm-2">
+        <button title="um 80€ erhöhen" onclick="addMoney(80.00)" type="submit" class="btn btn-info"> + 80€ </button>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-2">
+        <button title="um 5€ verringern" onclick="addMoney(-5.00)" type="submit" class="btn btn-info"> - 5€ </button>
+    </div>
+    <div class="col-sm-2">
+        <button title="um 0.2€ verringern" onclick="addMoney(-.20)" type="submit" class="btn btn-info"> - 0.2€ </button>
+    </div>
+    <div class="col-sm-2">
+        <button title="um 0.1€ verringern" onclick="addMoney(-0.10)" type="submit" class="btn btn-info"> - 0.1€ </button>
+    </div>
+     <div class="col-sm-2">
+        <button title="um 0.1€ erhöhen" onclick="addMoney(0.10)" type="submit" class="btn btn-info"> + 0.1€ </button>
+    </div>
+    <div class="col-sm-2">
+        <button title="um 0.2€ erhöhen" onclick="addMoney(0.20)"  type="submit" class="btn btn-info"> + 0.2€ </button>
+    </div>
+     <div class="col-sm-2">
+        <button title="um 5€ erhöhen" onclick="addMoney(5.00)" type="submit" class="btn btn-info"> + 5€ </button>
+    </div>
+</div>
+
 <hr>
 <div class="row">
     <div class="col-sm-12">
         <form action="{{ url_for('pos.bill', pos_id=billed.control_device_id) }}"
-            onSubmit="return confirm('Kasse wirklich mit ' + amount + '€ abrechnen?' );" method="post">
+            onSubmit="return confirm('Kasse wirklich mit ' + amount.toFixed(2) + ' € abrechnen?' );" method="post">
             <button id="abrechnen" name="abrechnen" title="Kasse abrechnen" type="submit"
-                    class="btn btn-primary btn-lg">
+                    class="btn btn-success btn-lg">
                     Kasse abrechnen
             </button>
         </form>
@@ -91,26 +151,30 @@
 </div>
 
 <script>
-   var prefilled = parseInt({{ billed.prefilled_amount / 100 }})
-   var amount = prefilled;
+   var m = 100;
+   var prefilled = {{ billed.prefilled_amount }} / m;
+   var amount = parseInt(prefilled);
 
    function setAmount(v) {
       amount = v;
       if (amount < prefilled) {
         amount = prefilled;
       }
-      $('#money').val(amount);
-      $('#abrechnen').val(amount);
+      $('#money').val(parseFloat(amount).toFixed(2));
+      $('#abrechnen').val(parseFloat(amount).toFixed(2));
    }
 
    function addMoney(v) {
-    amount += parseInt(v);
+    v = Math.round(v * m) / m;
+    amount += v;
+    amount = Math.round(amount * m) / m;
     setAmount(amount);
    }
 
-   function setCurrent(val) {
-        amount = parseInt(val);
-        setAmount(amount);
+   function setCurrent(v) {
+    v = Math.round(v * m) / m;
+    amount = v;
+    setAmount(amount);
    }
 
 </script>

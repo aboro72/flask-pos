@@ -80,7 +80,7 @@
         <td>
             {% if current_user.user_id == checkout.user.userid or current_user.is_manager() %}
                  <div class="col-md-12">
-                    <form action="{{ url_for('pos.bill', pos_id=checkout.control_device_id) }}" method="post">
+                    <form action="{{ url_for('pos.bill', pos_id=checkout.control_device_id) }}" method="get">
                         <button title="Kasse abrechnen" type="submit" id="bill" class="bts">
                             <i class="fa">&#xf153;</i>
                         </button>
