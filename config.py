@@ -57,7 +57,7 @@ class Config:
     SESSION_COOKIE_SAMESITE = 'Strict'
 
     # only sent session-cookie if https is used
-    SESSION_COOKIE_SECURE = True
+    # SESSION_COOKIE_SECURE = True
 
     @staticmethod
     def init_app(app):
