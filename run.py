@@ -1,6 +1,6 @@
 import logging
 import os
-from datetime import datetime, date
+from datetime import datetime
 from flask_migrate import Migrate
 
 from app import create_app, db, csrf
@@ -37,24 +37,41 @@ def test():
 @app.cli.command()
 def createdb():
     """Create the database and
-       insert some devices, roles and users """
+       insert some entry's """
 
-    # time = datetime.now().strftime("%d-%m-%Y %H:%M:%S")
+    # variables
+
     time = datetime.now()
+
+    user_user = None
+    admin_user = None
+    owner_user = None
+    manager_user = None
+
+    admin_username = "admin"
+    owner_username = "owner"
+    manager_username = "manager"
+    std_username = "user"
+
+    device1 = None
+    device2 = None
+
+    device1_serial = 'SN - 0001'
+    device2_serial = 'SN - 0002'
+
     # Create database
     db.create_all()
 
     # Create roles
     Role.insert_roles()
+
+    # add roles to variables
     role_admin = Role.query.filter(Role.name == 'Administrator').first()
     role_owner = Role.query.filter(Role.name == 'Owner').first()
     role_manager = Role.query.filter(Role.name == 'Manager').first()
     role_user = Role.query.filter(Role.name == 'User').first()
 
-    # Create devices
-    device1_serial = 'SN - 0001'
-    device2_serial = 'SN - 0002'
-
+    # create Device Entities
     device = Device.query.filter(Device.serial_number == device1_serial).first()
     if not device:
         device1 = Device(
@@ -67,7 +84,6 @@ def createdb():
             ordered_from='Amazon',
             tuev_expired_date=time,
         )
-        db.session.add(device1)
     device = Device.query.filter(Device.serial_number == device2_serial).first()
     if not device:
         device2 = Device(
@@ -80,15 +96,8 @@ def createdb():
             ordered_from='Amazon',
             tuev_expired_date=time,
         )
-        db.session.add(device2)
 
-    # Create users
-    admin_username = "admin"
-    owner_username = "owner"
-    manager_username = "manager"
-    std_username = "user"
-
-    admin_user = None
+    # create User Entities
     user = User.query.filter(User.username == admin_username).first()
     if not user:
         admin_user = User(
@@ -103,7 +112,6 @@ def createdb():
             is_active=True,
             role=role_admin,
         )
-        db.session.add(admin_user)
     user = User.query.filter(User.username == owner_username).first()
     if not user:
         owner_user = User(
@@ -118,10 +126,9 @@ def createdb():
             is_active=True,
             role=role_owner,
         )
-        db.session.add(owner_user)
     user = User.query.filter(User.username == manager_username).first()
     if not user:
-        user_manager = User(
+        manager_user = User(
             uuid="Mitarbeiter 003",
             username=manager_username,
             firstname="Max",
@@ -133,10 +140,8 @@ def createdb():
             is_active=True,
             role=role_manager,
         )
-        db.session.add(user_manager)
     user = User.query.filter(User.username == std_username).first()
     if not user:
-
         user_user = User(
             uuid="Mitarbeiter 004",
             username=std_username,
@@ -149,9 +154,6 @@ def createdb():
             is_active=True,
             role=role_user,
         )
-        db.session.add(user_user)
-    db.session.commit()
-
     control_event = Control(
         created_at=time,
         is_modified=True,
@@ -160,7 +162,6 @@ def createdb():
         modified_at=time,
         user_id=1
     )
-    db.session.add(control_event)
     modify_reason = TimeModifyReason(
         reason="Test EVENT",
         created_at=time,
@@ -168,8 +169,7 @@ def createdb():
         user_modified=admin_user,
         user_modifier=admin_user,
     )
-    db.session.add(modify_reason)
-    note = SystemNotification(
+    system_news = SystemNotification(
         title="Achtung Tagesabschluss um 23:59",
         body="Bitte alle Kassen abrechnen",
         is_repeatable=True,
@@ -179,27 +179,23 @@ def createdb():
         bc='#FF0000',
         fc='#FFFFFF',
     )
-    db.session.add(note)
-    news = NewsMessage(
+    index_news = NewsMessage(
         created_at=time,
         title="Flask-Pos hat jetzt Nachrichten",
         body="Und auch mit Inhalt",
     )
-    db.session.add(news)
-    news1 = NewsMessage(
+    index_news1 = NewsMessage(
         created_at=time,
         title="Noch eine Nachricht",
         body="Das hört ja gar nicht mehr auf",
     )
-    db.session.add(news1)
-    news2 = NewsMessage(
+    index_news2 = NewsMessage(
         created_at=time,
         title="Noch eine Nachricht",
         body="Diesmal eine mehrzeilige Nachricht...<br>Das wird ja immer besser..."
              "<br>Das hört ja gar nicht mehr auf"
     )
-    db.session.add(news2)
-    pos = Pos(
+    cash_bill = Pos(
         prefilled_amount=20000,
         created_at=time,
         is_modified=False,
@@ -207,6 +203,21 @@ def createdb():
         control_id=1,
         device_id=1
     )
-    db.session.add(pos)
+
+    # add entities
+    db.session.add(user_user)
+    db.session.add(admin_user)
+    db.session.add(owner_user)
+    db.session.add(manager_user)
+    db.session.add(device1)
+    db.session.add(device2)
+    db.session.add(control_event)
+    db.session.add(modify_reason)
+    db.session.add(system_news)
+    db.session.add(index_news)
+    db.session.add(index_news1)
+    db.session.add(index_news2)
+    db.session.add(cash_bill)
+
     # Commit all to the database
     db.session.commit()

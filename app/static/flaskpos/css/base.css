@@ -1,0 +1,214 @@
+/*** *** GLOBAL VARIABLES *** ***/
+:root {
+    --em-size: 16px;     /* define 1 em */
+    --extreme-dark-color: #000000;
+    --dark-color: #004444;
+    --medium-color: #009999;
+    --almost-light-color: #ccc;
+    --light-color: #FFFFFF;
+    --mark-color: #E2C71F;
+    --success-color: #00CC33;
+    --error-color: #C43D21;
+    --info-color: #3399FF;
+}
+
+/*** *** WEBSITE CONTENT *** ***/
+
+/* *** Html Em Size *** */
+html {
+    font-size: var(--em-size);
+}
+
+/*** *** NAVIGATION BAR CONTENT *** ***/
+
+/* *** Navbar Background & Border Color *** */
+.navbar-inverse {
+    background-color: var(--dark-color) !important;
+    border-color: var(--dark-color) !important;
+}
+/* *** Navbar Brand & Items Color *** */
+.navbar-brand, .nav-item {
+    color: var(--light-color) !important;
+}
+/* *** Navbar Brand Font-Size *** */
+.navbar-brand {
+    font-size: 2em;
+}
+/* *** Navbar Items Font-Size *** */
+.nav-item {
+    font-size: 1.5em;
+}
+/* *** Navbar Route Element *** */
+.route {
+   background-color: var(--medium-color);
+   color: var(--light-color);
+   font-size: 1.5em;
+   padding: .5em;
+   margin-bottom: .5em;
+   display: block;
+}
+/* *** Navbar Time & Date Display Element *** */
+#thetime, #thedate {
+    display: block;
+    margin-right: 0.5em;
+    float: None;
+    font-size: 1.5em;
+    color: var(--light-color);
+
+}
+/* *** Navbar Time Element Align *** */
+#thetime {
+    margin-right: 0.5em;
+    text-align: right;
+}
+/* *** Navbar Date Element Align *** */
+#thedate {
+    margin-left: 0.5em;
+    text-align: left;
+}
+
+/*** *** SYSTEM MESSAGES CONTENT *** ***/
+
+/* *** SysMessage Container *** */
+#sysdiv {
+    visibility: hidden;
+    display: none;
+    animation: fade ease 2s infinite;
+    margin: left right;
+    position:relative;
+}
+/* *** SysMessage Message *** */
+#sysmessage {
+    width: 100%;
+    font-size: 4em;
+    color: var(--light-color);
+    text-align: center;
+    display: block;
+}
+/* *** SysMessage Fade Animation *** */
+@keyframes fade {
+    0% {
+        opacity: 0;
+    }
+    50% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+    }
+}
+/* *** SysMessage Close Button *** */
+#closemessage {
+    color: var(--light-color);
+    opacity: 1;
+    font-size: 4em;
+}
+
+/*** *** PAGE CONTENT *** ***/
+
+/* *** Page Title *** */
+p#title {
+    padding-left: .375em;
+    font-size: 4em;
+    background-color: var(--dark-color);
+    color: var(--light-color);
+}
+/* *** Page Title Cursive Elements *** */
+p#title>b>i {
+    color: var(--mark-color);
+}
+/* *** Page Table Element *** */
+table.global {
+    border: 2px solid;
+    width: 100%;
+    color: var(--extreme-dark-color);
+}
+/* *** Page Table Caption Size *** */
+table.global caption {
+    font-size: 1.5em;
+}
+/* *** Page Table Header & Column Elements *** */
+table.global td, th {
+    font-size: 1.5em;
+    padding: .25em;
+    border: 2px solid;
+    text-align: right;
+}
+/* *** Page Button Standard Width & Font-size *** */
+.btn {
+    font-size: 2em;
+    width: 100%;
+}
+/* *** Page Button Action Elements *** */
+.bts {
+  width: 3em;
+  height: 3em;
+  background-color: var(--dark-color);
+  border: 2px solid var(--dark-color);
+  color: var(--medium-color);
+  cursor: pointer;
+  padding: auto;
+}
+.bts:hover {
+  background-color: var(--medium-color);
+  color: white;
+}
+.bts#view {
+    background-color: var(--success-color);
+}
+.bts#edit {
+    background-color: var(--mark-color);
+}
+.bts#delete {
+    background-color: var(--error-color);
+}
+.bts:visited {
+  background-color: var(--dark-color);
+  color: var(--light-color);
+}
+.bts#view:visited {
+    background-color:  var(--success-color);
+    color: var(--light-color);
+}
+.bts#edit:visited {
+    background-color: var(--mark-color);
+    color: var(--light-color);
+}
+.bts#delete:visited {
+    background-color: var(--error-color);
+    color: var(--light-color);
+}
+.bts#view:hover, .bts#edit:hover, .bts#delete:hover  {
+    background-color: var(--medium-color);
+}
+/* *** Page Icon Standard Size & Color *** */
+.fa {
+    font-size:1em;
+    color: var(--light-color);
+}
+/* *** Page Label Size *** */
+label {
+    font-size: 1.5em;
+    margin-top: 1.125em;
+}
+/* *** Page Error Messages *** */
+.alert-error {
+    background-color: var(--error-color);
+    color: var(--light-color);
+}
+.alert-success {
+    background-color: var(--success-color);
+    color: var(--light-color);
+}
+.alert-warning {
+    background-color: var(--mark-color);
+    color: var(--light-color);
+}
+.alert-info {
+    background-color: var(--info-color);
+    color: var(--light-color);
+}
+/* *** Page Error Messages Button *** */
+.close {
+    color: var(--light-color);
+}

@@ -4,15 +4,13 @@
 from flask import Flask
 from flask_mail import Mail
 from flask_moment import Moment
+from flask_wtf import CSRFProtect
 from flask_login import LoginManager
 from flask_bootstrap import Bootstrap
 from flask_sqlalchemy import SQLAlchemy
 from flask_datepicker import datepicker
 
-
 # internal packages
-from flask_wtf import CSRFProtect
-
 from config import config
 
 # declare packages
@@ -21,7 +19,6 @@ moment = Moment()
 bootstrap = Bootstrap()
 login_manager = LoginManager()
 csrf = CSRFProtect()
-
 
 # disable auto flush for SQLAlchemy to prevent
 # automatic persist entities
@@ -39,7 +36,8 @@ def create_app(config_name):
     config[config_name].init_app(app)
 
     # init addons
-    datepicker(app=app, local=['static/jquery/ui/jquery-ui.min.js', 'static/jquery/ui/jquery-ui.min.css'])
+    datepicker(app=app, local=['static/jquery/ui/jquery-ui.min.js',
+                               'static/jquery/ui/jquery-ui.min.css', ])
     db.init_app(app)
     csrf.init_app(app)
     mail.init_app(app)

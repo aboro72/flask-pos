@@ -1,23 +1,9 @@
 {% extends "base.html" %}
 {% block page_content %}
+<link rel="stylesheet" href="{{ url_for('static', filename='flaskpos/css/admin/admin.css') }}">
 
-<style>
-    p#dashboard-title {
-        font-size: 50px;
-        background-color: #006666;
-        padding-left: 20px;
-        vertical-align: center;
-        color: white;
-    }
-    .btn {
-        width: 100%;
-        font-size:32px;
-    }
-    .low {
-        margin-top: 1%;
-    }
-</style>
-<p id="dashboard-title"> <b> Verwaltung </b></p>
+<p id="title"> <b> Verwaltung </b></p>
+<hr>
 <hr>
 <div class="row">
     <div class="col-md-6">

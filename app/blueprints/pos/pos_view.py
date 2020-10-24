@@ -38,6 +38,7 @@ def bill(pos_id):
     if request.method == 'POST':
         form_data = request.form.get('abrechnen')
         if form_data is not None:
+            form_data = float(form_data)
             billed.total_amount = form_data * 100
             billed.billed_at = datetime.now()
             billed.billed_by = current_user.user_id

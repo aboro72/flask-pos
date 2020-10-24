@@ -1,0 +1,9 @@
+/* *** Table Data Element Month Small Width & Padding *** */
+td#month {
+    width: 70%;
+    padding: .4em;
+}
+/* *** Button small Font-size *** */
+.btn-sm {
+    font-size: 1em;
+}

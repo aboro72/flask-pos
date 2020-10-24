@@ -19,7 +19,7 @@ def before_request():
             redirect(url_for('main.index'))
 
 
-@admin.route('/messages/', methods=['GET', ])
+@admin.route('/messages/', methods=['GET', 'POST'])
 @login_required
 @owner_required
 def message_index():
@@ -30,5 +30,5 @@ def message_index():
                            title='Benachrichtigungen',
                            sysmessages=True,
                            messages=message_list,
-                           note=system_notification,
+                           notes=system_notification,
                            route=request.path)

@@ -12,81 +12,18 @@
     {{ super() }}
     <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='fontawesome/css/all.min.css') }}">
-    <!-- <link rel="stylesheet" href="{{ url_for('static', filename='flaskpos/css/all.css') }}"> -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='flaskpos/css/base.css') }}">
 {% endblock %}
 
 {% block navbar %}
-<style>
-    .navbar-brand {
-        font-size: 32px;
-    }
-    .nav-item {
-        font-size: 24px;
-    }
-    .navbar-brand, .nav-item {
-        color: white !important;
-    }
-    .navbar-inverse {
-        background-color: #004444;
-        border-color: #004444;
-    }
-    #sysdiv {
-        visibility: hidden;
-        display: none;
-        animation: fade ease 2s infinite;
-        margin: left right;
-        position:relative;
-    }
-    #sysmessage {
-        width: 100%;
-        font-size: 48px;
-        color: white;
-        text-align: center;
-        display: block;
-    }
-     @keyframes fade {
-        0% {
-            opacity: 0;
-        }
-        50% {
-            opacity: 1;
-        }
-        100% {
-            opacity: 0;
-        }
-    }
-    #thetime {
-        display: block;
-        margin-right: 10px;
-        font-size: 30px;
-        color: #FFFFFF;
-        text-align: right;
-    }
-    #thedate {
-        display: block;
-        margin-left: 10px;
-        font-size: 30px;
-        color: #FFFFFF;
-        text-align: left;
-    }
-    caption {
-        font-size: 24px;
-    }
-    #closemessage {
-        color: #eee;
-        opacity: 1;
-        font-size: 60px;
-    }
-</style>
 <div class="navbar navbar-inverse" role="navigation">
 
 <div class="col-xs-6">
-    <div id="thedate">xx.xx.xxxx</div>
+    <div id="thedate">{{ moment().format('l') }}</div>
 </div>
 <div class="col-xs-6">
-    <div id="thetime">xx:xx:xx</div>
+    <div id="thetime">{{ moment().format('LTS') }}</div>
 </div>
-
 
     <div class="container">
         <div class="navbar-header">
@@ -118,13 +55,13 @@
                 {% endif %}
             </ul>
         </div>
-        <p style="background-color: #009999; color: #FFFFFF;font-size: medium; padding: 2px; padding-top: 3px;"> {{ route }} </p>
+        <div class="route"> {{ route }} </div>
     </div>
 </div>
 {% endblock %}
 
 {% block content %}
-
+<div id="content">
 <div class="container">
     <div class="row">
         <div id="sysdiv" class="col-sm-12 alert alert">
@@ -152,19 +89,27 @@
 
     {% block page_content %}{% endblock %}
     <hr>
-
-    <hr>
-    <button id="open-zammad-chat"> Chatte mit uns </button>
-    <hr>
-    <button id="feedback-form">Feedback</button>
-
+    {# HTML LIVE CHAT & FEEDBACK
+        <hr>
+        <button id="open-zammad-chat"> Chatte mit uns </button>
+        <hr>
+        <button id="feedback-form">Feedback</button>
+    #}
+</div>
 </div>
 {% endblock %}
 
 {% block scripts %}
     {{ super() }}
-    {{ datepicker.loader(theme="flick") }}
+
+    {{ datepicker.loader(theme="south-street") }}
     {{ datepicker.picker(id=".dp") }}
+
+    {{ moment.include_moment() }}
+    {{ moment.locale("de") }}
+
+    {# Help-Desk JavaScript
+
     <script src="https://hd.sleibo.de/assets/form/form.js">
         $(function() {
             $('#feedback-form').ZammadForm({
@@ -187,55 +132,11 @@
            });
        });
     </script>
-    {{ moment.include_moment() }}
-    {{ moment.locale("de") }}
-
-
-    <script>
+    #}
     {% if current_user.is_authenticated %}
         {% if sysmessages %}
-        // display messages
-        function dse(n, b, c, t) {
-            $('#sysmessage').css('white-space', 'pre-line');
-            $('#sysmessage').text(t + "\n" + n)
-            $('#sysmessage').css('background-color', b);
-            $('#sysmessage').css('color', c);
-            $('#sysdiv').css('visibility', n ? 'visible' : 'hidden');
-            $('#sysdiv').css('display', 'block');
-            $('#sysdiv').css('background-color', b);
-        }
-
-        // get notification
-        $(function() {
-            setInterval(function() {
-                $.ajax('{{ url_for('main.notification') }}').done(
-                    function(no) {
-                        for (var i = 0; i < no.length; i++) {
-                            var o = no[i];
-                            var b = o.bc, c = o.fc , n = o.data, t = o.title;
-                            dse(n, b, c, t)
-                        }
-                    }
-                );
-            }, 30000);
-        });
+            <script src="{{ url_for('static', filename='flaskpos/js/sysmess.js') }}"></script>
         {% endif %}
     {% endif %}
-
-    function time() {
-        $('#thetime').text(moment().format('LTS'));
-        $('#thedate').text(moment().format('l'));
-    };
-
-    // call every minute the time function
-    $(function() {
-        setInterval(function() {
-            time();
-        }, 1000
-    )});
-
-
-
-</script>
-
+    <script src="{{ url_for('static', filename='flaskpos/js/base.js') }}"></script>
 {% endblock %}

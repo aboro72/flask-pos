@@ -1,120 +1,49 @@
 {% extends "base.html" %}
 {% block page_content %}
 
-<style>
-    p#title {
-        font-size: 50px;
-        background-color: #006666;
-        padding-left: 20px;
-        color: white;
-    }
-    caption {
-        font-size: 24px;
-    }
-    td, th {
-        font-size: 24px;
-        padding-left: 10px;
-        padding-top: 5px;
-        padding-bottom: 5px;
-        border: 2px solid;
-        text-align: left;
-    }
-    table {
-        border: 2px solid;
-        width: 100%;
-    }
+<link rel="stylesheet" href="{{ url_for('static', filename='flaskpos/css/admin/device/device-index.css') }}">
 
-    .btn {
-        font-size: 32px;
-        width: 100%;
-    }
-    .bts {
-      width:48px;
-      height: 48px;
-      background-color: DodgerBlue;
-      border: 1px solid #0000FF;
-      color: white;
-      cursor: pointer;
-      padding:6px;
-    }
-    .bts:hover {
-      background-color: RoyalBlue;
-      color: white;
-    }
-    .bts#view {
-        background-color: green;
-    }
-    .bts#edit {
-        background-color: orange;
-    }
-    .bts#delete {
-        background-color: red;
-    }
-    .bts:visited {
-      background-color: DodgerBlue;
-      color: white;
-    }
-
-    .bts#view:visited {
-        background-color: green;
-        color: white;
-    }
-    .bts#edit:visited {
-        background-color: orange;
-        color: white;
-    }
-    .bts#delete:visited {
-        background-color: red;
-        color: white;
-    }
-     .bts#view:hover, .bts#edit:hover, .bts#delete:hover  {
-        background-color: RoyalBlue;
-    }
-    .fa {
-        font-size:32px;
-    }
-</style>
 <p id="title"> <b> Verwaltung der Geräte </b></p>
 <hr>
 {% if devices %}
-<table>
+<table class="global">
     <caption> Gerätetabelle </caption>
     <th> Bezeichnung </th>
     <th> Identifikation </th>
     <th> Seriennummer </th>
     <th> Aktionen </th>
     {% for device in devices %}
-    <tr align="center">
-            <td><p> {{ device.label }} </p></td>
-            <td><p> {{ device.device_uuid }} </p></td>
-            <td><p> {{ device.serial_number }} </p></td>
-            <td>
-                <div class="col-md-4">
-                    <form action="{{ url_for('admin.get_device', uuid=device.device_uuid) }}" method="get">
-                        <button title="Ansehen" type="submit" id="view" class="bts">
-                            <i class="fa">&#xf06e;</i>
-                        </button>
-                    </form>
-                </div>
-                {% if current_user.is_owner() %}
-                        <div class="col-md-4">
-                            <form action="{{ url_for('admin.edit_device', uuid=device.device_uuid) }}" method="get">
-                                <button  title="Editieren" type="submit" id="edit" class="bts">
-                                    <i class="fa">&#xf044;</i>
-                                </button>
-                            </form>
-                        </div>
+    <tr>
+        <td class="col-xs-3"><p> {{ device.label }} </p></td>
+        <td class="col-xs-3"><p> {{ device.device_uuid }} </p></td>
+        <td class="col-xs-3"><p> {{ device.serial_number }} </p></td>
+        <td class="col-xs-3">
+            <div class="col-md-4">
+                <form action="{{ url_for('admin.get_device', id=device.device_id) }}" method="get">
+                    <button title="Ansehen" type="submit" id="view" class="bts">
+                        <i class="fa">&#xf06e;</i>
+                    </button>
+                </form>
+            </div>
+            {% if current_user.is_owner() %}
+                    <div class="col-md-4">
+                        <form action="{{ url_for('admin.edit_device', id=device.device_id) }}" method="get">
+                            <button  title="Editieren" type="submit" id="edit" class="bts">
+                                <i class="fa">&#xf044;</i>
+                            </button>
+                        </form>
+                    </div>
 
-                        <div class="col-md-4">
-                            <form action="{{ url_for('admin.delete_device', uuid=device.device_uuid) }}" method="post"
-                                onSubmit="return confirm('Gerät {{ device.device_uuid }} löschen?');">
-                                <button title="Löschen" type="submit" id="delete" class="bts">
-                                    <i class="fa">&#xf00d;</i>
-                                </button>
-                            </form>
-                        </div>
-                {% endif %}
-            </td>
+                    <div class="col-md-4">
+                        <form action="{{ url_for('admin.delete_device', id=device.device_id) }}" method="post"
+                            onSubmit="return confirm('Gerät {{ device.device_uuid }} löschen?');">
+                            <button title="Löschen" type="submit" id="delete" class="bts">
+                                <i class="fa">&#xf00d;</i>
+                            </button>
+                        </form>
+                    </div>
+            {% endif %}
+        </td>
     </tr>
     {% endfor %}
 </table>

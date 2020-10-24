@@ -39,11 +39,11 @@ def users():
                            )
 
 
-@admin.route('/users/<name>/view/', methods=['GET'])
+@admin.route('/users/<id>/view/', methods=['GET'])
 @login_required
 @manager_required
-def get_user(name):
-    user = User.query.filter(User.username == name).first()
+def get_user(id):
+    user = User.query.filter(User.user_id == id).first()
     return render_template('admin/user/parts/user-view.html',
                            user=user,
                            route=request.path,
@@ -51,12 +51,12 @@ def get_user(name):
                            )
 
 
-@admin.route('/users/<name>/edit/', methods=['GET', 'POST'])
+@admin.route('/users/<id>/edit/', methods=['GET', 'POST'])
 @login_required
 @owner_required
-def edit_user(name):
+def edit_user(id):
     form = UserEditForm()
-    user = User.query.filter(User.username == name).first()
+    user = User.query.filter(User.user_id == id).first()
     form.role.choices = [(r.role_id, r.name) for r in
                          Role.query.filter(Role.permissions <= current_user.role.permissions)]
 
@@ -75,9 +75,9 @@ def edit_user(name):
             db.session.commit()
             flash('Benutzer erfolgreich geändert', 'success')
             return redirect(url_for('admin.users'))
-        flash('Die Mitarbeiter-ID ist schon vorhanden', 'danger')
+        flash('Die Mitarbeiter-ID ist schon vorhanden', 'info')
         return render_template('admin/user/parts/user-edit.html',
-                               username=name,
+                               username=user.username,
                                form=form,
                                title='{} editieren'.format(user.username),
                                route=request.path
@@ -99,19 +99,19 @@ def edit_user(name):
                            )
 
 
-@admin.route('/users/<name>/delete/', methods=['POST'])
+@admin.route('/users/<id>/delete/', methods=['POST'])
 @login_required
 @owner_required
-def delete_user(name):
+def delete_user(id):
     # delete user
     if current_user.is_owner() or current_user.is_administrator():
-        user = User.query.filter(User.username == name).first()
+        user = User.query.filter(User.user_id == id).first()
         if current_user.role.permissions > user.role.permissions:
             db.session.delete(user)
             db.session.commit()
             flash('Benutzer erfolgreich gelöscht', 'success')
             return redirect(url_for('admin.users'))
-        flash("Unzureichende Berechtigung")
+        flash("Unzureichende Berechtigung", 'error')
         return redirect(url_for('admin.users'))
     flash('Nutzer ist nicht berechtigt', 'error')
     return redirect(url_for('admin.users'))

@@ -1,33 +1,20 @@
 {% extends "base.html" %}
 {% block page_content %}
-<style>
-    p#contact-title {
-        font-size: 50px;
-        background-color: #006666;
-        padding-left: 20px;
-        color: white;
-    }
-    .textarea-title {
-        font-size: 24px;
-    }
-    .textarea {
-        margin-top: 10px;
-        font-size: 18px;
-        border: 2px solid;
-    }
-</style>
-<p id="contact-title"> <b> Kontakt aufnehmen </b></p>
-<hr>
-<form action="mailto:flaskpos@test.com" method="get" enctype="text/plain">
-      <div>
+
+<link rel="stylesheet" href="{{ url_for('static', filename='flaskpos/css/main/contact.css') }}">
+
+<p id="title"> <b> Kontakt aufnehmen </b></p>
+
+<form action="mailto:flaskpos@sleibo.de" method="get" enctype="text/plain">
+    <div>
         <label class="textarea-title">Nachricht:</label>
         <br />
         <textarea class="textarea" name="comments" rows="15" cols="40">Hallo Flask-Pos Team,</textarea>
-      </div>
-      <div>
-        <input type="submit" name="submit" class="btn btn-primary btn-md" value="Abschicken" />
-        <input type="reset" name="reset" class="btn btn-danger btn-md" value="Zurücksetzen" />
-      </div>
-    </form>
+    </div>
+    <div>
+        <input type="submit" name="submit" class="btn btn-primary btn-md low" value="Abschicken" />
+        <input type="reset" name="reset" class="btn btn-danger btn-md low" value="Zurücksetzen" />
+    </div>
+</form>
 
 {% endblock page_content %}

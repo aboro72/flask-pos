@@ -184,7 +184,7 @@ def view_control_details(year, name, cid):
                                )
     # If its not possible to load the time control event
     # redirect to /admin/control
-    flash('Stempelzeit konnte nicht geladen werden. Bitte Support konkaktieren')
+    flash('Stempelzeit konnte nicht geladen werden. Bitte Support konkaktieren', 'error')
     return redirect(url_for('admin.control'))
 
 

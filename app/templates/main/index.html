@@ -1,66 +1,30 @@
 {% extends "base.html" %}
 {% block page_content %}
 
-<style>
-    .user {
-        font-size: 30px;
-        margin-left: 10px;
-        background-color:
-    }
-    .news {
-        height: 10%;
-        display:block;
-        background-color: #009999;
-        font-size: 30px;
-        padding: auto;
-        margin: left right;
-    }
-    p#newstitle {
-        background-color: #006666;
-        color: white;
-    }
-    button#news {
-        padding: auto;
-        font-size: 40px;
-        color: #FFFFFF;
-    }
-    p {
-        padding-left: 20px;
-        font-size: 50px;
-    }
-    .newstitle {
-        color:white;
-    }
-    .newstime {
-        color: white;
-    }
-    .newsbody {
-        color: black;
-    }
-</style>
-<p id="newstitle"> <b> Flask-Pos News </b></p>
+<link rel="stylesheet" href="{{ url_for('static', filename='flaskpos/css/main/index.css') }}">
+
+<p id="title"> <b> Flask-Pos News </b></p>
+<hr>
 <hr>
 {% if newsletter %}
     {% for news in newsletter %}
-            <div class="news alert">
-                <span style="margin: auto;">
-                    {% autoescape false %}
-                    <div class="row">
-                        <div class="col-sm-9">
-                            <span class="newstitle">{{ news.title }}</span>
-                        </div>
-                         <div class="col-sm-3" style="text-align: right;">
-                            <span class="newstime">{{ news.created_at.strftime('%d.%m.%Y, %H:%M') }}</span>
-                        </div>
-                    </div>
-                    <div class="row">
-                         <div class="col-sm-11">
-                            <span class="newsbody">{{ news.body }}</span>
-                        </div>
-                    </div>
-                    {% endautoescape %}
-                </span>
+        <div class="news alert">
+            {% autoescape false %}
+            <div class="row">
+                <div class="col-sm-9">
+                    <span class="newstitle">{{ news.title }}</span>
+                </div>
+                 <div class="col-sm-3" id="newstime">
+                    <span class="newstime">{{ news.created_at.strftime('%d.%m.%Y, %H:%M') }}</span>
+                </div>
             </div>
+            <div class="row">
+                 <div class="col-sm-11">
+                    <span class="newsbody">{{ news.body }}</span>
+                </div>
+            </div>
+            {% endautoescape %}
+        </div>
     {% endfor %}
 {% else %}
     <div class="news alert alert-{{ category }}">

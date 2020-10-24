@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime,date
 
 from flask import (
     render_template,
@@ -28,11 +28,11 @@ def devices():
                            )
 
 
-@admin.route('/devices/<uuid>/view', methods=['GET'])
+@admin.route('/devices/<id>/view', methods=['GET'])
 @login_required
 @manager_required
-def get_device(uuid):
-    device = Device.query.filter(Device.device_uuid == uuid).first()
+def get_device(id):
+    device = Device.query.filter(Device.device_id == id).first()
     return render_template('admin/device/parts/device-view.html',
                            title='{} ansehen'.format(device.device_uuid),
                            sysmessages=True,
@@ -41,12 +41,12 @@ def get_device(uuid):
                            )
 
 
-@admin.route('/devices/<uuid>/edit', methods=['GET', 'POST'])
+@admin.route('/devices/<id>/edit', methods=['GET', 'POST'])
 @login_required
 @owner_required
-def edit_device(uuid):
+def edit_device(id):
     form = DeviceEditForm()
-    device = Device.query.filter(Device.device_uuid == uuid).first()
+    device = Device.query.filter(Device.device_id == id).first()
 
     if not current_user.is_owner():
         flash("Unzureichende Rechte", 'error')
@@ -58,6 +58,7 @@ def edit_device(uuid):
             device.manufacturer = form.manufacturer.data
             device.ordered_from = form.ordered_from.data
             device.modified_at = datetime.now()
+            device.tuev_expired_date = form.tuev_expired_date.data
             if Device.query.filter(Device.device_uuid == form.uuid.data).first() is None:
                 device.device_uuid = form.uuid.data
             if Device.query.filter(Device.serial_number == form.serial.data).first() is None:
@@ -65,7 +66,6 @@ def edit_device(uuid):
             db.session.commit()
             flash('Gerät erfolgreich geändert', 'success')
             return redirect(url_for('admin.devices'))
-
     form.sn.data = device.serial_number
     form.ud.data = device.device_uuid
     form.label.data = device.label
@@ -73,6 +73,7 @@ def edit_device(uuid):
     form.serial.data = device.serial_number
     form.manufacturer.data = device.manufacturer
     form.ordered_from.data = device.ordered_from
+    form.tuev_expired_date.data = device.tuev_expired_date
 
     return render_template('admin/device/parts/device-edit.html',
                            title='{} editieren'.format(device.device_uuid),
@@ -83,12 +84,12 @@ def edit_device(uuid):
                            )
 
 
-@admin.route('/devices/<uuid>/delete', methods=['POST'])
+@admin.route('/devices/<id>/delete', methods=['POST'])
 @login_required
 @owner_required
 def delete_device(uuid):
     if current_user.is_owner() or current_user.is_administrator():
-        device = Device.query.filter(Device.device_uuid == uuid).first()
+        device = Device.query.filter(Device.device_id == id).first()
         db.session.delete(device)
         db.session.commit()
         flash('Gerät erfolgreich gelöscht', 'success')
