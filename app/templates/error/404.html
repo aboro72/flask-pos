@@ -1,17 +1,12 @@
 {% extends "base.html" %}
 {% block page_content %}
 
-<style>
-    p#title {
-        font-size: 50px;
-        background-color: #006666;
-        padding-left: 20px;
-        color: white;
-    }
-    i {
-        color: yellow;
-    }
-</style>
-<p id="title"> <b> Die Gesuchte Seite konnte nicht gefunden werden</b> </p>
-<hr>
+<link rel="stylesheet" href="{{ url_for('static', filename='flaskpos/css/error/404.css') }}">
+
+<p id="title"> <b> Die gesuchte Seite konnte nicht gefunden werden</b> </p>
+<div class="container">
+        Beschreibung...
+    <hr>
+    <h1> {{ reason }} </h1>
+</div>
 {% endblock page_content %}

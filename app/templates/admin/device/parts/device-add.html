@@ -3,36 +3,8 @@
 
 {% block page_content %}
 
-<style>
-    p#title {
-        font-size: 50px;
-        background-color: #006666;
-        padding-left: 20px;
-        color: white;
-    }
-    label {
-        font-size: 24px;
-        margin-top: 10px;
-    }
-    input {
-        border: 1px solid grey;
-        font-size: 36px;
-        background-color: #FFFFFF;
-        color: #0F0F0F;
-        width: 100%;
-        padding-left: 5px;
-    }
-    select {
-        font-size: 36px;
-        color: #0F0F0F;
-        background-color: white;
-        width: 100%;
+<link rel="stylesheet" href="{{ url_for('static', filename='flaskpos/css/admin/device/parts/device-add.css') }}">
 
-    }
-    #submitform>input {
-        font-size: 36px;
-    }
-</style>
 <p id="title"> <b> Gerät hinzufügen </b></p>
 <hr>
 
@@ -59,6 +31,9 @@
              <div class="row">
                 <div class="col-sm-6">
                     {{ form.ordered_from.label }}<br>{{ form.ordered_from }}
+                </div>
+                 <div class="col-sm-6">
+                    {{ form.tuev_expired_date.label }}<br>{{ form.tuev_expired_date(class_="dp") }}
                 </div>
              </div>
              <hr>

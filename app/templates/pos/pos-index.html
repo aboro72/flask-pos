@@ -1,68 +1,12 @@
 {% extends "base.html" %}
 {% block page_content %}
-<style>
-    p#title {
-        font-size: 50px;
-        background-color: #006666;
-        padding-left: 20px;
-        color: white;
-    }
-    .btn {
-        width: 100%;
-        height: 100%;
-        font-size: 32px;
-    }
-    td, th {
-        font-size: 24px;
-        padding-left: 10px;
-        padding-top: 5px;
-        padding-bottom: 5px;
-        border: 2px solid;
-        text-align: left;
-    }
-    table {
-        border: 2px solid;
-        width: 100%;
-        color: black;
-    }
-    .bts {
-      width:50px;
-      height: 100%;
-      background-color: DodgerBlue;
-      border: 1px solid #0000FF;
-      color: white;
-      cursor: pointer;
-      padding:6px;
-    }
-    .bts:hover {
-      background-color: RoyalBlue;
-      color: white;
-    }
-    .bts#bill {
-        background-color: green;
-    }
-    .bts:visited {
-      background-color: DodgerBlue;
-      color: white;
-    }
 
-    .bts#bill:visited {
-        background-color: green;
-        color: white;
-    }
-     .bts#bill:hover {
-        background-color: RoyalBlue;
-    }
-    .fa {
-        font-size:24px;
+<link rel="stylesheet" href="{{ url_for('static', filename='flaskpos/css/pos/pos-index.css') }}">
 
-    }
-
-</style>
 <p id="title"> <b> Kasse </b></p>
 <hr>
 {% if checkouts %}
-<table >
+<table class="global">
     <caption> Kassen zum Abrechnen </caption>
     <thead>
         <th> Gerät </th>
@@ -73,14 +17,14 @@
     </thead>
     {% for checkout in checkouts %}
     <tr>
-        <td><p> {{ checkout.device.label }} </p></td>
-        <td><p> {{ checkout.user.firstname }} </p></td>
-        <td><p> {{ checkout.user.lastname }} </p></td>
-        <td><p> {{ checkout.created_at.strftime('%d.%m.%Y, %H:%M') }} </p></td>
-        <td>
+        <td class="col-xs-2"><p> {{ checkout.device.label }} </p></td>
+        <td class="col-xs-2"><p> {{ checkout.user.firstname }} </p></td>
+        <td class="col-xs-2"><p> {{ checkout.user.lastname }} </p></td>
+        <td class="col-xs-3"><p> {{ checkout.created_at.strftime('%d.%m.%Y, %H:%M') }} </p></td>
+        <td class="col-xs-1">
             {% if current_user.user_id == checkout.user.userid or current_user.is_manager() %}
                  <div class="col-md-12">
-                    <form action="{{ url_for('pos.bill', pos_id=checkout.control_device_id) }}" method="post">
+                    <form action="{{ url_for('pos.bill', pos_id=checkout.control_device_id) }}" method="get">
                         <button title="Kasse abrechnen" type="submit" id="bill" class="bts">
                             <i class="fa">&#xf153;</i>
                         </button>
@@ -104,6 +48,4 @@
     </div>
 </div>
 
-
-<hr>
 {% endblock page_content %}

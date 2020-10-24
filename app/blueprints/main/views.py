@@ -14,7 +14,6 @@ from flask_login import login_required
 from app.blueprints.main import main
 
 from app.models.message import SystemNotification, NewsMessage
-from app.models.pos import Pos
 
 
 @main.route('/favicon.ico')

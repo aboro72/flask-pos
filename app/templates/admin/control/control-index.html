@@ -1,80 +1,13 @@
 {% extends "base.html" %}
 {% block page_content %}
 
-<style>
-    p#title {
-        font-size: 50px;
-        background-color: #006666;
-        padding-left: 20px;
-        color: white;
-    }
-    table, th, td {
-        border: 2px solid black;
-    }
-    table {
-        width: 100%;
-    }
-    .date-info {
-        height: 20%;
-        display:block;
-        font-size: 50px;
-        color: #006666;
-    }
-    .time-info {
-        height: 20%;
-        display:block;
-        font-size: 50px;
-        color: #006666;
-        text-align:right;
-    }
-    .date-info>i, .time-info>i  {
-        color: black;
-    }
-    caption {
-        font-size: 24px;
-    }
-    td, th {
-        font-size: 24px;
-        padding-left: 10px;
-    }
-
-    td#month {
-        width: 70%;
-        padding: 5px;
-    }
-    .fa {
-        font-size:32px;
-        color: white;
-    }
-    .bts {
-      width:48px;
-      height: 48px;
-      background-color: red;
-      border: 1px solid #0000FF;
-      color: white;
-      cursor: pointer;
-      padding:6px;
-      margin: 5px;
-    }
-
-    #current {
-        font-size: 32px;
-        width: 100%;
-    }
-    .bts:hover {
-      background-color: RoyalBlue;
-      color: white;
-    }
-    .bts#view {
-        background-color: green;
-    }
-</style>
+<link rel="stylesheet" href="{{ url_for('static', filename='flaskpos/css/admin/control/control-index.css') }}">
 
 <p id="title"> <b> Verwaltung der Stempelzeiten</b></p>
 <hr>
-<div class="current">
+<div>
     {% if today %}
-    <table>
+    <table class="global">
         <caption> Eingestempelte Benutzer </caption>
         <th> Identifikation </th>
         <th> Vorname </th>
@@ -84,26 +17,26 @@
         <th> Aktionen </th>
         {% for elem in today %}
 
-                        <tr align="center">
-                            <td><p> {{ elem[0].uuid }} </p></td>
-                            <td><p> {{ elem[0].firstname }} </p></td>
-                            <td><p> {{ elem[0].lastname }} </p></td>
-                            <td><p> {{ elem[1].strftime('%d.%m.%Y, %H:%M') }} </p></td>
-                            <td><p> {{ elem[2] }} </p></td>
-                            <td>
-                                {% if current_user.is_manager() %}
-                                 <div class="col-md-4">
-                                    <form action="{{ url_for('admin.clock_out', name=elem[0].username) }}" method="post"
-                                        onSubmit="return confirm
-                                        ('Mitarbeiter {{ elem[0].firstname }} {{ elem[0].lastname }} ausstempeln?');">
-                                        <button title="Ausstempeln" type="submit" id="clockout" class="bts">
-                                            <i class="fa">&#xf273;</i>
-                                        </button>
-                                    </form>
-                                </div>
-                                {% endif %}
-                            </td>
-                        </tr>
+        <tr align="center">
+            <td class="col-xs-2"><p> {{ elem[0].uuid }} </p></td>
+            <td class="col-xs-2"><p> {{ elem[0].firstname }} </p></td>
+            <td class="col-xs-2"><p> {{ elem[0].lastname }} </p></td>
+            <td class="col-xs-2"><p> {{ elem[1].strftime('%d.%m.%Y, %H:%M') }} </p></td>
+            <td class="col-xs-3"><p> {{ elem[2] }} </p></td>
+            <td class="col-xs-1">
+                {% if current_user.is_manager() %}
+                 <div class="col-md-12">
+                    <form action="{{ url_for('admin.clock_out', name=elem[0].username) }}" method="post"
+                        onSubmit="return confirm
+                        ('Mitarbeiter {{ elem[0].firstname }} {{ elem[0].lastname }} ausstempeln?');">
+                        <button title="Ausstempeln" type="submit" id="clockout" class="bts">
+                            <i class="fa">&#xf273;</i>
+                        </button>
+                    </form>
+                </div>
+                {% endif %}
+            </td>
+        </tr>
 
         {% endfor %}
     </table>
@@ -128,7 +61,7 @@
     {% endif %}
     <div class="row">
         <div class="col-sm-12">
-            <table >
+            <table class="global">
                 <caption> Stempelzeiten </caption>
                 <thead>
                     <th> Jahr </th>
@@ -137,8 +70,8 @@
                 <tbody>
                 {% for year in years %}
                     <tr>
-                        <td > {{ year[0] }} </td>
-                        <td id="month">
+                        <td class="col-xs-1"> {{ year[0] }} </td>
+                        <td  class="col-xs-11"id="month">
                             {% if year %}
                                 {% for month in year[1] %}
                                     <div class="col-sm-1">
@@ -162,6 +95,5 @@
         </div>
     </div>
 {% endif %}
-<hr>
 
 {% endblock page_content %}

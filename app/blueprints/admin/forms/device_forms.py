@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField, HiddenField
+from wtforms import StringField, SubmitField, HiddenField, DateField
 from wtforms.validators import DataRequired, ValidationError
 
 from app.models.device import Device
@@ -11,6 +11,7 @@ class DeviceAddForm(FlaskForm):
     serial = StringField('Seriennummer:', validators=[DataRequired(), ])
     manufacturer = StringField('Hersteller:', validators=[DataRequired(), ])
     ordered_from = StringField('Gekauft bei', validators=[DataRequired(), ])
+    tuev_expired_date = DateField('Tüv-Ablaufdatum', validators=[DataRequired(), ])
     submit = SubmitField('Erstellen')
 
     def validate_serial(self, field):
@@ -30,6 +31,7 @@ class DeviceEditForm(FlaskForm):
     serial = StringField('Seriennummer:', validators=[DataRequired(), ])
     manufacturer = StringField('Hersteller:', validators=[DataRequired(), ])
     ordered_from = StringField('Gekauft bei', validators=[DataRequired(), ])
+    tuev_expired_date = DateField('Tüv-Ablaufdatum', validators=[DataRequired(), ])
     submit = SubmitField('Ändern')
 
     def validate_serial(self, field):

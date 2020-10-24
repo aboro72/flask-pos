@@ -1,17 +1,13 @@
 {% extends "base.html" %}
 {% block page_content %}
 
-<style>
-    p#title {
-        font-size: 50px;
-        background-color: #006666;
-        padding-left: 20px;
-        color: white;
-    }
-    i {
-        color: yellow;
-    }
-</style>
+<link rel="stylesheet" href="{{ url_for('static', filename='flaskpos/css/error/500.css') }}">
+
 <p id="title"> <b> Ein Interner Fehler ist aufgetreten</b> </p>
 <hr>
+<div class="container">
+        Beschreibung...
+    <hr>
+    <h1> {{ reason }} </h1>
+</div>
 {% endblock page_content %}

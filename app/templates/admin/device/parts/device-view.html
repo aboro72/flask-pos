@@ -1,43 +1,13 @@
 {% extends "base.html" %}
 {% block page_content %}
 
-<style>
-    p#title {
-        font-size: 50px;
-        background-color: #006666;
-        padding-left: 20px;
-        color: white;
-    }
-     caption {
-        font-size: 24px;
-    }
-    td, th {
-        font-size: 24px;
-        padding-left: 10px;
-        padding-top: 5px;
-        padding-bottom: 5px;
-        border: 2px solid;
-        text-align: left;
-    }
-    table {
-        border: 2px solid;
-        width: 100%;
-    }
-    .btn {
-        font-size: 32px;
-    }
-    i {
-        color: yellow;
-    }
-    .fa {
-        font-size:32px;
-        color: white;
-    }
-</style>
+<link rel="stylesheet" href="{{ url_for('static', filename='flaskpos/css/admin/device/parts/device-view.css') }}">
+
 <p id="title"> <b> Gerät <i>{{ device.device_uuid }} </i> ansehen</b></p>
 <hr>
 
-<table border="1" width="100%" >
+<table class="global" >
+    <caption> Gerät {{ device.device_uuid }}</caption>
     <thead>
         <th> Bezeichnung </th>
         <th> Seriennummer </th>
@@ -45,27 +15,26 @@
         <th> Eingekauft bei </th>
     </thead>
     <tr>
-        <td><p> {{ device.label }}</p></td>
-        <td><p> {{ device.serial_number }}</p></td>
-        <td><p> {{ device.manufacturer }} </p></td>
-        <td><p> {{ device.ordered_from }}</p></td>
+        <td class="col-xs-3"><p> {{ device.label }}</p></td>
+        <td class="col-xs-3"><p> {{ device.serial_number }}</p></td>
+        <td class="col-xs-3"><p> {{ device.manufacturer }} </p></td>
+        <td class="col-xs-3"><p> {{ device.ordered_from }}</p></td>
     </tr>
 </table>
 <hr>
-<table border="1" width="100%" >
+<table class="global" >
     <thead>
         <th> Erstellt am  </th>
         <th> Zuletzt geändert </th>
+        <th> Tüv-Ablaufdatum </th>
     </thead>
     <tr>
-        <td><p> {{ device.created_at.strftime('%d %m %Y, %H:%M:%S') }} </p></td>
-        <td><p> {{ device.modified_at.strftime('%d %m %Y, %H:%M:%S') }}</p></td>
+        <td class="col-xs-4"><p> {{ device.created_at.strftime('%d.%m.%Y, %H:%M:%S') }} </p></td>
+        <td class="col-xs-4"><p> {{ device.modified_at.strftime('%d.%m.%Y, %H:%M:%S') }}</p></td>
+        <td class="col-xs-4"><p> {{ device.tuev_expired_date.strftime('%d.%m.%Y') }}</p></td>
     </tr>
 </table>
 <hr>
-<a role="button" class="btn btn-success" href="{{ url_for('admin.devices') }}">
-    <i title="Zurück zur Übersicht" class="fa">&#xf0d9;</i>
-    Zurück zur Übersicht
-</a>
+<a role="button" class="btn btn-success" href="{{ url_for('admin.devices') }}"> Zurück zur Übersicht </a>
 
 {% endblock page_content %}

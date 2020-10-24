@@ -1,0 +1,28 @@
+.news {
+    min-height: 3em;
+    display:block;
+    background-color: var(--dark-color);
+    font-size: 2em;
+    padding: auto;
+    margin: left right;
+}
+button#news {
+    padding: auto;
+    font-size: 2.5em;
+    color: var(--light-color);
+}
+.newstitle {
+    color: var(--mark-color);
+}
+.newstime {
+    color: var(--light-color);
+}
+#newstime {
+    text-align: right;
+}
+.newsbody {
+    color: var(--light-color);
+}
+span {
+    margin: auto;
+}

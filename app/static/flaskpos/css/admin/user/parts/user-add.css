@@ -1,0 +1,12 @@
+/* *** Input & Select Element *** */
+input, select {
+    font-size: 2em;
+    background-color: var(--medium-color);
+    color: var(--light-color);
+    width: 100%;
+    padding-left: .4em;
+}
+/* *** Select Element Option Size *** */
+option {
+    font-size: 0.75em;
+}

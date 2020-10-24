@@ -1,83 +1,12 @@
 {% extends "base.html" %}
 {% block page_content %}
 
-<style>
-    p#title {
-        font-size: 50px;
-        background-color: #006666;
-        padding-left: 20px;
-        color: white;
-    }
-    caption {
-        font-size: 24px;
-    }
-    td, th {
-        font-size: 24px;
-        padding-left: 10px;
-        padding-top: 5px;
-        padding-bottom: 5px;
-        border: 2px solid;
-        text-align: left;
-    }
-    table {
-        border: 2px solid;
-        width: 100%;
-    }
-    .btn {
-        font-size: 32px;
-        width: 100%;
-    }
-    .bts {
-      width:48px;
-      height: 48px;
-      background-color: DodgerBlue;
-      border: 1px solid #0000FF;
-      color: white;
-      cursor: pointer;
-      padding:6px;
-    }
-    .bts:hover {
-      background-color: RoyalBlue;
-      color: white;
-    }
-    .bts#view {
-        background-color: green;
-    }
-    .bts#edit {
-        background-color: orange;
-    }
-    .bts#delete {
-        background-color: red;
-    }
-    .bts:visited {
-      background-color: DodgerBlue;
-      color: white;
-    }
+<link rel="stylesheet" href="{{ url_for('static', filename='flaskpos/css/admin/user/user-index.css') }}">
 
-    .bts#view:visited {
-        background-color: green;
-        color: white;
-    }
-    .bts#edit:visited {
-        background-color: orange;
-        color: white;
-    }
-    .bts#delete:visited {
-        background-color: red;
-        color: white;
-    }
-     .bts#view:hover, .bts#edit:hover, .bts#delete:hover  {
-        background-color: RoyalBlue;
-    }
-    .fa {
-        font-size:24px;
-    }
-
-</style>
 <p id="title"> <b> Verwaltung der Benutzer </b></p>
 <hr>
 {% if users %}
-<table >
+<table class="global">
     <caption> Benutzertabelle </caption>
     <thead>
         <th> Benutzername </th>
@@ -88,12 +17,12 @@
     {% for user in users %}
     <tr>
         {% if current_user.role.permissions >= user.role.permissions %}
-            <td><p> {{ user.username }} </p></td>
-            <td><p> {{ user.firstname }} </p></td>
-            <td><p> {{ user.lastname }} </p></td>
-            <td>
+            <td class="col-xs-3"><p> {{ user.username }} </p></td>
+            <td class="col-xs-3"><p> {{ user.firstname }} </p></td>
+            <td class="col-xs-3"><p> {{ user.lastname }} </p></td>
+            <td class="col-xs-3">
                <div class="col-md-4">
-                    <form action="{{ url_for('admin.get_user', name=user.username) }}" method="get">
+                    <form action="{{ url_for('admin.get_user', id=user.user_id) }}" method="get">
                         <button title="Ansehen" type="submit" id="view" class="bts">
                             <i class="fa">&#xf06e;</i>
                         </button>
@@ -102,14 +31,14 @@
                 {% if current_user.is_owner() %}
                     {% if current_user.role.permissions >= user.role.permissions %}
                     <div class="col-md-4">
-                        <form action="{{ url_for('admin.edit_user', name=user.username) }}" method="get">
+                        <form action="{{ url_for('admin.edit_user', id=user.user_id) }}" method="get">
                             <button  title="Editieren" type="submit" id="edit" class="bts">
                                 <i class="fa">&#xf044;</i>
                             </button>
                         </form>
                     </div>
                     <div class="col-md-4">
-                        <form action="{{ url_for('admin.delete_user', name=user.username) }}" method="post"
+                        <form action="{{ url_for('admin.delete_user', id=user.user_id) }}" method="post"
                             onSubmit="return confirm('Benutzer {{ user.username }} löschen?');">
                             <button title="Löschen" type="submit" id="delete" class="bts">
                                 <i class="fa">&#xf00d;</i>

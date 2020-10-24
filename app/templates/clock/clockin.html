@@ -1,51 +1,16 @@
 {% extends "base.html" %}
-
 {% block page_content %}
-<style>
-    p#clock-in-title {
-        font-size: 50px;
-        background-color: #006666;
-        padding-left: 20px;
-        color: white;
-    }
-    i {
-        color: yellow;
-    }
-    td, th {
-        font-size: 24px;
-        padding-left: 10px;
-        border: 2px solid;
-        vertical-align: center;
-    }
 
-    table {
-        border: 2px solid;
-        width: 100%;
+<link rel="stylesheet" href="{{ url_for('static', filename='flaskpos/css/clock/clockin.css') }}">
 
-    }
-    .fa {
-        font-size:32px;
-        color: green;
-    }
-    .btn {
-        font-size: 32px;
-        width: 100%;
-    }
-    .actions {
-        text-align: center;
-        padding: 5px;
-    }
-
-
-</style>
-<p id="clock-in-title">
+<p id="title">
     <b> Mitarbeiter:
-        <i> {{ current_user.firstname }} {{ current_user.lastname }}</i>
+        <i id="cursive-yellow"> {{ current_user.firstname }} {{ current_user.lastname }}</i>
     </b>
 </p>
 <hr>
 {% if current_user.is_authenticated %}
-<table>
+<table class="global">
     <caption> Stempelzeit </caption>
     <thead>
         <th> Vorname </th>
@@ -55,9 +20,9 @@
     </thead>
     <tr>
 
-        <td><p> {{ current_user.firstname }} </p></td>
-        <td><p> {{ current_user.lastname }} </p></td>
-        <td><p>
+        <td class="col-xs-3"><p> {{ current_user.firstname }} </p></td>
+        <td class="col-xs-3"><p> {{ current_user.lastname }} </p></td>
+        <td class="col-xs-3"><p>
             {% if time %}
                 {{ time.strftime('%d.%m.%Y, %H:%M') }}
             {% else %}
@@ -65,12 +30,11 @@
             {% endif %}
             </p>
         </td>
-        <td>{% if logged %}
+        <td class="col-xs-3">{% if logged %}
                 {{ logged }}
             {% else %}
-                -
+               <p>-</p>
             {% endif %}
-            </p>
         </td>
     </tr>
 </table>

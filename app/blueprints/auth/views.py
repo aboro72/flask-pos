@@ -20,6 +20,7 @@ def login():
         if user is not None and user.verify_password(form.password.data):
             login_user(user, form.remember_me.data)
             session.permanent = True
+            flash('Benutzer ' + user.username + ' erfolgreich eingeloggt', 'success')
             return redirect(url_for('main.index'))
         flash('Benutzername oder Passwort falsch', 'error')
     return render_template('auth/login.html',

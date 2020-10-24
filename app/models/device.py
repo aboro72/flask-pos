@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, date
 from app import db
 
 
@@ -12,5 +12,6 @@ class Device(db.Model):
     manufacturer = db.Column(db.String(128))
     created_at = db.Column(db.DateTime(), default=datetime.utcnow())
     modified_at = db.Column(db.DateTime(), default=datetime.utcnow())
+    tuev_expired_date = db.Column(db.DateTime(), default=datetime.utcnow())
 
     pos_device = db.relationship('Pos', backref='device', lazy="dynamic")

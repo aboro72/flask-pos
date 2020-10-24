@@ -1,39 +1,13 @@
 {% extends "base.html" %}
 {% block page_content %}
 
-<style>
-    p#title {
-        font-size: 50px;
-        background-color: #006666;
-        padding-left: 20px;
-        vertical-align: center;
-        color: white;
-    }
-    caption {
-        font-size: 24px;
-    }
-    td, th {
-        font-size: 24px;
-        padding-left: 10px;
-        padding-top: 5px;
-        padding-bottom: 5px;
-        border: 2px solid;
-        text-align: left;
-    }
-    table {
-        border: 2px solid;
-        width: 100%;
-    }
-    .btn {
-        font-size: 32px;
-        width: 100%;
-    }
+<link rel="stylesheet" href="{{ url_for('static', filename='flaskpos/css/admin/message/message-index.css') }}">
 
-</style>
 <p id="title"> <b> Verwaltung der Benachrichtigungen </b></p>
+<hr>
 {% if current_user.is_owner() %}
     {% if messages %}
-    <table >
+    <table class="global">
         <caption> Newstabelle </caption>
         <thead>
             <th> Titel </th>
@@ -43,17 +17,13 @@
         <tbody>
         {% for message in messages %}
         <tr>
-            <div class="col-md-4">
-                <td><p> {{ message.title }} </p></td>
-            </div>
-            <div class="col-md-4">
-            <td><p> {{ message.body }} </p></td>
-            </div>
-            <td>
+            <td class="col-xs-2"><p> {{ message.title }} </p></td>
+            <td class="col-xs-8"><p> {{ message.body }} </p></td>
+            <td class="col-xs-2">
                 {% if current_user.is_owner() %}
                     <div class="col-md-6">
                         <form action="" method="get">
-                            <button  title="Editieren" type="submit" id="edit" class="bts">
+                            <button  id="msgedit" name="editmsg" title="Editieren" type="submit" class="bts">
                                 <i class="fa">&#xf044;</i>
                             </button>
                         </form>
@@ -61,7 +31,7 @@
                     <div class="col-md-6">
                         <form action="" method="post"
                             onSubmit="return confirm('Benachrichtigung löschen?');">
-                            <button title="Löschen" type="submit" id="delete" class="bts">
+                            <button id="msgdel" name="delmsg" title="Löschen" type="submit" class="bts">
                                 <i class="fa">&#xf00d;</i>
                             </button>
                         </form>
@@ -74,6 +44,43 @@
     </table>
     {% else %}
         Keine News vorhanden
+    {% endif %}
+    {% if notes %}
+        <table class="global">
+            <caption> Systembenachrichtigung </caption>
+            <thead>
+                <th> Titel </th>
+                <th> Nachricht </th>
+                <th> Aktionen </th>
+            </thead>
+            <tbody>
+            {% for note in notes %}
+            <tr>
+                <td class="col-xs-2"><p> {{ note.title }} </p></td>
+                <td class="col-xs-8"><p> {{ note.body }} </p></td>
+                <td class="col-xs-2">
+                    {% if current_user.is_owner() %}
+                        <div class="col-md-6">
+                            <form action="" method="get">
+                                <button id="editsysmsg" name="sysmsgedit" title="Editieren" type="submit" class="bts">
+                                    <i class="fa">&#xf044;</i>
+                                </button>
+                            </form>
+                        </div>
+                        <div class="col-md-6">
+                            <form action="" method="post"
+                                onSubmit="return confirm('Systembenachrichtigung löschen?');">
+                                <button id="delsysmsg" name="sysmsgdel" title="Löschen" type="submit" class="bts">
+                                    <i class="fa">&#xf00d;</i>
+                                </button>
+                            </form>
+                        </div>
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
     {% endif %}
 {% endif %}
 
