@@ -36,8 +36,8 @@ def create_app(config_name):
     config[config_name].init_app(app)
 
     # init addons
-    datepicker(app=app, local=['static/jquery/ui/jquery-ui.min.js',
-                               'static/jquery/ui/jquery-ui.min.css', ])
+    datepicker(app=app)
+    """local=['static/jquery/ui/jquery-ui.min.js','static/jquery/ui/jquery-ui.min.css', ]"""
     db.init_app(app)
     csrf.init_app(app)
     mail.init_app(app)
